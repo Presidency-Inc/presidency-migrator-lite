@@ -200,7 +200,8 @@ def main():
     print("Fetching sections...")
     sections = get_sections(project_id, suite_id)
     save_data(sections, 'sections.json')
-    print(f"Saved {len(sections)} sections to data/output/sections.json")
+    num_sections = len(sections.get('sections', []))  # Get length of the 'sections' array
+    print(f"Saved {num_sections} sections to data/output/sections.json")
 
 
 if __name__ == "__main__":
