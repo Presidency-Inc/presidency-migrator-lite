@@ -1,0 +1,218 @@
+{
+    "offset": 0,
+    "limit": 250,
+    "size": 23,
+    "_links": {
+        "next": null,
+        "prev": null
+    },
+    "sections": [
+        {
+            "id": 1,
+            "suite_id": 1,
+            "name": "Prerequisites",
+            "description": null,
+            "parent_id": null,
+            "display_order": 1,
+            "depth": 0
+        },
+        {
+            "id": 2,
+            "suite_id": 1,
+            "name": "Software & Versions",
+            "description": null,
+            "parent_id": 1,
+            "display_order": 2,
+            "depth": 1
+        },
+        {
+            "id": 3,
+            "suite_id": 1,
+            "name": "Hardware",
+            "description": null,
+            "parent_id": 1,
+            "display_order": 3,
+            "depth": 1
+        },
+        {
+            "id": 4,
+            "suite_id": 1,
+            "name": "Installation",
+            "description": null,
+            "parent_id": null,
+            "display_order": 4,
+            "depth": 0
+        },
+        {
+            "id": 5,
+            "suite_id": 1,
+            "name": "Updates",
+            "description": null,
+            "parent_id": null,
+            "display_order": 5,
+            "depth": 0
+        },
+        {
+            "id": 6,
+            "suite_id": 1,
+            "name": "Tutorial",
+            "description": null,
+            "parent_id": null,
+            "display_order": 6,
+            "depth": 0
+        },
+        {
+            "id": 7,
+            "suite_id": 1,
+            "name": "Goals",
+            "description": null,
+            "parent_id": 6,
+            "display_order": 7,
+            "depth": 1
+        },
+        {
+            "id": 8,
+            "suite_id": 1,
+            "name": "Metrics",
+            "description": null,
+            "parent_id": 6,
+            "display_order": 8,
+            "depth": 1
+        },
+        {
+            "id": 9,
+            "suite_id": 1,
+            "name": "Login & Account",
+            "description": null,
+            "parent_id": null,
+            "display_order": 9,
+            "depth": 0
+        },
+        {
+            "id": 10,
+            "suite_id": 1,
+            "name": "Reset Password",
+            "description": null,
+            "parent_id": 9,
+            "display_order": 10,
+            "depth": 1
+        },
+        {
+            "id": 11,
+            "suite_id": 1,
+            "name": "Feature 1",
+            "description": null,
+            "parent_id": null,
+            "display_order": 11,
+            "depth": 0
+        },
+        {
+            "id": 12,
+            "suite_id": 1,
+            "name": "Feature 2",
+            "description": null,
+            "parent_id": null,
+            "display_order": 12,
+            "depth": 0
+        },
+        {
+            "id": 13,
+            "suite_id": 1,
+            "name": "Feature 3",
+            "description": null,
+            "parent_id": null,
+            "display_order": 13,
+            "depth": 0
+        },
+        {
+            "id": 14,
+            "suite_id": 1,
+            "name": "Feature 4",
+            "description": null,
+            "parent_id": null,
+            "display_order": 14,
+            "depth": 0
+        },
+        {
+            "id": 15,
+            "suite_id": 1,
+            "name": "Feature 5",
+            "description": null,
+            "parent_id": null,
+            "display_order": 15,
+            "depth": 0
+        },
+        {
+            "id": 16,
+            "suite_id": 1,
+            "name": "Administration",
+            "description": null,
+            "parent_id": null,
+            "display_order": 16,
+            "depth": 0
+        },
+        {
+            "id": 17,
+            "suite_id": 1,
+            "name": "Projects",
+            "description": null,
+            "parent_id": 16,
+            "display_order": 17,
+            "depth": 1
+        },
+        {
+            "id": 18,
+            "suite_id": 1,
+            "name": "Settings",
+            "description": null,
+            "parent_id": 16,
+            "display_order": 18,
+            "depth": 1
+        },
+        {
+            "id": 19,
+            "suite_id": 1,
+            "name": "Users & Roles",
+            "description": null,
+            "parent_id": 16,
+            "display_order": 19,
+            "depth": 1
+        },
+        {
+            "id": 20,
+            "suite_id": 1,
+            "name": "Permissions",
+            "description": null,
+            "parent_id": 19,
+            "display_order": 20,
+            "depth": 2
+        },
+        {
+            "id": 21,
+            "suite_id": 1,
+            "name": "Groups",
+            "description": null,
+            "parent_id": 19,
+            "display_order": 21,
+            "depth": 2
+        },
+        {
+            "id": 22,
+            "suite_id": 1,
+            "name": "Search",
+            "description": null,
+            "parent_id": null,
+            "display_order": 22,
+            "depth": 0
+        },
+        {
+            "id": 23,
+            "suite_id": 1,
+            "name": "Help & Documentation",
+            "description": null,
+            "parent_id": null,
+            "display_order": 23,
+            "depth": 0
+        }
+    ]
+}

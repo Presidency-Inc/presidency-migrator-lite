@@ -1,0 +1,6 @@
+requests
+python-dotenv
+PyYAML
+pytest
+responses
+# Include any other dependencies
