@@ -3,4 +3,12 @@ python-dotenv
 PyYAML
 pytest
 responses
+
+
+# from bolt:
+flask
+flask-cors
+urllib3
+werkzeug
+
 # Include any other dependencies

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestRail to Xray Migration Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fas fa-exchange-alt"></i>
+            TestRail to Xray Migration
+        </h1>
+        
+        <!-- TestRail Configuration Card -->
+        <div id="configCard" class="card">
+            <h2>
+                <i class="fas fa-cog"></i>
+                TestRail Configuration
+            </h2>
+            <form id="configForm" class="config-form">
+                <div class="form-group">
+                    <label for="testrailUrl">TestRail URL</label>
+                    <input 
+                        type="url" 
+                        id="testrailUrl" 
+                        class="form-control" 
+                        placeholder="https://your-instance.testrail.io"
+                        required
+                        autocomplete="url"
+                        pattern="https?://.+"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="testrailUser">Username</label>
+                    <input 
+                        type="email" 
+                        id="testrailUser" 
+                        class="form-control" 
+                        placeholder="your.email@company.com"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="testrailApiKey">API Key</label>
+                    <div class="input-group">
+                        <input 
+                            type="password" 
+                            id="testrailApiKey" 
+                            class="form-control" 
+                            placeholder="Your TestRail API Key"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button 
+                            type="button" 
+                            class="btn-icon" 
+                            id="toggleApiKey"
+                            aria-label="Toggle API key visibility"
+                        >
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        Find your API key in TestRail under My Settings > API Keys
+                    </small>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-content">
+                        <i class="fas fa-save"></i>
+                        Save Configuration
+                    </span>
+                    <span class="loading hidden"></span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Project Selection Card -->
+        <div id="projectCard" class="card hidden">
+            <h2>
+                <i class="fas fa-project-diagram"></i>
+                Project Selection
+            </h2>
+            <select id="projectSelect" class="form-control">
+                <option value="">Select a project...</option>
+            </select>
+            <button id="startMigration" class="btn btn-primary">
+                <span class="btn-content">
+                    <i class="fas fa-play"></i>
+                    Start Migration
+                </span>
+                <span class="loading hidden"></span>
+            </button>
+        </div>
+
+        <!-- Status Card -->
+        <div id="status" class="card hidden">
+            <h2>
+                <i class="fas fa-info-circle"></i>
+                Migration Status
+            </h2>
+            <div id="statusContent">
+                <div id="statusMessage" class="status-message"></div>
+                <div id="progressContainer" class="progress-container hidden">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
