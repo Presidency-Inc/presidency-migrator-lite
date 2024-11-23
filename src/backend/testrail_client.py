@@ -13,7 +13,11 @@ TESTRAIL_USER = os.getenv('TESTRAIL_USER')
 TESTRAIL_API_KEY = os.getenv('TESTRAIL_API_KEY')
 
 auth = HTTPBasicAuth(TESTRAIL_USER, TESTRAIL_API_KEY)
-headers = {'Content-Type': 'application/json'}
+# headers = {'Content-Type': 'application/json'}
+headers = {
+    'Content-Type': 'application/json',
+    'Cookie': 'tr_session=29997fef-33fd-4be6-8414-47a928288e85'
+}
 
 
 def send_get(uri, params=None):
