@@ -1,0 +1,291 @@
+2024-11-22 20:02:32,100 - INFO - [xray_client.py:393] - Starting Xray test import process
+2024-11-22 20:02:32,101 - INFO - [xray_client.py:77] - XrayClient initialized with base URL: https://xray.cloud.getxray.app/api/v2
+2024-11-22 20:02:32,101 - INFO - [xray_client.py:402] - Loaded field mapping configuration
+2024-11-22 20:02:32,101 - DEBUG - [xray_client.py:403] - Field mapping: {
+  "test_case_type_mapping": {
+    "1": "Manual",
+    "2": "Generic",
+    "3": "Generic",
+    "4": "Cucumber",
+    "7": "Manual",
+    "8": "Manual",
+    "10": "Generic"
+  },
+  "priority_mapping": {
+    "1": "Highest",
+    "2": "High",
+    "3": "Medium",
+    "4": "Low",
+    "5": "Lowest"
+  },
+  "field_mapping": {
+    "id": "__xray_testId",
+    "title": "fields.summary",
+    "type_id": "fields.issuetype.name",
+    "section_id": {
+      "type": "folder",
+      "field": "xray_test_repository_folder",
+      "use_hierarchy": true
+    },
+    "custom_steps": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "custom_steps",
+        "data": "",
+        "result": "custom_expected"
+      }
+    },
+    "custom_steps_separated": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "content",
+        "data": "additional_info",
+        "result": "expected"
+      }
+    },
+    "custom_testrail_bdd_scenario": {
+      "type": "gherkin",
+      "field": "fields.customfield_10101"
+    },
+    "custom_preconds": {
+      "type": "precondition",
+      "field": "fields.customfield_10102"
+    },
+    "priority_id": "fields.priority.id",
+    "estimate": "fields.timeoriginalestimate",
+    "refs": "fields.labels",
+    "custom_goals": "fields.description",
+    "custom_mission": "fields.customfield_10103",
+    "custom_automation_type": "fields.customfield_10104"
+  },
+  "section_mapping": {
+    "depth_separator": "/",
+    "root_folder": "TestRail"
+  },
+  "default_values": {
+    "fields.project.key": "${JIRA_PROJECT_KEY}",
+    "fields.issuetype.name": "Test"
+  }
+}
+2024-11-22 20:02:32,102 - INFO - [xray_client.py:408] - Loaded 203 test cases
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 1: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 2: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 3: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 4: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 5: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 6: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 7: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 8: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 9: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 10: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 11: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 12: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 13: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 14: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 15: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 16: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 17: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 18: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 19: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 20: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 21: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 22: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 23: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 24: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 25: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 26: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 27: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 28: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 29: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 30: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 31: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 32: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 33: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 34: name 'sections_data' is not defined
+2024-11-22 20:02:32,102 - ERROR - [xray_client.py:419] - Error mapping test case 35: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 36: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 37: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 38: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 39: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 40: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 41: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 42: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 43: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 44: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 45: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 46: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 47: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 48: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 49: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 50: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 51: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 52: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 53: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 54: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 55: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 56: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 57: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 58: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 59: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 60: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 61: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 62: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 63: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 64: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 65: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 66: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 67: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 68: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 69: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 70: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 71: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 72: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 73: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 74: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 75: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 76: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 77: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 78: name 'sections_data' is not defined
+2024-11-22 20:02:32,103 - ERROR - [xray_client.py:419] - Error mapping test case 79: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 80: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 81: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 82: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 83: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 84: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 85: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 86: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 87: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 88: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 89: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 90: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 91: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 92: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 93: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 94: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 95: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 96: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 97: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 98: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 99: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 100: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 101: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 102: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 103: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 104: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 105: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 106: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 107: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 108: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 109: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 110: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 111: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 112: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 113: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 114: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 115: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 116: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 117: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 118: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 119: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 120: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 121: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 122: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 123: name 'sections_data' is not defined
+2024-11-22 20:02:32,104 - ERROR - [xray_client.py:419] - Error mapping test case 124: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 125: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 126: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 127: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 128: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 129: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 130: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 131: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 132: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 133: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 134: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 135: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 136: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 137: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 138: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 139: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 140: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 141: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 142: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 143: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 144: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 145: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 146: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 147: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 148: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 149: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 150: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 151: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 152: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 153: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 154: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 155: name 'sections_data' is not defined
+2024-11-22 20:02:32,105 - ERROR - [xray_client.py:419] - Error mapping test case 156: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 157: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 158: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 159: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 160: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 161: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 162: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 163: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 164: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 165: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 166: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 167: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 168: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 169: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 170: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 171: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 172: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 173: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 174: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 175: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 176: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 177: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 178: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 179: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 180: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 181: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 182: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 183: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 184: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 185: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 186: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 187: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 188: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 189: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 190: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 191: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 192: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 193: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 194: name 'sections_data' is not defined
+2024-11-22 20:02:32,106 - ERROR - [xray_client.py:419] - Error mapping test case 195: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - ERROR - [xray_client.py:419] - Error mapping test case 196: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - ERROR - [xray_client.py:419] - Error mapping test case 197: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - ERROR - [xray_client.py:419] - Error mapping test case 198: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - ERROR - [xray_client.py:419] - Error mapping test case 199: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - ERROR - [xray_client.py:419] - Error mapping test case 200: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - ERROR - [xray_client.py:419] - Error mapping test case 201: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - ERROR - [xray_client.py:419] - Error mapping test case 202: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - ERROR - [xray_client.py:419] - Error mapping test case 203: name 'sections_data' is not defined
+2024-11-22 20:02:32,107 - INFO - [xray_client.py:426] - Using JIRA project key: XSP
+2024-11-22 20:02:32,107 - WARNING - [xray_client.py:125] - No authentication token found. Authenticating first...
+2024-11-22 20:02:32,107 - DEBUG - [xray_client.py:89] - Attempting authentication with Xray API
+2024-11-22 20:02:32,107 - DEBUG - [xray_client.py:90] - Authentication URL: https://xray.cloud.getxray.app/api/v2/authenticate
+2024-11-22 20:02:32,944 - INFO - [xray_client.py:95] - Successfully authenticated with Xray API
+2024-11-22 20:02:32,944 - INFO - [xray_client.py:138] - Starting test import for project: XSP
+2024-11-22 20:02:32,944 - DEBUG - [xray_client.py:139] - Importing 0 tests
+2024-11-22 20:02:33,622 - ERROR - [xray_client.py:152] - Failed to import tests. Status code: 400
+2024-11-22 20:02:33,622 - DEBUG - [xray_client.py:153] - Response content: {"error":"Missing data in the xray test import request"}
+2024-11-22 20:02:33,622 - ERROR - [xray_client.py:438] - Import process failed: Failed to import tests. Status code: 400
+Traceback (most recent call last):
+  File "/Users/namansudan/Desktop/code/asset-mark-migration/src/backend/xray_client.py", line 429, in main
+    job_id = client.import_tests(mapped_tests, project_key)
+  File "/Users/namansudan/Desktop/code/asset-mark-migration/src/backend/xray_client.py", line 155, in import_tests
+    raise XrayAPIError(
+XrayAPIError: Failed to import tests. Status code: 400

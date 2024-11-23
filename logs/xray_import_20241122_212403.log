@@ -1,0 +1,535 @@
+2024-11-22 21:24:03,210 - INFO - [xray_client.py:455] - Starting Xray test import process
+2024-11-22 21:24:03,211 - INFO - [xray_client.py:77] - XrayClient initialized with base URL: https://xray.cloud.getxray.app/api/v2
+2024-11-22 21:24:03,211 - INFO - [xray_client.py:464] - Loaded field mapping configuration
+2024-11-22 21:24:03,211 - DEBUG - [xray_client.py:465] - Field mapping: {
+  "test_case_type_mapping": {
+    "1": "Manual",
+    "2": "Generic",
+    "3": "Generic",
+    "4": "Cucumber",
+    "7": "Manual",
+    "8": "Manual",
+    "10": "Generic"
+  },
+  "priority_mapping": {
+    "1": "Highest",
+    "2": "High",
+    "3": "Medium",
+    "4": "Low",
+    "5": "Lowest"
+  },
+  "field_mapping": {
+    "id": "__xray_testId",
+    "title": "fields.summary",
+    "type_id": "fields.issuetype.name",
+    "section_id": {
+      "type": "folder",
+      "field": "xray_test_repository_folder",
+      "use_hierarchy": true
+    },
+    "custom_steps": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "custom_steps",
+        "data": "",
+        "result": "custom_expected"
+      }
+    },
+    "custom_steps_separated": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "content",
+        "data": "additional_info",
+        "result": "expected"
+      }
+    },
+    "custom_testrail_bdd_scenario": {
+      "type": "gherkin",
+      "field": "fields.customfield_10101"
+    },
+    "custom_preconds": {
+      "type": "precondition",
+      "field": "fields.customfield_10102"
+    },
+    "priority_id": "fields.priority.id",
+    "estimate": "fields.timeoriginalestimate",
+    "refs": "fields.labels",
+    "custom_goals": "fields.description",
+    "custom_mission": "fields.customfield_10103",
+    "custom_automation_type": "fields.customfield_10104"
+  },
+  "section_mapping": {
+    "depth_separator": "/",
+    "root_folder": "TestRail"
+  },
+  "default_values": {
+    "fields.project.key": "${JIRA_PROJECT_KEY}",
+    "fields.issuetype.name": "Test"
+  }
+}
+2024-11-22 21:24:03,211 - INFO - [xray_client.py:472] - Loaded sections data
+2024-11-22 21:24:03,211 - INFO - [xray_client.py:478] - Loaded 1 test cases
+2024-11-22 21:24:03,212 - INFO - [xray_client.py:493] - Using JIRA project key: XSP
+2024-11-22 21:24:03,212 - INFO - [xray_client.py:501] - Creating folder structure in Xray
+2024-11-22 21:24:03,212 - INFO - [xray_client.py:247] - Creating folder structure in Xray
+2024-11-22 21:24:03,212 - WARNING - [xray_client.py:212] - No authentication token found. Authenticating first...
+2024-11-22 21:24:03,212 - DEBUG - [xray_client.py:89] - Attempting authentication with Xray API
+2024-11-22 21:24:03,212 - DEBUG - [xray_client.py:90] - Authentication URL: https://xray.cloud.getxray.app/api/v2/authenticate
+2024-11-22 21:24:04,108 - INFO - [xray_client.py:95] - Successfully authenticated with Xray API
+2024-11-22 21:24:04,108 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Prerequisites
+2024-11-22 21:24:04,108 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Prerequisites",
+  "name": "Prerequisites"
+}
+2024-11-22 21:24:04,462 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:04,462 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:04,462 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Prerequisites
+2024-11-22 21:24:04,462 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Installation
+2024-11-22 21:24:04,462 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Installation",
+  "name": "Installation"
+}
+2024-11-22 21:24:04,788 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:04,788 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:04,788 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Installation
+2024-11-22 21:24:04,789 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Updates
+2024-11-22 21:24:04,789 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Updates",
+  "name": "Updates"
+}
+2024-11-22 21:24:05,134 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:05,134 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:05,134 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Updates
+2024-11-22 21:24:05,135 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Tutorial
+2024-11-22 21:24:05,135 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Tutorial",
+  "name": "Tutorial"
+}
+2024-11-22 21:24:05,399 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:05,399 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:05,400 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Tutorial
+2024-11-22 21:24:05,400 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Login & Account
+2024-11-22 21:24:05,401 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Login & Account",
+  "name": "Login & Account"
+}
+2024-11-22 21:24:05,756 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:05,757 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:05,757 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Login & Account
+2024-11-22 21:24:05,757 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Feature 1
+2024-11-22 21:24:05,757 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Feature 1",
+  "name": "Feature 1"
+}
+2024-11-22 21:24:06,008 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:06,009 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:06,010 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Feature 1
+2024-11-22 21:24:06,010 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Feature 2
+2024-11-22 21:24:06,010 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Feature 2",
+  "name": "Feature 2"
+}
+2024-11-22 21:24:06,161 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:06,161 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:06,161 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Feature 2
+2024-11-22 21:24:06,161 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Feature 3
+2024-11-22 21:24:06,162 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Feature 3",
+  "name": "Feature 3"
+}
+2024-11-22 21:24:06,487 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:06,487 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:06,487 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Feature 3
+2024-11-22 21:24:06,487 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Feature 4
+2024-11-22 21:24:06,487 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Feature 4",
+  "name": "Feature 4"
+}
+2024-11-22 21:24:06,781 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:06,781 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:06,781 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Feature 4
+2024-11-22 21:24:06,781 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Feature 5
+2024-11-22 21:24:06,781 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Feature 5",
+  "name": "Feature 5"
+}
+2024-11-22 21:24:07,088 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:07,089 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:07,090 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Feature 5
+2024-11-22 21:24:07,090 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Administration
+2024-11-22 21:24:07,090 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Administration",
+  "name": "Administration"
+}
+2024-11-22 21:24:07,499 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:07,499 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:07,500 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Administration
+2024-11-22 21:24:07,500 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Search
+2024-11-22 21:24:07,501 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Search",
+  "name": "Search"
+}
+2024-11-22 21:24:07,817 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:07,818 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:07,818 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Search
+2024-11-22 21:24:07,818 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Help & Documentation
+2024-11-22 21:24:07,818 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Help & Documentation",
+  "name": "Help & Documentation"
+}
+2024-11-22 21:24:08,074 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:08,075 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:08,076 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Help & Documentation
+2024-11-22 21:24:08,076 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Prerequisites/Software & Versions
+2024-11-22 21:24:08,076 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Prerequisites/Software & Versions",
+  "name": "Software & Versions"
+}
+2024-11-22 21:24:08,229 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:08,230 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:08,230 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Prerequisites/Software & Versions
+2024-11-22 21:24:08,231 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Prerequisites/Hardware
+2024-11-22 21:24:08,231 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Prerequisites/Hardware",
+  "name": "Hardware"
+}
+2024-11-22 21:24:08,506 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:08,507 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:08,508 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Prerequisites/Hardware
+2024-11-22 21:24:08,508 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Tutorial/Goals
+2024-11-22 21:24:08,508 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Tutorial/Goals",
+  "name": "Goals"
+}
+2024-11-22 21:24:08,647 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:08,648 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:08,649 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Tutorial/Goals
+2024-11-22 21:24:08,649 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Tutorial/Metrics
+2024-11-22 21:24:08,649 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Tutorial/Metrics",
+  "name": "Metrics"
+}
+2024-11-22 21:24:09,035 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:09,035 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:09,035 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Tutorial/Metrics
+2024-11-22 21:24:09,035 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Login & Account/Reset Password
+2024-11-22 21:24:09,035 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Login & Account/Reset Password",
+  "name": "Reset Password"
+}
+2024-11-22 21:24:09,297 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:09,297 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:09,298 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Login & Account/Reset Password
+2024-11-22 21:24:09,298 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Administration/Projects
+2024-11-22 21:24:09,298 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Administration/Projects",
+  "name": "Projects"
+}
+2024-11-22 21:24:09,446 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:09,446 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:09,447 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Administration/Projects
+2024-11-22 21:24:09,447 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Administration/Settings
+2024-11-22 21:24:09,447 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Administration/Settings",
+  "name": "Settings"
+}
+2024-11-22 21:24:09,579 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:09,579 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:09,580 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Administration/Settings
+2024-11-22 21:24:09,580 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Administration/Users & Roles
+2024-11-22 21:24:09,581 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Administration/Users & Roles",
+  "name": "Users & Roles"
+}
+2024-11-22 21:24:09,956 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:09,956 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:09,957 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Administration/Users & Roles
+2024-11-22 21:24:09,957 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 21:24:09,958 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Administration/Users & Roles/Permissions",
+  "name": "Permissions"
+}
+2024-11-22 21:24:10,224 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:10,225 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:10,226 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 21:24:10,226 - DEBUG - [xray_client.py:228] - Creating test repository folder: TestRail/Administration/Users & Roles/Groups
+2024-11-22 21:24:10,226 - DEBUG - [xray_client.py:229] - Create folder request payload: {
+  "path": "TestRail/Administration/Users & Roles/Groups",
+  "name": "Groups"
+}
+2024-11-22 21:24:10,546 - ERROR - [xray_client.py:237] - Failed to create folder. Status code: 404
+2024-11-22 21:24:10,547 - DEBUG - [xray_client.py:238] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /folders</pre>
+</body>
+</html>
+
+2024-11-22 21:24:10,547 - WARNING - [xray_client.py:259] - Failed to create folder: TestRail/Administration/Users & Roles/Groups
+2024-11-22 21:24:10,548 - DEBUG - [xray_client.py:137] - Import tests request payload: [
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document attributes (author, title, organization)",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites"
+  }
+]
+2024-11-22 21:24:11,082 - INFO - [xray_client.py:143] - Import job created successfully with ID: 7c29036e280d45509a9abab213a53871
+2024-11-22 21:24:11,083 - INFO - [xray_client.py:169] - Starting to monitor import job: 7c29036e280d45509a9abab213a53871
+2024-11-22 21:24:11,595 - INFO - [xray_client.py:179] - Job 7c29036e280d45509a9abab213a53871 status: working
+2024-11-22 21:24:11,596 - DEBUG - [xray_client.py:182] - Progress: [Sat, 23 Nov 2024 05:24:11 GMT] Preprocessing the information of the 1 issues to import.
+2024-11-22 21:24:17,330 - INFO - [xray_client.py:179] - Job 7c29036e280d45509a9abab213a53871 status: failed
+2024-11-22 21:24:17,331 - DEBUG - [xray_client.py:182] - Progress: [Sat, 23 Nov 2024 05:24:11 GMT] Preprocessing the information of the 1 issues to import.
+2024-11-22 21:24:17,331 - DEBUG - [xray_client.py:182] - Progress: [Sat, 23 Nov 2024 05:24:11 GMT] Import halted due to errors.
+2024-11-22 21:24:17,332 - WARNING - [xray_client.py:186] - Import completed with status: failed
+2024-11-22 21:24:17,332 - DEBUG - [xray_client.py:188] - Import result: {
+  "errors": [
+    {
+      "elementNumber": 0,
+      "errors": [
+        {
+          "xray": "Test Repository folder named 'TestRail/Prerequisites' not found in the destination project."
+        }
+      ]
+    }
+  ],
+  "issues": []
+}
+2024-11-22 21:24:17,332 - INFO - [xray_client.py:512] - Import completed with status: failed

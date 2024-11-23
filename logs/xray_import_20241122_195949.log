@@ -1,0 +1,7 @@
+2024-11-22 19:59:49,954 - INFO - [xray_client.py:393] - Starting Xray test import process
+2024-11-22 19:59:49,955 - INFO - [xray_client.py:77] - XrayClient initialized with base URL: https://xray.cloud.getxray.app/api/v2
+2024-11-22 19:59:49,955 - ERROR - [xray_client.py:437] - Import process failed: [Errno 2] No such file or directory: 'config/field_mapping.json'
+Traceback (most recent call last):
+  File "/Users/namansudan/Desktop/code/asset-mark-migration/src/backend/xray_client.py", line 399, in main
+    with open('config/field_mapping.json', 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'config/field_mapping.json'

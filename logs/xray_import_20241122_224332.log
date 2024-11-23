@@ -1,0 +1,170 @@
+2024-11-22 22:43:32,313 - INFO - [xray_client.py:544] - Starting Xray test import process
+2024-11-22 22:43:32,314 - INFO - [xray_client.py:82] - XrayClient initialized with base URL: https://xray.cloud.getxray.app/api/v2
+2024-11-22 22:43:32,314 - INFO - [xray_client.py:553] - Loaded field mapping configuration
+2024-11-22 22:43:32,314 - DEBUG - [xray_client.py:554] - Field mapping: {
+  "test_case_type_mapping": {
+    "1": "Manual",
+    "2": "Generic",
+    "3": "Generic",
+    "4": "Cucumber",
+    "7": "Manual",
+    "8": "Manual",
+    "10": "Generic"
+  },
+  "priority_mapping": {
+    "1": "Highest",
+    "2": "High",
+    "3": "Medium",
+    "4": "Low",
+    "5": "Lowest"
+  },
+  "field_mapping": {
+    "id": "__xray_testId",
+    "title": "fields.summary",
+    "type_id": "fields.issuetype.name",
+    "section_id": {
+      "type": "folder",
+      "field": "xray_test_repository_folder",
+      "use_hierarchy": true
+    },
+    "custom_steps": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "custom_steps",
+        "data": "",
+        "result": "custom_expected"
+      }
+    },
+    "custom_steps_separated": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "content",
+        "data": "additional_info",
+        "result": "expected"
+      }
+    },
+    "custom_testrail_bdd_scenario": {
+      "type": "gherkin",
+      "field": "fields.customfield_10101"
+    },
+    "custom_preconds": {
+      "type": "precondition",
+      "field": "fields.customfield_10102"
+    },
+    "priority_id": "fields.priority.id",
+    "estimate": "fields.timeoriginalestimate",
+    "refs": "fields.labels",
+    "custom_goals": "fields.description",
+    "custom_mission": "fields.customfield_10103",
+    "custom_automation_type": "fields.customfield_10104"
+  },
+  "section_mapping": {
+    "depth_separator": "/",
+    "root_folder": "TestRail"
+  },
+  "default_values": {
+    "fields.project.key": "${JIRA_PROJECT_KEY}",
+    "fields.issuetype.name": "Test"
+  }
+}
+2024-11-22 22:43:32,315 - INFO - [xray_client.py:561] - Loaded sections data
+2024-11-22 22:43:32,315 - INFO - [xray_client.py:567] - Loaded 1 test cases
+2024-11-22 22:43:32,315 - INFO - [xray_client.py:582] - Using JIRA project key: XSP
+2024-11-22 22:43:32,315 - INFO - [xray_client.py:590] - Creating folder structure in Xray
+2024-11-22 22:43:32,315 - INFO - [xray_client.py:333] - Creating folder structure in Xray
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Prerequisites: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Prerequisites
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Installation: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Installation
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Updates: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Updates
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Tutorial: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Tutorial
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Login & Account: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Login & Account
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Feature 1: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Feature 1
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Feature 2: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Feature 2
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Feature 3: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Feature 3
+2024-11-22 22:43:32,315 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Feature 4: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,315 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Feature 4
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Feature 5: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Feature 5
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Administration: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Administration
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Search: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Search
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Help & Documentation: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Help & Documentation
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Prerequisites/Software & Versions: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Prerequisites/Hardware: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Prerequisites/Hardware
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Tutorial/Goals: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Tutorial/Goals
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Tutorial/Metrics: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Tutorial/Metrics
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Login & Account/Reset Password: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Login & Account/Reset Password
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Administration/Projects: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Administration/Projects
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Administration/Settings: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Administration/Settings
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Administration/Users & Roles: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Administration/Users & Roles
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Administration/Users & Roles/Permissions: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:43:32,316 - ERROR - [xray_client.py:289] - Error creating folder TestRail/Administration/Users & Roles/Groups: 'XrayClient' object has no attribute '_token'
+2024-11-22 22:43:32,316 - WARNING - [xray_client.py:345] - Failed to create folder: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:43:32,316 - DEBUG - [xray_client.py:111] - Attempting authentication with Xray API
+2024-11-22 22:43:32,316 - DEBUG - [xray_client.py:112] - Authentication URL: https://xray.cloud.getxray.app/api/v2/authenticate
+2024-11-22 22:43:32,987 - INFO - [xray_client.py:117] - Successfully authenticated with Xray API
+2024-11-22 22:43:32,987 - INFO - [xray_client.py:317] - Verifying folder structure
+2024-11-22 22:43:32,987 - DEBUG - [xray_client.py:318] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"/\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:43:33,323 - DEBUG - [xray_client.py:159] - Import tests request payload: [
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document attributes (author, title, organization)",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites"
+  }
+]
+2024-11-22 22:43:33,925 - INFO - [xray_client.py:165] - Import job created successfully with ID: 99d3261990aa49b092b8d5fd15ed9586
+2024-11-22 22:43:33,926 - INFO - [xray_client.py:191] - Starting to monitor import job: 99d3261990aa49b092b8d5fd15ed9586
+2024-11-22 22:43:34,318 - INFO - [xray_client.py:201] - Job 99d3261990aa49b092b8d5fd15ed9586 status: working
+2024-11-22 22:43:34,318 - DEBUG - [xray_client.py:204] - Progress: [Sat, 23 Nov 2024 06:43:33 GMT] Preprocessing the information of the 1 issues to import.
+2024-11-22 22:43:40,067 - INFO - [xray_client.py:201] - Job 99d3261990aa49b092b8d5fd15ed9586 status: failed
+2024-11-22 22:43:40,068 - DEBUG - [xray_client.py:204] - Progress: [Sat, 23 Nov 2024 06:43:33 GMT] Preprocessing the information of the 1 issues to import.
+2024-11-22 22:43:40,068 - DEBUG - [xray_client.py:204] - Progress: [Sat, 23 Nov 2024 06:43:34 GMT] Import halted due to errors.
+2024-11-22 22:43:40,068 - WARNING - [xray_client.py:208] - Import completed with status: failed
+2024-11-22 22:43:40,069 - DEBUG - [xray_client.py:210] - Import result: {
+  "errors": [
+    {
+      "elementNumber": 0,
+      "errors": [
+        {
+          "xray": "Test Repository folder named 'TestRail/Prerequisites' not found in the destination project."
+        }
+      ]
+    }
+  ],
+  "issues": []
+}
+2024-11-22 22:43:40,069 - INFO - [xray_client.py:601] - Import completed with status: failed

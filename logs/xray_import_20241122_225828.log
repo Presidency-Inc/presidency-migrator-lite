@@ -1,0 +1,2125 @@
+2024-11-22 22:58:28,374 - INFO - [xray_client.py:534] - Starting Xray test import process
+2024-11-22 22:58:28,375 - INFO - [xray_client.py:83] - XrayClient initialized with base URL: https://xray.cloud.getxray.app/api/v2
+2024-11-22 22:58:28,375 - DEBUG - [xray_client.py:107] - Attempting authentication with Xray API
+2024-11-22 22:58:28,375 - DEBUG - [xray_client.py:109] - Authentication URL: https://xray.cloud.getxray.app/api/v2/authenticate
+2024-11-22 22:58:29,233 - INFO - [xray_client.py:121] - Successfully authenticated with Xray API
+2024-11-22 22:58:29,235 - INFO - [xray_client.py:543] - Loaded field mapping configuration
+2024-11-22 22:58:29,235 - DEBUG - [xray_client.py:544] - Field mapping: {
+  "test_case_type_mapping": {
+    "1": "Manual",
+    "2": "Generic",
+    "3": "Generic",
+    "4": "Cucumber",
+    "7": "Manual",
+    "8": "Manual",
+    "10": "Generic"
+  },
+  "priority_mapping": {
+    "1": "Highest",
+    "2": "High",
+    "3": "Medium",
+    "4": "Low",
+    "5": "Lowest"
+  },
+  "field_mapping": {
+    "id": "__xray_testId",
+    "title": "fields.summary",
+    "type_id": "fields.issuetype.name",
+    "section_id": {
+      "type": "folder",
+      "field": "xray_test_repository_folder",
+      "use_hierarchy": true
+    },
+    "custom_steps": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "custom_steps",
+        "data": "",
+        "result": "custom_expected"
+      }
+    },
+    "custom_steps_separated": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "content",
+        "data": "additional_info",
+        "result": "expected"
+      }
+    },
+    "custom_testrail_bdd_scenario": {
+      "type": "gherkin",
+      "field": "fields.customfield_10101"
+    },
+    "custom_preconds": {
+      "type": "precondition",
+      "field": "fields.customfield_10102"
+    },
+    "priority_id": "fields.priority.id",
+    "estimate": "fields.timeoriginalestimate",
+    "refs": "fields.labels",
+    "custom_goals": "fields.description",
+    "custom_mission": "fields.customfield_10103",
+    "custom_automation_type": "fields.customfield_10104"
+  },
+  "section_mapping": {
+    "depth_separator": "/",
+    "root_folder": "TestRail"
+  },
+  "default_values": {
+    "fields.project.key": "${JIRA_PROJECT_KEY}",
+    "fields.issuetype.name": "Test"
+  }
+}
+2024-11-22 22:58:29,235 - INFO - [xray_client.py:551] - Loaded sections data
+2024-11-22 22:58:29,237 - INFO - [xray_client.py:557] - Loaded 203 test cases
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 3: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 4: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 6: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 7: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 10: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 11: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 14: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 15: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 16: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 18: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 24: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 25: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 27: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 28: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 29: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 31: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 32: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 36: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 38: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 39: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 41: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 42: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 43: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 44: name 'parse_steps' is not defined
+2024-11-22 22:58:29,237 - ERROR - [xray_client.py:567] - Error mapping test case 45: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 46: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 48: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 49: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 53: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 55: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 56: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 58: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 61: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 66: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 71: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 72: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 73: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 74: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 77: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 78: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 79: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 83: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 84: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 86: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 87: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 88: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 89: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 95: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 97: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 98: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 99: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 106: name 'parse_steps' is not defined
+2024-11-22 22:58:29,238 - ERROR - [xray_client.py:567] - Error mapping test case 108: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 109: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 110: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 111: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 113: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 115: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 116: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 118: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 119: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 120: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 122: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 125: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 129: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 130: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 133: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 135: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 136: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 137: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 140: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 143: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 145: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 152: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 154: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 155: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 158: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 159: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 162: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 163: name 'parse_steps' is not defined
+2024-11-22 22:58:29,239 - ERROR - [xray_client.py:567] - Error mapping test case 166: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 171: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 173: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 178: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 179: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 180: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 189: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 190: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 191: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 195: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 196: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 197: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - ERROR - [xray_client.py:567] - Error mapping test case 203: name 'parse_steps' is not defined
+2024-11-22 22:58:29,240 - INFO - [xray_client.py:572] - Using JIRA project key: XSP
+2024-11-22 22:58:29,240 - INFO - [xray_client.py:580] - Creating folder structure in Xray
+2024-11-22 22:58:29,240 - INFO - [xray_client.py:323] - Creating folder structure in Xray
+2024-11-22 22:58:29,240 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Prerequisites
+2024-11-22 22:58:31,249 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Prerequisites
+2024-11-22 22:58:31,250 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Installation
+2024-11-22 22:58:32,368 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Installation
+2024-11-22 22:58:32,368 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Updates
+2024-11-22 22:58:33,844 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Updates
+2024-11-22 22:58:33,846 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Tutorial
+2024-11-22 22:58:35,088 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Tutorial
+2024-11-22 22:58:35,088 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Login & Account
+2024-11-22 22:58:36,197 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Login & Account
+2024-11-22 22:58:36,198 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 1
+2024-11-22 22:58:37,225 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Feature 1
+2024-11-22 22:58:37,226 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 2
+2024-11-22 22:58:38,449 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Feature 2
+2024-11-22 22:58:38,450 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 3
+2024-11-22 22:58:39,781 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Feature 3
+2024-11-22 22:58:39,782 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 4
+2024-11-22 22:58:40,992 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Feature 4
+2024-11-22 22:58:40,992 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 5
+2024-11-22 22:58:42,036 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Feature 5
+2024-11-22 22:58:42,037 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration
+2024-11-22 22:58:43,163 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Administration
+2024-11-22 22:58:43,165 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Search
+2024-11-22 22:58:44,333 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Search
+2024-11-22 22:58:44,333 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Help & Documentation
+2024-11-22 22:58:45,482 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Help & Documentation
+2024-11-22 22:58:45,484 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:58:51,623 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:58:51,624 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Prerequisites/Hardware
+2024-11-22 22:58:52,890 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Prerequisites/Hardware
+2024-11-22 22:58:52,892 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Tutorial/Goals
+2024-11-22 22:58:54,042 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Tutorial/Goals
+2024-11-22 22:58:54,043 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Tutorial/Metrics
+2024-11-22 22:58:55,144 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Tutorial/Metrics
+2024-11-22 22:58:55,145 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Login & Account/Reset Password
+2024-11-22 22:58:56,271 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Login & Account/Reset Password
+2024-11-22 22:58:56,272 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Projects
+2024-11-22 22:58:57,528 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Administration/Projects
+2024-11-22 22:58:57,529 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Settings
+2024-11-22 22:58:58,831 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Administration/Settings
+2024-11-22 22:58:58,833 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Users & Roles
+2024-11-22 22:59:00,263 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Administration/Users & Roles
+2024-11-22 22:59:00,265 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:59:01,496 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:59:01,497 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:59:02,517 - INFO - [xray_client.py:246] - Folder already exists: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:59:02,518 - INFO - [xray_client.py:307] - Verifying folder structure
+2024-11-22 22:59:02,518 - DEBUG - [xray_client.py:308] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"/\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:59:02,868 - DEBUG - [xray_client.py:149] - Import tests request payload: [
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document attributes (author, title, organization)",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add and verify Tables of Contents with multi-page document",
+      "priority": {
+        "name": "Highest"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Apply sort routine to complex table with different currencies",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n# This is a H1\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\n## This is a H2\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n### This is a H3\n\n1. Donec placerat, dui vitae\n2. Ut auctor mi erat ac dolor.\n3. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nConsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus at http://testrail.com/.\n\n\t\t.pieChart .legendContainer {\n\t\t\tfloat: left;\n\t\t\twidth: 200px;\n\t\t\theight: 180px;\n\t\t\tmargin-right: 60px;\n\t\t}\n\t\t\nLorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus."
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Prerequisites"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify space and indentation calculations of inline tables",
+      "priority": {
+        "name": "Highest"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites/Software & Versions"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add and verify Tables of Contents with multi-page document",
+      "priority": {
+        "name": "High"
+      },
+      "description": "In vulputate libero **in nulla feugiat tincidunt**:\n\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean quis nulla eu dui luctus lobortis. Praesent bibendum."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites/Software & Versions"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify CSV import with enclosed test data files",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Prerequisites/Software & Versions"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add document header with document title",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites/Hardware"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Export enclosed test document to PDF and verify rendering",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites/Hardware"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Print document history and attributes",
+      "priority": {
+        "name": "Medium"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis. Praesent bibendum, lacus nec mollis eleifend, magna nibh mattis nibh.\nMassa sodales eget lorem dolor, *lorem quam quis eget*, tellus vestibulum rutrum."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Installation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify formula rendering with built-in print preview driver",
+      "priority": {
+        "name": "Medium"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Installation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add watermark to document and verify print output",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n# This is a H1\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\n## This is a H2\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n### This is a H3\n\n1. Donec placerat, dui vitae\n2. Ut auctor mi erat ac dolor.\n3. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nConsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus at http://testrail.com/.\n\n\t\t.pieChart .legendContainer {\n\t\t\tfloat: left;\n\t\t\twidth: 200px;\n\t\t\theight: 180px;\n\t\t\tmargin-right: 60px;\n\t\t}\n\t\t\nLorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Installation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Compare print preview of printer driver with actual output",
+      "priority": {
+        "name": "Highest"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Installation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change text alignment in an inline table",
+      "priority": {
+        "name": "Low"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. **Fusce** faucibus, mauris sit amet rutrum bibendum, dui odio tincidunt nibh, sed semper magna turpis eget magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Installation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add and verify Tables of Contents with multi-page document",
+      "priority": {
+        "name": "Medium"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Installation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test menu keyboard bindings and shortcuts",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Updates"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify CSV import with enclosed test data files",
+      "priority": {
+        "name": "High"
+      },
+      "description": "In vulputate libero at http://www.example.com/.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Updates"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test add-in installation and verify menu appearance",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Updates"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify space and indentation calculations of inline tables",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Updates"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Print document history and attributes",
+      "priority": {
+        "name": "Medium"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n# This is a H1\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\n## This is a H2\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n### This is a H3\n\n1. Donec placerat, dui vitae\n2. Ut auctor mi erat ac dolor.\n3. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nConsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus at http://testrail.com/.\n\n\t\t.pieChart .legendContainer {\n\t\t\tfloat: left;\n\t\t\twidth: 200px;\n\t\t\theight: 180px;\n\t\t\tmargin-right: 60px;\n\t\t}\n\t\t\nLorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Updates"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify space and indentation calculations of inline tables",
+      "priority": {
+        "name": "Highest"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Tutorial"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change page color and verify print output",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Tutorial/Goals"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add numbered list to inline table within an document",
+      "priority": {
+        "name": "Medium"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Tutorial/Goals"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test menu keyboard bindings and shortcuts",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis:\n\n\t\th1 {\n\t\t\tfont-size: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 1em;\n\t\t\tmargin-top: 0.5em;\n\t\t}\n\t\t\nIn vulputate libero **in nulla feugiat tincidunt**. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Tutorial/Goals"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Format table with built-in style",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. **Fusce** faucibus, mauris sit amet rutrum bibendum, dui odio tincidunt nibh, sed semper magna turpis eget magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Tutorial/Goals"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add footnotes to document and verify footnote numbering",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Tutorial/Goals"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Compare print preview of printer driver with actual output",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Tutorial/Metrics"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify line spacing on multi-page document",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Tutorial/Metrics"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add numbered list to inline table within an document",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Tutorial/Metrics"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document attributes (author, title, organization)",
+      "priority": {
+        "name": "Medium"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Tutorial/Metrics"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add and verify Tables of Contents with multi-page document",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Tutorial/Metrics"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify interoperability with system file dialogs",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis. Praesent bibendum, lacus nec mollis eleifend, magna nibh mattis nibh.\nMassa sodales eget lorem dolor, *lorem quam quis eget*, tellus vestibulum rutrum."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document margins and test interoperability with PDF export",
+      "priority": {
+        "name": "Highest"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test menu keyboard bindings and shortcuts",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Login & Account"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document margins and test interoperability with PDF export",
+      "priority": {
+        "name": "Low"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis:\n\n\t\th1 {\n\t\t\tfont-size: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 1em;\n\t\t\tmargin-top: 0.5em;\n\t\t}\n\t\t\nIn vulputate libero **in nulla feugiat tincidunt**. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify interoperability with system file dialogs",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add and verify Tables of Contents with multi-page document",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Apply built-in theme to document and verify print output",
+      "priority": {
+        "name": "Low"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify CSV import with enclosed test data files",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add document header with document title",
+      "priority": {
+        "name": "Low"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account/Reset Password"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add footnotes to document and verify footnote numbering",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account/Reset Password"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify formula rendering with built-in print preview driver",
+      "priority": {
+        "name": "High"
+      },
+      "description": "In vulputate libero at http://www.example.com/.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account/Reset Password"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Print document history and attributes",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Login & Account/Reset Password"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add numbered list to inline table within an document",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 1"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document orientation from portrait to landscape mode",
+      "priority": {
+        "name": "Medium"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 1"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add footnotes to document and verify footnote numbering",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 1"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document margins and test interoperability with PDF export",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis. Praesent bibendum, lacus nec mollis eleifend, magna nibh mattis nibh.\nMassa sodales eget lorem dolor, *lorem quam quis eget*, tellus vestibulum rutrum."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Feature 1"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify formula rendering with built-in print preview driver",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. **Fusce** faucibus, mauris sit amet rutrum bibendum, dui odio tincidunt nibh, sed semper magna turpis eget magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 1"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Apply built-in theme to document and verify print output",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 1"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify space and indentation calculations of inline tables",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 2"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify interoperability with system file dialogs",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Feature 2"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add new review data point (including note)",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 2"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Export enclosed test document to PDF and verify rendering",
+      "priority": {
+        "name": "Medium"
+      },
+      "description": "In vulputate libero at http://www.example.com/.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 3"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test conditional formatting with basic value range",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 3"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add document header with document title",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Feature 3"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add footnotes to document and verify footnote numbering",
+      "priority": {
+        "name": "Highest"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 3"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add new review data point (including note)",
+      "priority": {
+        "name": "Medium"
+      },
+      "description": "In vulputate libero **in nulla feugiat tincidunt**:\n\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean quis nulla eu dui luctus lobortis. Praesent bibendum."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 3"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document margins and test interoperability with PDF export",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 3"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Export enclosed test document to PDF and verify rendering",
+      "priority": {
+        "name": "Medium"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis:\n\n\t\th1 {\n\t\t\tfont-size: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 1em;\n\t\t\tmargin-top: 0.5em;\n\t\t}\n\t\t\nIn vulputate libero **in nulla feugiat tincidunt**. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 4"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add document header with document title",
+      "priority": {
+        "name": "Low"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Feature 4"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test add-in installation and verify menu appearance",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Feature 5"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add numbered list to inline table within an document",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 5"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document margins and test interoperability with PDF export",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Feature 5"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add document header with document title",
+      "priority": {
+        "name": "Highest"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 5"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify line spacing on multi-page document",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Feature 5"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify title, sub title and heading styles",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n# This is a H1\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\n## This is a H2\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n### This is a H3\n\n1. Donec placerat, dui vitae\n2. Ut auctor mi erat ac dolor.\n3. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nConsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus at http://testrail.com/.\n\n\t\t.pieChart .legendContainer {\n\t\t\tfloat: left;\n\t\t\twidth: 200px;\n\t\t\theight: 180px;\n\t\t\tmargin-right: 60px;\n\t\t}\n\t\t\nLorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 5"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test add-in installation and verify menu appearance",
+      "priority": {
+        "name": "High"
+      },
+      "description": "In vulputate libero at http://www.example.com/.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 5"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Compare print preview of printer driver with actual output",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. **Fusce** faucibus, mauris sit amet rutrum bibendum, dui odio tincidunt nibh, sed semper magna turpis eget magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Feature 5"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document orientation from portrait to landscape mode",
+      "priority": {
+        "name": "Highest"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify CSV import with enclosed test data files",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify space and indentation calculations of inline tables",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Compare print preview of printer driver with actual output",
+      "priority": {
+        "name": "Highest"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document orientation from portrait to landscape mode",
+      "priority": {
+        "name": "Low"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis. Praesent bibendum, lacus nec mollis eleifend, magna nibh mattis nibh.\nMassa sodales eget lorem dolor, *lorem quam quis eget*, tellus vestibulum rutrum."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test add-in installation and verify menu appearance",
+      "priority": {
+        "name": "High"
+      },
+      "description": "In vulputate libero at http://www.example.com/.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Projects"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Print document history and attributes",
+      "priority": {
+        "name": "Low"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration/Projects"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document attributes (author, title, organization)",
+      "priority": {
+        "name": "Low"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration/Projects"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Apply sort routine to complex table with different currencies",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Projects"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify CSV import with enclosed test data files",
+      "priority": {
+        "name": "Highest"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Projects"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Compare print preview of printer driver with actual output",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Administration/Settings"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify interoperability with system file dialogs",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration/Settings"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document margins and test interoperability with PDF export",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Settings"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change page color and verify print output",
+      "priority": {
+        "name": "Highest"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration/Settings"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add document header with document title",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n# This is a H1\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\n## This is a H2\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n### This is a H3\n\n1. Donec placerat, dui vitae\n2. Ut auctor mi erat ac dolor.\n3. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nConsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus at http://testrail.com/.\n\n\t\t.pieChart .legendContainer {\n\t\t\tfloat: left;\n\t\t\twidth: 200px;\n\t\t\theight: 180px;\n\t\t\tmargin-right: 60px;\n\t\t}\n\t\t\nLorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration/Settings"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Apply built-in theme to document and verify print output",
+      "priority": {
+        "name": "Highest"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Settings"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add new review data point (including note)",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n# This is a H1\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\n## This is a H2\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n### This is a H3\n\n1. Donec placerat, dui vitae\n2. Ut auctor mi erat ac dolor.\n3. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nConsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus at http://testrail.com/.\n\n\t\t.pieChart .legendContainer {\n\t\t\tfloat: left;\n\t\t\twidth: 200px;\n\t\t\theight: 180px;\n\t\t\tmargin-right: 60px;\n\t\t}\n\t\t\nLorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add new review data point (including note)",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add footnotes to document and verify footnote numbering",
+      "priority": {
+        "name": "Low"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Compare print preview of printer driver with actual output",
+      "priority": {
+        "name": "Medium"
+      }
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify formula rendering with built-in print preview driver",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Permissions"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change page color and verify print output",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Permissions"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add numbered list to inline table within an document",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Permissions"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document orientation from portrait to landscape mode",
+      "priority": {
+        "name": "Low"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Permissions"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test incremental search with multi-page document",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nSee [C17].\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare. Vestibulum hendrerit ultricies quam. Vestibulum viverra ultrices **magna**. Phasellus id velit non neque scelerisque tempus. Praesent nisl dui, commodo sed, porttitor nec, mattis consectetuer, ligula."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify line spacing on multi-page document",
+      "priority": {
+        "name": "Low"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Export enclosed test document to PDF and verify rendering",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test full screen reading on minimal resolution system",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test incremental search with multi-page document",
+      "priority": {
+        "name": "Highest"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis:\n\n\t\th1 {\n\t\t\tfont-size: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 1em;\n\t\t\tmargin-top: 0.5em;\n\t\t}\n\t\t\nIn vulputate libero **in nulla feugiat tincidunt**. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test add-in installation and verify menu appearance",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Apply built-in theme to document and verify print output",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis. Praesent bibendum, lacus nec mollis eleifend, magna nibh mattis nibh.\nMassa sodales eget lorem dolor, *lorem quam quis eget*, tellus vestibulum rutrum."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change text alignment in an inline table",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Apply sort routine to complex table with different currencies",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Export enclosed test document to PDF and verify rendering",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Administration/Users & Roles/Groups"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify CSV import with enclosed test data files",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Search"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add document footer with page numbers and author",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Cucumber",
+    "xray_test_repository_folder": "TestRail/Search"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Apply sort routine to complex table with different currencies",
+      "priority": {
+        "name": "Low"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Search"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify CSV import with enclosed test data files",
+      "priority": {
+        "name": "Low"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Search"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify Mail Merge functionality with test database mmdb1",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Suspendisse orci nisi, imperdiet a, sollicitudin sit amet, eleifend sed, metus. Nunc placerat odio sit amet turpis. Maecenas cursus ante ac nunc. [T3].\n\nQuisque pellentesque mauris ut nulla convallis placerat. Vivamus vitae massa eget urna elementum porta."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Help & Documentation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Verify Mail Merge functionality with test database mmdb1",
+      "priority": {
+        "name": "Low"
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n# This is a H1\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec placerat, dui vitae facilisis tempor.\n\n* Donec placerat, dui vitae\n* Ut auctor mi erat ac dolor.\n* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\n## This is a H2\nCras elit. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna. Donec a ipsum et massa lobortis ornare:\n\n> Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.\n\n### This is a H3\n\n1. Donec placerat, dui vitae\n2. Ut auctor mi erat ac dolor.\n3. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nConsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus at http://testrail.com/.\n\n\t\t.pieChart .legendContainer {\n\t\t\tfloat: left;\n\t\t\twidth: 200px;\n\t\t\theight: 180px;\n\t\t\tmargin-right: 60px;\n\t\t}\n\t\t\nLorem ipsum dolor sit amet,\nconsectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.\nVestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Help & Documentation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Add and verify Tables of Contents with multi-page document",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Help & Documentation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test conditional formatting with basic value range",
+      "priority": {
+        "name": "High"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Help & Documentation"
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Test menu keyboard bindings and shortcuts",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Aenean quis nulla eu dui luctus lobortis:\n\n\t\th1 {\n\t\t\tfont-size: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 1em;\n\t\t\tmargin-top: 0.5em;\n\t\t}\n\t\t\nIn vulputate libero **in nulla feugiat tincidunt**. Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna."
+    },
+    "testtype": "Manual",
+    "xray_test_repository_folder": "TestRail/Help & Documentation"
+  }
+]
+2024-11-22 22:59:03,564 - INFO - [xray_client.py:155] - Import job created successfully with ID: d9f3d977dc3445a68cc07311df3013c0
+2024-11-22 22:59:03,565 - INFO - [xray_client.py:181] - Starting to monitor import job: d9f3d977dc3445a68cc07311df3013c0
+2024-11-22 22:59:04,072 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: working
+2024-11-22 22:59:04,073 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:03 GMT] Preprocessing the information of the 110 issues to import.
+2024-11-22 22:59:09,471 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: working
+2024-11-22 22:59:09,471 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:03 GMT] Preprocessing the information of the 110 issues to import.
+2024-11-22 22:59:09,471 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:04 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:15,296 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: working
+2024-11-22 22:59:15,296 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:03 GMT] Preprocessing the information of the 110 issues to import.
+2024-11-22 22:59:15,297 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:04 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:15,297 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:15,297 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] 18.18% tests currently processed.
+2024-11-22 22:59:15,297 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:20,843 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: working
+2024-11-22 22:59:20,844 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:03 GMT] Preprocessing the information of the 110 issues to import.
+2024-11-22 22:59:20,844 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:04 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:20,844 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:20,844 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] 18.18% tests currently processed.
+2024-11-22 22:59:20,844 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:20,844 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:20,844 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] 36.36% tests currently processed.
+2024-11-22 22:59:20,844 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:26,444 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: working
+2024-11-22 22:59:26,445 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:03 GMT] Preprocessing the information of the 110 issues to import.
+2024-11-22 22:59:26,445 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:04 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:26,445 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:26,446 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] 18.18% tests currently processed.
+2024-11-22 22:59:26,446 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:26,446 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:26,446 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] 36.36% tests currently processed.
+2024-11-22 22:59:26,446 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:26,447 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:26,447 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] 54.55% tests currently processed.
+2024-11-22 22:59:26,447 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:32,016 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: working
+2024-11-22 22:59:32,017 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:03 GMT] Preprocessing the information of the 110 issues to import.
+2024-11-22 22:59:32,017 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:04 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:32,017 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:32,018 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] 18.18% tests currently processed.
+2024-11-22 22:59:32,018 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:32,018 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:32,018 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] 36.36% tests currently processed.
+2024-11-22 22:59:32,018 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:32,019 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:32,019 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] 54.55% tests currently processed.
+2024-11-22 22:59:32,019 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:37,543 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: working
+2024-11-22 22:59:37,545 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:03 GMT] Preprocessing the information of the 110 issues to import.
+2024-11-22 22:59:37,545 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:04 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:37,545 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:37,546 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] 18.18% tests currently processed.
+2024-11-22 22:59:37,546 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:37,546 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:37,546 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] 36.36% tests currently processed.
+2024-11-22 22:59:37,546 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:37,546 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:37,546 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] 54.55% tests currently processed.
+2024-11-22 22:59:37,547 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:37,547 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:32 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:37,547 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:32 GMT] 72.73% tests currently processed.
+2024-11-22 22:59:37,547 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:32 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:43,078 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: working
+2024-11-22 22:59:43,078 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:03 GMT] Preprocessing the information of the 110 issues to import.
+2024-11-22 22:59:43,079 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:04 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:43,079 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:43,079 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] 18.18% tests currently processed.
+2024-11-22 22:59:43,079 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:10 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:43,079 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:43,079 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] 36.36% tests currently processed.
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:17 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] 54.55% tests currently processed.
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:25 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:32 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:32 GMT] 72.73% tests currently processed.
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:32 GMT] Creating 20 test(s) in JIRA.
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:39 GMT] Saving additional information of 20 test(s).
+2024-11-22 22:59:43,080 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:39 GMT] 90.91% tests currently processed.
+2024-11-22 22:59:43,081 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:59:39 GMT] Creating 10 test(s) in JIRA.
+2024-11-22 22:59:48,649 - INFO - [xray_client.py:191] - Job d9f3d977dc3445a68cc07311df3013c0 status: successful
+2024-11-22 22:59:48,651 - INFO - [xray_client.py:591] - Import completed with status: successful
