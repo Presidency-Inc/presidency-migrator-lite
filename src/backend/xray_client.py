@@ -385,6 +385,28 @@ def map_test_steps(test_case):
         }]
     return None
 
+def parse_steps(steps_separated):
+    """Parse test steps and expected results from TestRail format to Xray format.
+    Args:
+        Args fields:
+            custom_steps_separated (list): A list of step dictionaries (with keys content, additional_info and expected)
+        
+    Returns:
+        list: A list of step dictionaries in Xray format
+    """
+    if not steps_separated:
+        return []
+        
+    steps = []
+    for step in steps_separated:
+        steps.append({
+            'action': step['content'],
+            'data': '',
+            'result': step['expected']
+        })
+    
+    return steps
+
 def map_test_case(test_case, field_mapping, sections_data):
     """Map a TestRail test case to Xray format"""
     mapped_test = {
@@ -396,7 +418,7 @@ def map_test_case(test_case, field_mapping, sections_data):
     }
     
     # Map test type
-    test_type = field_mapping['test_case_type_mapping'].get(str(test_case.get('type_id')), 'Manual')
+    test_type = field_mapping['test_case_type_mapping'].get(str(test_case.get('template_id')), 'Manual')
     mapped_test['testtype'] = test_type
     
     # Map basic fields
@@ -408,9 +430,6 @@ def map_test_case(test_case, field_mapping, sections_data):
         "name": field_mapping['priority_mapping'].get(priority_id, 'Medium')
     }
     
-    # Map description/goals
-    if test_case.get('custom_goals'):
-        mapped_test['fields']['description'] = test_case['custom_goals']
     
     # Build folder path for test repository
     if test_case.get('section_id'):
@@ -421,15 +440,18 @@ def map_test_case(test_case, field_mapping, sections_data):
     # Map test steps based on type
     if test_type == 'Manual':
         steps = []
-        if test_case.get('custom_steps'):
-            # Handle combined steps format
-            steps.extend(parse_steps(test_case['custom_steps'], test_case.get('custom_expected', '')))
-        elif test_case.get('custom_steps_separated'):
-            # Handle separated steps format
-            steps.extend(test_case['custom_steps_separated'])
+        if test_case.get('custom_steps_separated'):
+            steps.extend(parse_steps(test_case['custom_steps_separated']))
         
         if steps:
             mapped_test['steps'] = steps
+    elif test_type == 'Generic':
+        stepsString = test_case.get('custom_steps', '')
+        uStepsDefinition = '*Steps:* '+stepsString+'\n'
+        description = mapped_test['fields'].get('description', '')
+        mapped_test['fields']['description'] = description + uStepsDefinition
+        steps = map_test_steps(test_case)
+
     
     # Map Cucumber/Gherkin scenarios
     elif test_type == 'Cucumber' and test_case.get('custom_testrail_bdd_scenario'):
@@ -437,17 +459,6 @@ def map_test_case(test_case, field_mapping, sections_data):
     
     return mapped_test
 
-def get_xray_test_type(testrail_type_id):
-    """Map TestRail type ID to Xray test type"""
-    mapping = {
-        1: "Manual",
-        2: "Generic",  # For automated tests
-        3: "Generic",
-        4: "Cucumber",
-        7: "Manual",
-        10: "Generic"
-    }
-    return mapping.get(str(testrail_type_id), "Manual")
 
 def get_xray_issue_type(test_case):
     """Determine Xray issue type based on test case attributes"""
@@ -551,7 +562,7 @@ def main():
             logger.info("Loaded sections data")
             
         # Load test cases
-        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases.json')
+        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_single.json')
         with open(input_file, 'r') as f:
             test_cases = json.load(f)
             logger.info(f"Loaded {len(test_cases)} test cases")
@@ -585,6 +596,8 @@ def main():
         
         # Import tests
         job_id = client.import_tests(mapped_tests, project_key)
+        # logger.info(f"Import job created with ID: {job_id}")
+
         
         # Monitor import status
         final_status = client.check_import_status(job_id)
@@ -596,4 +609,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
