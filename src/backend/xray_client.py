@@ -352,6 +352,117 @@ class XrayClient:
         
         return '/'.join(path_parts)
 
+    def create_precondition(self, precondition_data):
+        """Create a precondition in Xray using GraphQL"""
+        try:
+            client = self._get_gql_client()
+            
+            create_precondition_mutation = gql("""
+                mutation createPrecondition(
+                    $preconditionType: UpdatePreconditionTypeInput!,
+                    $definition: String!,
+                    $folderPath: String!,
+                    $jira: JSON!
+                ) {
+                    createPrecondition(
+                        preconditionType: $preconditionType,
+                        definition: $definition,
+                        folderPath: $folderPath,
+                        jira: $jira
+                    ) {
+                        precondition {
+                            issueId
+                            preconditionType {
+                                name
+                            }
+                            definition
+                            jira(fields: ["key"])
+                        }
+                        warnings
+                    }
+                }
+            """)
+            
+            variables = {
+                "preconditionType": {"name": "Generic"},
+                "definition": precondition_data.get('custom_preconds', ''),
+                "folderPath": f"TestRail/{precondition_data.get('section_path', '')}",
+                "jira": {
+                    "fields": {
+                        "project": {"key": os.getenv('JIRA_PROJECT_KEY')},
+                        "summary": f"Precondition for: {precondition_data.get('title', '')}",
+                        "issuetype": {"name": "Precondition"}
+                    }
+                }
+            }
+            
+            logger.debug(f"Creating precondition for test: {precondition_data.get('title')}")
+            result = client.execute(create_precondition_mutation, variable_values=variables)
+            logger.debug(f"Precondition creation result: {json.dumps(result, indent=2)}")
+            
+            if result.get('createPrecondition', {}).get('precondition'):
+                return result['createPrecondition']['precondition']['issueId']
+            return None
+            
+        except Exception as e:
+            logger.error(f"Error creating precondition: {str(e)}")
+            return None
+
+    def link_precondition_to_test(self, test_issue_id, precondition_issue_id):
+        """Link a precondition to a test using GraphQL"""
+        try:
+            client = self._get_gql_client()
+            
+            add_precondition_mutation = gql("""
+                mutation addPreconditionsToTest(
+                    $issueId: String!,
+                    $preconditionIssueIds: [String]!
+                ) {
+                    addPreconditionsToTest(
+                        issueId: $issueId,
+                        preconditionIssueIds: $preconditionIssueIds
+                    ) {
+                        addedPreconditions
+                        warning
+                    }
+                }
+            """)
+            
+            variables = {
+                "issueId": test_issue_id,
+                "preconditionIssueIds": [precondition_issue_id]
+            }
+            
+            logger.debug(f"Linking precondition {precondition_issue_id} to test {test_issue_id}")
+            result = client.execute(add_precondition_mutation, variable_values=variables)
+            logger.debug(f"Precondition linking result: {json.dumps(result, indent=2)}")
+            
+            return bool(result.get('addPreconditionsToTest', {}).get('addedPreconditions'))
+            
+        except Exception as e:
+            logger.error(f"Error linking precondition to test: {str(e)}")
+            return False
+
+    def process_preconditions(self, test_cases):
+        """Process preconditions for all test cases"""
+        try:
+            precondition_mapping = {}  # TestRail ID -> Xray Issue ID
+            
+            for test in test_cases:
+                if test.get('is_deleted') or not test.get('custom_preconds'):
+                    continue
+                    
+                precondition_id = self.create_precondition(test)
+                if precondition_id:
+                    precondition_mapping[test['id']] = precondition_id
+                    logger.info(f"Created precondition for test {test['id']}")
+            
+            return precondition_mapping
+            
+        except Exception as e:
+            logger.error(f"Error processing preconditions: {str(e)}")
+            return {}
+
 def build_folder_path(section_id, sections_data):
     """Build the full folder path from section hierarchy"""
     if not section_id:
@@ -505,9 +616,17 @@ def import_test_cases(test_cases, sections_data):
     # Authenticate first
     client.authenticate()
     
+    # First, create all preconditions and store their IDs
+    logger.info("Processing preconditions...")
+    precondition_mapping = client.process_preconditions(test_cases)
+    logger.info(f"Created {len(precondition_mapping)} preconditions")
+    
     # Load mapping configuration
     with open('config/field_mapping.json', 'r') as f:
         mapping_config = json.load(f)
+    
+    # Track which test cases need precondition linking
+    test_precondition_pairs = {}  # {test_title: precondition_id}
     
     mapped_tests = []
     for test_case in test_cases:
@@ -519,6 +638,10 @@ def import_test_cases(test_cases, sections_data):
             repo_path = build_repository_path(test_case, sections_data)
             if repo_path:
                 mapped_test['xray_test_repository_folder'] = repo_path
+            
+            # Store the relationship if this test has a precondition
+            if test_case['id'] in precondition_mapping:
+                test_precondition_pairs[mapped_test['fields']['summary']] = precondition_mapping[test_case['id']]
             
             # Validate required fields
             validate_test_case(mapped_test)
@@ -533,12 +656,32 @@ def import_test_cases(test_cases, sections_data):
         raise ValueError("No valid test cases to import")
     
     # Import in batches of 1000 (Xray's limit)
+    imported_tests = {}  # {test_title: test_key}
     batch_size = 1000
     for i in range(0, len(mapped_tests), batch_size):
         batch = mapped_tests[i:i + batch_size]
         job_id = client.import_tests(batch)
+        
+        # Wait for import to complete and get results
         status = client.check_import_status(job_id)
         logger.info(f"Batch {i//batch_size + 1} import status: {status}")
+        
+        # Get the created test keys from the import result
+        if status == 'success':
+            result = client.get_import_result(job_id)
+            for issue in result.get('issues', []):
+                imported_tests[issue['fields']['summary']] = issue['key']
+    
+    # Link preconditions to their respective tests
+    logger.info("Linking preconditions to tests...")
+    for test_title, precondition_id in test_precondition_pairs.items():
+        if test_title in imported_tests:
+            test_key = imported_tests[test_title]
+            success = client.link_precondition_to_test(test_key, precondition_id)
+            if success:
+                logger.info(f"Linked precondition to test: {test_title}")
+            else:
+                logger.error(f"Failed to link precondition to test: {test_title}")
 
 def main():
     try:

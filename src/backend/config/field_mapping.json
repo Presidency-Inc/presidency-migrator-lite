@@ -8,9 +8,8 @@
     "priority_mapping": {
         "1": "Highest",
         "2": "High",
-        "3": "Medium",
-        "4": "Low",
-        "5": "Lowest"
+        "3": "Low",
+        "4": "Lowest"
     },
     "field_mapping": {
         "id": "__xray_testId",
