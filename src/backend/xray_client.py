@@ -518,11 +518,9 @@ def build_folder_path(section_id, sections_data):
     
     while current:
         path_parts.insert(0, current['name'])
-        if current.get('parent_id'):
-            current = sections_data.get(str(current['parent_id']))
-        else:
-            break
-            
+        parent_id = current.get('parent_id')
+        current = sections_data.get(str(parent_id)) if parent_id else None
+    
     return '/'.join(['TestRail'] + path_parts)
 
 def map_test_steps(test_case):
@@ -636,9 +634,9 @@ def map_test_case(test_case, field_mapping, sections_data):
         if steps:
             mapped_test['steps'] = steps
     elif test_type == 'Generic':
-        stepsString = test_case.get('custom_steps', '')
-        uStepsDefinition = '*Steps:* '+stepsString+'\n'
-        description = mapped_test['fields'].get('description', '')
+        stepsString = test_case.get('custom_steps') or ''
+        uStepsDefinition = '*Steps:* '+stepsString+'\n' if stepsString else ''
+        description = mapped_test['fields'].get('description', '') or ''
         mapped_test['fields']['description'] = description + uStepsDefinition
         steps = map_test_steps(test_case)
 
@@ -656,12 +654,32 @@ def get_xray_issue_type(test_case):
         return "Precondition"
     return "Test"
 
+def get_nested_value(obj, path):
+    """Get a value from a nested dictionary using dot notation.
+    
+    Args:
+        obj (dict): The dictionary to search in
+        path (str): The path to the value using dot notation (e.g., 'fields.summary')
+    
+    Returns:
+        The value if found, None otherwise
+    """
+    try:
+        parts = path.split('.')
+        current = obj
+        for part in parts:
+            if not isinstance(current, dict):
+                return None
+            current = current.get(part)
+        return current
+    except Exception:
+        return None
+
 def validate_test_case(mapped_test):
     """Validate required fields for Xray import"""
     required_fields = {
         'testtype': 'Test Type',
-        'fields.summary': 'Summary',
-        '__xray_testId': 'Test ID'
+        'fields.summary': 'Summary'
     }
     
     missing_fields = []
@@ -678,90 +696,18 @@ def build_repository_path(test_case, sections_data):
     if not section_id:
         return None
         
-    path_parts = []
+    # Collect sections from leaf to root
+    sections = []
     current_section = sections_data.get(str(section_id))
     
     while current_section:
-        path_parts.insert(0, current_section['name'])
+        sections.append(current_section['name'])
         parent_id = current_section.get('parent_id')
         current_section = sections_data.get(str(parent_id)) if parent_id else None
     
+    # Build path from root to leaf
+    path_parts = ['TestRail'] + sections[::-1]  # Reverse the sections list
     return '/'.join(path_parts) if path_parts else None
-
-def import_test_cases(test_cases, sections_data):
-    """Import test cases to Xray with proper validation and mapping"""
-    client = XrayClient()
-    
-    # Authenticate first
-    client.authenticate()
-    
-    # First, create all preconditions and store their IDs
-    logger.info("Processing preconditions...")
-    precondition_mapping = client.process_preconditions(test_cases)
-    logger.info(f"Created {len(precondition_mapping)} preconditions")
-    
-    # Load mapping configuration
-    with open('config/field_mapping.json', 'r') as f:
-        mapping_config = json.load(f)
-    
-    # Track which test cases need precondition linking
-    test_precondition_pairs = {}  # {test_title: precondition_id}
-    
-    mapped_tests = []
-    for test_case in test_cases:
-        try:
-            # Map the test case
-            mapped_test = map_test_case(test_case, sections_data, mapping_config)
-            
-            # Add repository path
-            repo_path = build_repository_path(test_case, sections_data)
-            if repo_path:
-                mapped_test['xray_test_repository_folder'] = repo_path
-            
-            # Store the relationship if this test has a precondition
-            if test_case['id'] in precondition_mapping:
-                test_precondition_pairs[mapped_test['fields']['summary']] = precondition_mapping[test_case['id']]
-            
-            # Validate required fields
-            validate_test_case(mapped_test)
-            
-            mapped_tests.append(mapped_test)
-            
-        except Exception as e:
-            logger.error(f"Error mapping test case {test_case.get('id')}: {str(e)}")
-            continue
-    
-    if not mapped_tests:
-        raise ValueError("No valid test cases to import")
-    
-    # Import in batches of 1000 (Xray's limit)
-    imported_tests = {}  # {test_title: test_key}
-    batch_size = 1000
-    for i in range(0, len(mapped_tests), batch_size):
-        batch = mapped_tests[i:i + batch_size]
-        job_id = client.import_tests(batch)
-        
-        # Wait for import to complete and get results
-        status = client.check_import_status(job_id)
-        logger.info(f"Batch {i//batch_size + 1} import status: {status}")
-        
-        # Get the created test keys from the import result
-        if status == 'success':
-            result = client.get_import_result(job_id)
-            for issue in result.get('issues', []):
-                imported_tests[issue['fields']['summary']] = issue['key']
-    
-    # Link preconditions to their respective tests
-    logger.info("Linking preconditions to tests...")
-    for test_title, precondition_id in test_precondition_pairs.items():
-        if test_title in imported_tests:
-            test_key = imported_tests[test_title]
-            success = client.link_precondition_to_test(test_key, precondition_id)
-            if success:
-                logger.info(f"Linked precondition to test: {test_title}")
-            else:
-                logger.error(f"Failed to link precondition to test: {test_title}")
-
 
 def main():
     try:
@@ -785,7 +731,7 @@ def main():
             logger.info("Loaded sections data")
             
         # Load test cases
-        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_single.json')
+        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases.json')
         with open(input_file, 'r') as f:
             test_cases = json.load(f)
             logger.info(f"Loaded {len(test_cases)} test cases")
@@ -794,9 +740,19 @@ def main():
         mapped_tests = []
         for idx, test_case in enumerate(test_cases, 1):
             try:
+                # Map the test case
                 mapped_test = map_test_case(test_case, field_mapping, sections_data)
-                if mapped_test:
-                    mapped_tests.append(mapped_test)
+                
+                # Add repository path
+                repo_path = build_repository_path(test_case, sections_data)
+                if repo_path:
+                    mapped_test['xray_test_repository_folder'] = repo_path
+                
+                # Validate required fields
+                validate_test_case(mapped_test)
+                
+                mapped_tests.append(mapped_test)
+                
             except Exception as e:
                 logger.error(f"Error mapping test case {idx}: {str(e)}")
                 continue
