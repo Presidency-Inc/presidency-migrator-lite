@@ -463,6 +463,51 @@ class XrayClient:
             logger.error(f"Error processing preconditions: {str(e)}")
             return {}
 
+    def create_precondition_graphql(self, precondition_data):
+        """Create a precondition in Xray using GraphQL"""
+        try:
+            client = self._get_gql_client()
+            create_precondition_mutation = gql("""
+                mutation createPrecondition(
+                    $preconditionType: UpdatePreconditionTypeInput!,
+                    $definition: String!,
+                    $jira: JSON!
+                ) {
+                    createPrecondition(
+                        preconditionType: $preconditionType,
+                        definition: $definition,
+                        jira: $jira
+                    ) {
+                        precondition {
+                            issueId
+                            preconditionType {
+                                name
+                            }
+                            definition
+                            jira(fields: ["key"])
+                        }
+                        warnings
+                    }
+                }
+            """)
+            variables = {
+                "preconditionType": {"name": "Generic"},
+                "definition": precondition_data.get('custom_preconds', ''),
+                "jira": {
+                    "fields": {
+                        "summary": precondition_data.get('title', ''),
+                        "project": {"key": os.getenv('JIRA_PROJECT_KEY')}
+                    }
+                }
+            }
+            logger.debug(f"Creating precondition for test: {precondition_data.get('title')}")
+            result = client.execute(create_precondition_mutation, variable_values=variables)
+            logger.debug(f"Precondition creation result: {json.dumps(result, indent=2)}")
+            return result
+        except Exception as e:
+            logger.error(f"Error creating precondition: {str(e)}")
+            return None
+
 def build_folder_path(section_id, sections_data):
     """Build the full folder path from section hierarchy"""
     if not section_id:
@@ -534,6 +579,40 @@ def map_test_case(test_case, field_mapping, sections_data):
     
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
+
+    precond_data = {}
+
+    
+    # -------- PRECONDITIONS --------
+    try:
+        if 'custom_preconds' in test_case and test_case['custom_preconds']:
+            if test_case.get('custom_preconds'):
+                precond_data['id'] = test_case['id']
+                precond_data['title'] = test_case['title']
+                precond_data['custom_preconds'] = test_case.get('custom_preconds')
+
+                preconditions = []
+
+                client = XrayClient()
+                result = client.create_precondition_graphql(precond_data)
+                if isinstance(result, dict):
+                    jira_key = (
+                        result.get('createPrecondition', {})
+                        .get('precondition', {})
+                        .get('jira', {})
+                        .get('key')
+                    )
+                    if jira_key:
+                        preconditions.append(jira_key)
+                        logger.info(f"Created precondition for test {test_case['id']} with Jira key: {jira_key}")
+                else:
+                    logger.error(f"Unexpected result format: {result}")
+                    jira_key = None
+                
+                mapped_test['xray_preconditions'] = preconditions
+    except Exception as e:
+        logger.error(f"Error mapping preconditions for test case {test_case['id']}: {e}")
+    # -------- PRECONDITIONS --------
     
     # Map priority
     priority_id = str(test_case.get('priority_id', '3'))
@@ -682,6 +761,7 @@ def import_test_cases(test_cases, sections_data):
                 logger.info(f"Linked precondition to test: {test_title}")
             else:
                 logger.error(f"Failed to link precondition to test: {test_title}")
+
 
 def main():
     try:
