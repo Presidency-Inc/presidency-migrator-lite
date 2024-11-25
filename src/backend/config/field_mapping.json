@@ -1,12 +1,9 @@
 {
     "test_case_type_mapping": {
-        "1": "Manual",
-        "2": "Generic",
-        "3": "Generic",
-        "4": "Cucumber",
-        "7": "Manual",
-        "8": "Manual",
-        "10": "Generic"
+        "1": "Generic",
+        "2": "Manual",
+        "3": "Exploratory",
+        "4": "Cucumber"
     },
     "priority_mapping": {
         "1": "Highest",
