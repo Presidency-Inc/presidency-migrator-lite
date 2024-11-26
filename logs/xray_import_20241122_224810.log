@@ -1,0 +1,200 @@
+2024-11-22 22:48:10,528 - INFO - [xray_client.py:534] - Starting Xray test import process
+2024-11-22 22:48:10,529 - INFO - [xray_client.py:83] - XrayClient initialized with base URL: https://xray.cloud.getxray.app/api/v2
+2024-11-22 22:48:10,529 - DEBUG - [xray_client.py:107] - Attempting authentication with Xray API
+2024-11-22 22:48:10,529 - DEBUG - [xray_client.py:109] - Authentication URL: https://xray.cloud.getxray.app/api/v2/authenticate
+2024-11-22 22:48:11,341 - INFO - [xray_client.py:121] - Successfully authenticated with Xray API
+2024-11-22 22:48:11,343 - INFO - [xray_client.py:543] - Loaded field mapping configuration
+2024-11-22 22:48:11,343 - DEBUG - [xray_client.py:544] - Field mapping: {
+  "test_case_type_mapping": {
+    "1": "Manual",
+    "2": "Generic",
+    "3": "Generic",
+    "4": "Cucumber",
+    "7": "Manual",
+    "8": "Manual",
+    "10": "Generic"
+  },
+  "priority_mapping": {
+    "1": "Highest",
+    "2": "High",
+    "3": "Medium",
+    "4": "Low",
+    "5": "Lowest"
+  },
+  "field_mapping": {
+    "id": "__xray_testId",
+    "title": "fields.summary",
+    "type_id": "fields.issuetype.name",
+    "section_id": {
+      "type": "folder",
+      "field": "xray_test_repository_folder",
+      "use_hierarchy": true
+    },
+    "custom_steps": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "custom_steps",
+        "data": "",
+        "result": "custom_expected"
+      }
+    },
+    "custom_steps_separated": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "content",
+        "data": "additional_info",
+        "result": "expected"
+      }
+    },
+    "custom_testrail_bdd_scenario": {
+      "type": "gherkin",
+      "field": "fields.customfield_10101"
+    },
+    "custom_preconds": {
+      "type": "precondition",
+      "field": "fields.customfield_10102"
+    },
+    "priority_id": "fields.priority.id",
+    "estimate": "fields.timeoriginalestimate",
+    "refs": "fields.labels",
+    "custom_goals": "fields.description",
+    "custom_mission": "fields.customfield_10103",
+    "custom_automation_type": "fields.customfield_10104"
+  },
+  "section_mapping": {
+    "depth_separator": "/",
+    "root_folder": "TestRail"
+  },
+  "default_values": {
+    "fields.project.key": "${JIRA_PROJECT_KEY}",
+    "fields.issuetype.name": "Test"
+  }
+}
+2024-11-22 22:48:11,343 - INFO - [xray_client.py:551] - Loaded sections data
+2024-11-22 22:48:11,343 - INFO - [xray_client.py:557] - Loaded 1 test cases
+2024-11-22 22:48:11,343 - INFO - [xray_client.py:572] - Using JIRA project key: XSP
+2024-11-22 22:48:11,343 - INFO - [xray_client.py:580] - Creating folder structure in Xray
+2024-11-22 22:48:11,343 - INFO - [xray_client.py:323] - Creating folder structure in Xray
+2024-11-22 22:48:11,344 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Prerequisites
+2024-11-22 22:48:13,801 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Prerequisites doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:13,803 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Prerequisites
+2024-11-22 22:48:15,552 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Prerequisites
+2024-11-22 22:48:15,554 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Installation
+2024-11-22 22:48:16,753 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Installation doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:16,754 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Installation
+2024-11-22 22:48:17,980 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Installation
+2024-11-22 22:48:17,982 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Updates
+2024-11-22 22:48:19,022 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Updates doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:19,023 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Updates
+2024-11-22 22:48:20,449 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Updates
+2024-11-22 22:48:20,450 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Tutorial
+2024-11-22 22:48:21,584 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Tutorial doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:21,585 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Tutorial
+2024-11-22 22:48:24,241 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Tutorial
+2024-11-22 22:48:24,243 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Login & Account
+2024-11-22 22:48:25,371 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Login & Account doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:25,372 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Login & Account
+2024-11-22 22:48:26,907 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Login & Account
+2024-11-22 22:48:26,908 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 1
+2024-11-22 22:48:28,069 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Feature 1 doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:28,070 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Feature 1
+2024-11-22 22:48:29,262 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Feature 1
+2024-11-22 22:48:29,262 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 2
+2024-11-22 22:48:30,415 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Feature 2 doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:30,417 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Feature 2
+2024-11-22 22:48:31,422 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Feature 2
+2024-11-22 22:48:31,424 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 3
+2024-11-22 22:48:32,643 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Feature 3 doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:32,645 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Feature 3
+2024-11-22 22:48:33,974 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Feature 3
+2024-11-22 22:48:33,975 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 4
+2024-11-22 22:48:34,964 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Feature 4 doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:34,966 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Feature 4
+2024-11-22 22:48:36,325 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Feature 4
+2024-11-22 22:48:36,326 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Feature 5
+2024-11-22 22:48:37,455 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Feature 5 doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:37,457 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Feature 5
+2024-11-22 22:48:38,890 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Feature 5
+2024-11-22 22:48:38,892 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration
+2024-11-22 22:48:40,322 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Administration doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:40,323 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Administration
+2024-11-22 22:48:41,552 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Administration
+2024-11-22 22:48:41,554 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Search
+2024-11-22 22:48:42,679 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Search doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:42,681 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Search
+2024-11-22 22:48:43,905 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Search
+2024-11-22 22:48:43,907 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Help & Documentation
+2024-11-22 22:48:45,033 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Help & Documentation doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:45,035 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Help & Documentation
+2024-11-22 22:48:46,405 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Help & Documentation
+2024-11-22 22:48:46,406 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:48:47,614 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Prerequisites/Software & Versions doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:47,616 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:48:49,027 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:48:49,029 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Prerequisites/Hardware
+2024-11-22 22:48:50,051 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Prerequisites/Hardware doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:50,052 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Prerequisites/Hardware
+2024-11-22 22:48:51,256 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Prerequisites/Hardware
+2024-11-22 22:48:51,257 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Tutorial/Goals
+2024-11-22 22:48:52,477 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Tutorial/Goals doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:52,478 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Tutorial/Goals
+2024-11-22 22:48:53,611 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Tutorial/Goals
+2024-11-22 22:48:53,611 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Tutorial/Metrics
+2024-11-22 22:48:54,761 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Tutorial/Metrics doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:54,763 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Tutorial/Metrics
+2024-11-22 22:48:56,196 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Tutorial/Metrics
+2024-11-22 22:48:56,197 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Login & Account/Reset Password
+2024-11-22 22:48:57,731 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Login & Account/Reset Password doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:48:57,733 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Login & Account/Reset Password
+2024-11-22 22:48:58,884 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Login & Account/Reset Password
+2024-11-22 22:48:58,885 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Projects
+2024-11-22 22:49:00,038 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Administration/Projects doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:49:00,040 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Administration/Projects
+2024-11-22 22:49:01,315 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Administration/Projects
+2024-11-22 22:49:01,317 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Settings
+2024-11-22 22:49:02,649 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Administration/Settings doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:49:02,651 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Administration/Settings
+2024-11-22 22:49:03,977 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Administration/Settings
+2024-11-22 22:49:03,979 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Users & Roles
+2024-11-22 22:49:05,205 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Administration/Users & Roles doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:49:05,207 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Administration/Users & Roles
+2024-11-22 22:49:06,416 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Administration/Users & Roles
+2024-11-22 22:49:06,418 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:49:07,868 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Administration/Users & Roles/Permissions doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:49:07,869 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:49:09,303 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:49:09,304 - DEBUG - [xray_client.py:242] - Checking if folder exists: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:49:10,633 - DEBUG - [xray_client.py:249] - Folder does not exist: {'message': "Error getting folder: folder with path TestRail/Administration/Users & Roles/Groups doesn't exist.", 'locations': [{'line': 2, 'column': 3}], 'path': ['getFolder']}
+2024-11-22 22:49:10,635 - DEBUG - [xray_client.py:268] - Creating folder: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:49:11,965 - INFO - [xray_client.py:272] - Successfully created folder: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:49:11,965 - INFO - [xray_client.py:307] - Verifying folder structure
+2024-11-22 22:49:11,966 - DEBUG - [xray_client.py:308] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"/\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:49:12,374 - DEBUG - [xray_client.py:149] - Import tests request payload: [
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document attributes (author, title, organization)",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites"
+  }
+]
+2024-11-22 22:49:13,040 - INFO - [xray_client.py:155] - Import job created successfully with ID: 592c5705af79484dbb79614dfba4b84c
+2024-11-22 22:49:13,041 - INFO - [xray_client.py:181] - Starting to monitor import job: 592c5705af79484dbb79614dfba4b84c
+2024-11-22 22:49:13,498 - INFO - [xray_client.py:191] - Job 592c5705af79484dbb79614dfba4b84c status: working
+2024-11-22 22:49:13,498 - DEBUG - [xray_client.py:194] - Progress: [Sat, 23 Nov 2024 06:49:13 GMT] Preprocessing the information of the 1 issues to import.
+2024-11-22 22:49:19,132 - INFO - [xray_client.py:191] - Job 592c5705af79484dbb79614dfba4b84c status: successful
+2024-11-22 22:49:19,133 - INFO - [xray_client.py:591] - Import completed with status: successful

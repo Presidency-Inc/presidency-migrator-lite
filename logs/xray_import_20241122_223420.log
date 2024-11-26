@@ -1,0 +1,606 @@
+2024-11-22 22:34:20,079 - INFO - [xray_client.py:543] - Starting Xray test import process
+2024-11-22 22:34:20,080 - INFO - [xray_client.py:80] - XrayClient initialized with base URL: https://xray.cloud.getxray.app/api/v2
+2024-11-22 22:34:20,080 - INFO - [xray_client.py:552] - Loaded field mapping configuration
+2024-11-22 22:34:20,080 - DEBUG - [xray_client.py:553] - Field mapping: {
+  "test_case_type_mapping": {
+    "1": "Manual",
+    "2": "Generic",
+    "3": "Generic",
+    "4": "Cucumber",
+    "7": "Manual",
+    "8": "Manual",
+    "10": "Generic"
+  },
+  "priority_mapping": {
+    "1": "Highest",
+    "2": "High",
+    "3": "Medium",
+    "4": "Low",
+    "5": "Lowest"
+  },
+  "field_mapping": {
+    "id": "__xray_testId",
+    "title": "fields.summary",
+    "type_id": "fields.issuetype.name",
+    "section_id": {
+      "type": "folder",
+      "field": "xray_test_repository_folder",
+      "use_hierarchy": true
+    },
+    "custom_steps": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "custom_steps",
+        "data": "",
+        "result": "custom_expected"
+      }
+    },
+    "custom_steps_separated": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "content",
+        "data": "additional_info",
+        "result": "expected"
+      }
+    },
+    "custom_testrail_bdd_scenario": {
+      "type": "gherkin",
+      "field": "fields.customfield_10101"
+    },
+    "custom_preconds": {
+      "type": "precondition",
+      "field": "fields.customfield_10102"
+    },
+    "priority_id": "fields.priority.id",
+    "estimate": "fields.timeoriginalestimate",
+    "refs": "fields.labels",
+    "custom_goals": "fields.description",
+    "custom_mission": "fields.customfield_10103",
+    "custom_automation_type": "fields.customfield_10104"
+  },
+  "section_mapping": {
+    "depth_separator": "/",
+    "root_folder": "TestRail"
+  },
+  "default_values": {
+    "fields.project.key": "${JIRA_PROJECT_KEY}",
+    "fields.issuetype.name": "Test"
+  }
+}
+2024-11-22 22:34:20,080 - INFO - [xray_client.py:560] - Loaded sections data
+2024-11-22 22:34:20,080 - INFO - [xray_client.py:566] - Loaded 1 test cases
+2024-11-22 22:34:20,080 - INFO - [xray_client.py:581] - Using JIRA project key: XSP
+2024-11-22 22:34:20,080 - INFO - [xray_client.py:589] - Creating folder structure in Xray
+2024-11-22 22:34:20,080 - INFO - [xray_client.py:332] - Creating folder structure in Xray
+2024-11-22 22:34:20,080 - WARNING - [xray_client.py:215] - No authentication token found. Authenticating first...
+2024-11-22 22:34:20,080 - DEBUG - [xray_client.py:92] - Attempting authentication with Xray API
+2024-11-22 22:34:20,080 - DEBUG - [xray_client.py:93] - Authentication URL: https://xray.cloud.getxray.app/api/v2/authenticate
+2024-11-22 22:34:21,141 - INFO - [xray_client.py:98] - Successfully authenticated with Xray API
+2024-11-22 22:34:21,141 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Prerequisites
+2024-11-22 22:34:21,141 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Prerequisites\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:21,448 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Prerequisites
+2024-11-22 22:34:21,449 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Prerequisites\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:21,780 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:21,781 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:21,781 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Prerequisites
+2024-11-22 22:34:21,782 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Installation
+2024-11-22 22:34:21,782 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Installation\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:22,165 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Installation
+2024-11-22 22:34:22,166 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Installation\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:22,433 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:22,434 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:22,435 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Installation
+2024-11-22 22:34:22,435 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Updates
+2024-11-22 22:34:22,435 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Updates\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:22,575 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Updates
+2024-11-22 22:34:22,575 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Updates\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:22,888 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:22,888 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:22,888 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Updates
+2024-11-22 22:34:22,888 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Tutorial
+2024-11-22 22:34:22,889 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Tutorial\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:23,292 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Tutorial
+2024-11-22 22:34:23,293 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Tutorial\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:23,599 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:23,599 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:23,599 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Tutorial
+2024-11-22 22:34:23,599 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Login & Account
+2024-11-22 22:34:23,600 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Login & Account\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:23,866 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Login & Account
+2024-11-22 22:34:23,867 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Login & Account\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:24,213 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:24,214 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:24,214 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Login & Account
+2024-11-22 22:34:24,214 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Feature 1
+2024-11-22 22:34:24,214 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Feature 1\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:24,537 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Feature 1
+2024-11-22 22:34:24,537 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Feature 1\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:24,813 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:24,814 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:24,814 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Feature 1
+2024-11-22 22:34:24,814 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Feature 2
+2024-11-22 22:34:24,814 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Feature 2\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:25,140 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Feature 2
+2024-11-22 22:34:25,140 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Feature 2\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:25,449 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:25,450 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:25,451 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Feature 2
+2024-11-22 22:34:25,451 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Feature 3
+2024-11-22 22:34:25,451 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Feature 3\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:25,851 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Feature 3
+2024-11-22 22:34:25,852 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Feature 3\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:26,263 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:26,264 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:26,264 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Feature 3
+2024-11-22 22:34:26,264 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Feature 4
+2024-11-22 22:34:26,265 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Feature 4\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:26,546 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Feature 4
+2024-11-22 22:34:26,547 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Feature 4\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:26,883 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:26,884 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:26,884 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Feature 4
+2024-11-22 22:34:26,884 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Feature 5
+2024-11-22 22:34:26,884 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Feature 5\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:27,286 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Feature 5
+2024-11-22 22:34:27,286 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Feature 5\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:27,696 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:27,697 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:27,698 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Feature 5
+2024-11-22 22:34:27,698 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Administration
+2024-11-22 22:34:27,698 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Administration\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:28,029 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Administration
+2024-11-22 22:34:28,030 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Administration\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:28,375 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:28,375 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:28,376 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Administration
+2024-11-22 22:34:28,376 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Search
+2024-11-22 22:34:28,376 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Search\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:28,690 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Search
+2024-11-22 22:34:28,690 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Search\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:29,029 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:29,030 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:29,031 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Search
+2024-11-22 22:34:29,031 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Help & Documentation
+2024-11-22 22:34:29,031 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Help & Documentation\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:29,436 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Help & Documentation
+2024-11-22 22:34:29,437 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Help & Documentation\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:29,594 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:29,594 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:29,595 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Help & Documentation
+2024-11-22 22:34:29,595 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:34:29,596 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Prerequisites/Software & Versions\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:29,867 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:34:29,868 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Prerequisites/Software & Versions\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:30,255 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:30,256 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:30,257 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Prerequisites/Software & Versions
+2024-11-22 22:34:30,257 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Prerequisites/Hardware
+2024-11-22 22:34:30,257 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Prerequisites/Hardware\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:30,389 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Prerequisites/Hardware
+2024-11-22 22:34:30,390 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Prerequisites/Hardware\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:30,712 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:30,713 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:30,713 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Prerequisites/Hardware
+2024-11-22 22:34:30,713 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Tutorial/Goals
+2024-11-22 22:34:30,714 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Tutorial/Goals\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:31,075 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Tutorial/Goals
+2024-11-22 22:34:31,075 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Tutorial/Goals\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:31,406 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:31,407 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:31,407 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Tutorial/Goals
+2024-11-22 22:34:31,407 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Tutorial/Metrics
+2024-11-22 22:34:31,407 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Tutorial/Metrics\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:31,541 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Tutorial/Metrics
+2024-11-22 22:34:31,541 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Tutorial/Metrics\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:31,889 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:31,890 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:31,890 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Tutorial/Metrics
+2024-11-22 22:34:31,891 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Login & Account/Reset Password
+2024-11-22 22:34:31,891 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Login & Account/Reset Password\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:32,160 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Login & Account/Reset Password
+2024-11-22 22:34:32,160 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Login & Account/Reset Password\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:32,467 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:32,467 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:32,468 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Login & Account/Reset Password
+2024-11-22 22:34:32,468 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Administration/Projects
+2024-11-22 22:34:32,469 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Administration/Projects\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:32,796 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Administration/Projects
+2024-11-22 22:34:32,796 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Administration/Projects\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:33,061 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:33,061 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:33,061 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Administration/Projects
+2024-11-22 22:34:33,061 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Administration/Settings
+2024-11-22 22:34:33,061 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Administration/Settings\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:33,202 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Administration/Settings
+2024-11-22 22:34:33,202 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Administration/Settings\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:33,532 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:33,533 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:33,533 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Administration/Settings
+2024-11-22 22:34:33,533 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Administration/Users & Roles
+2024-11-22 22:34:33,534 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Administration/Users & Roles\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:33,788 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Administration/Users & Roles
+2024-11-22 22:34:33,788 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Administration/Users & Roles\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:33,922 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:33,923 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:33,924 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Administration/Users & Roles
+2024-11-22 22:34:33,924 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:34:33,924 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Administration/Users & Roles/Permissions\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:34,350 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:34:34,350 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Administration/Users & Roles/Permissions\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:34,590 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:34,590 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:34,591 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Administration/Users & Roles/Permissions
+2024-11-22 22:34:34,591 - DEBUG - [xray_client.py:238] - Checking if folder exists: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:34:34,592 - DEBUG - [xray_client.py:239] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"TestRail/Administration/Users & Roles/Groups\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:34,965 - DEBUG - [xray_client.py:267] - Creating folder: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:34:34,966 - DEBUG - [xray_client.py:268] - GraphQL mutation: {
+  "query": "\n                mutation {\n                    createFolder(\n                        projectId: \"10001\",\n                        path: \"TestRail/Administration/Users & Roles/Groups\"\n                    ) {\n                        folder {\n                            name\n                            path\n                            testsCount\n                        }\n                        warnings\n                    }\n                }\n                "
+}
+2024-11-22 22:34:35,303 - ERROR - [xray_client.py:283] - Failed to create folder. Status code: 404
+2024-11-22 22:34:35,304 - DEBUG - [xray_client.py:284] - Response content: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /graphql</pre>
+</body>
+</html>
+
+2024-11-22 22:34:35,304 - WARNING - [xray_client.py:344] - Failed to create folder: TestRail/Administration/Users & Roles/Groups
+2024-11-22 22:34:35,305 - INFO - [xray_client.py:316] - Verifying folder structure
+2024-11-22 22:34:35,305 - DEBUG - [xray_client.py:317] - GraphQL query: {
+  "query": "\n                query {\n                    getFolder(projectId: \"10001\", path: \"/\") {\n                        name\n                        path\n                        testsCount\n                        folders\n                    }\n                }\n                "
+}
+2024-11-22 22:34:35,446 - DEBUG - [xray_client.py:140] - Import tests request payload: [
+  {
+    "fields": {
+      "project": {
+        "key": "XSP"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document attributes (author, title, organization)",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites"
+  }
+]
+2024-11-22 22:34:35,903 - INFO - [xray_client.py:146] - Import job created successfully with ID: 492fc0bf034740b8bfc491c38787a632
+2024-11-22 22:34:35,904 - INFO - [xray_client.py:172] - Starting to monitor import job: 492fc0bf034740b8bfc491c38787a632
+2024-11-22 22:34:36,466 - INFO - [xray_client.py:182] - Job 492fc0bf034740b8bfc491c38787a632 status: failed
+2024-11-22 22:34:36,467 - DEBUG - [xray_client.py:185] - Progress: [Sat, 23 Nov 2024 06:34:35 GMT] Preprocessing the information of the 1 issues to import.
+2024-11-22 22:34:36,467 - DEBUG - [xray_client.py:185] - Progress: [Sat, 23 Nov 2024 06:34:36 GMT] Import halted due to errors.
+2024-11-22 22:34:36,468 - WARNING - [xray_client.py:189] - Import completed with status: failed
+2024-11-22 22:34:36,468 - DEBUG - [xray_client.py:191] - Import result: {
+  "errors": [
+    {
+      "elementNumber": 0,
+      "errors": [
+        {
+          "xray": "Test Repository folder named 'TestRail/Prerequisites' not found in the destination project."
+        }
+      ]
+    }
+  ],
+  "issues": []
+}
+2024-11-22 22:34:36,469 - INFO - [xray_client.py:600] - Import completed with status: failed

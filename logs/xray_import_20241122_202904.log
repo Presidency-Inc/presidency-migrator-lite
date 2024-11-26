@@ -1,0 +1,117 @@
+2024-11-22 20:29:04,466 - INFO - [xray_client.py:387] - Starting Xray test import process
+2024-11-22 20:29:04,467 - INFO - [xray_client.py:77] - XrayClient initialized with base URL: https://xray.cloud.getxray.app/api/v2
+2024-11-22 20:29:04,467 - INFO - [xray_client.py:396] - Loaded field mapping configuration
+2024-11-22 20:29:04,467 - DEBUG - [xray_client.py:397] - Field mapping: {
+  "test_case_type_mapping": {
+    "1": "Manual",
+    "2": "Generic",
+    "3": "Generic",
+    "4": "Cucumber",
+    "7": "Manual",
+    "8": "Manual",
+    "10": "Generic"
+  },
+  "priority_mapping": {
+    "1": "Highest",
+    "2": "High",
+    "3": "Medium",
+    "4": "Low",
+    "5": "Lowest"
+  },
+  "field_mapping": {
+    "id": "__xray_testId",
+    "title": "fields.summary",
+    "type_id": "fields.issuetype.name",
+    "section_id": {
+      "type": "folder",
+      "field": "xray_test_repository_folder",
+      "use_hierarchy": true
+    },
+    "custom_steps": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "custom_steps",
+        "data": "",
+        "result": "custom_expected"
+      }
+    },
+    "custom_steps_separated": {
+      "type": "manual_steps",
+      "field": "fields.customfield_10100",
+      "structure": {
+        "action": "content",
+        "data": "additional_info",
+        "result": "expected"
+      }
+    },
+    "custom_testrail_bdd_scenario": {
+      "type": "gherkin",
+      "field": "fields.customfield_10101"
+    },
+    "custom_preconds": {
+      "type": "precondition",
+      "field": "fields.customfield_10102"
+    },
+    "priority_id": "fields.priority.id",
+    "estimate": "fields.timeoriginalestimate",
+    "refs": "fields.labels",
+    "custom_goals": "fields.description",
+    "custom_mission": "fields.customfield_10103",
+    "custom_automation_type": "fields.customfield_10104"
+  },
+  "section_mapping": {
+    "depth_separator": "/",
+    "root_folder": "TestRail"
+  },
+  "default_values": {
+    "fields.project.key": "${JIRA_PROJECT_KEY}",
+    "fields.issuetype.name": "Test"
+  }
+}
+2024-11-22 20:29:04,467 - INFO - [xray_client.py:404] - Loaded sections data
+2024-11-22 20:29:04,468 - INFO - [xray_client.py:410] - Loaded 1 test cases
+2024-11-22 20:29:04,468 - INFO - [xray_client.py:425] - Using JIRA project key: XSP
+2024-11-22 20:29:04,468 - WARNING - [xray_client.py:127] - No authentication token found. Authenticating first...
+2024-11-22 20:29:04,468 - DEBUG - [xray_client.py:89] - Attempting authentication with Xray API
+2024-11-22 20:29:04,468 - DEBUG - [xray_client.py:90] - Authentication URL: https://xray.cloud.getxray.app/api/v2/authenticate
+2024-11-22 20:29:05,251 - INFO - [xray_client.py:95] - Successfully authenticated with Xray API
+2024-11-22 20:29:05,251 - DEBUG - [xray_client.py:137] - Import tests request payload: [
+  {
+    "fields": {
+      "project": {
+        "key": "XSP-1"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Change document attributes (author, title, organization)",
+      "priority": {
+        "name": "High"
+      },
+      "description": "Etiam massa dolor, ornare sit amet, lacinia nec, bibendum ut, magna.\n\t\t\n* Nam feugiat, eros at commodo dictum,\n* Felis libero varius orci, in vulputate\n* Massa turpis scelerisque diam.\n* Nunc et felis est. Phasellus laoreet nibh vel augue\n* Faucibus at varius est pretium.\n\nQuisque pellentesque **mauris**."
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Prerequisites"
+  }
+]
+2024-11-22 20:29:05,851 - INFO - [xray_client.py:143] - Import job created successfully with ID: 908d6fb8cc39498087133dd6cc8c747f
+2024-11-22 20:29:05,852 - INFO - [xray_client.py:169] - Starting to monitor import job: 908d6fb8cc39498087133dd6cc8c747f
+2024-11-22 20:29:06,420 - INFO - [xray_client.py:179] - Job 908d6fb8cc39498087133dd6cc8c747f status: failed
+2024-11-22 20:29:06,420 - DEBUG - [xray_client.py:182] - Progress: [Sat, 23 Nov 2024 04:29:05 GMT] Preprocessing the information of the 1 issues to import.
+2024-11-22 20:29:06,420 - DEBUG - [xray_client.py:182] - Progress: [Sat, 23 Nov 2024 04:29:06 GMT] Import halted due to errors.
+2024-11-22 20:29:06,420 - WARNING - [xray_client.py:186] - Import completed with status: failed
+2024-11-22 20:29:06,420 - DEBUG - [xray_client.py:188] - Import result: {
+  "errors": [
+    {
+      "elementNumber": 0,
+      "errors": [
+        {
+          "xray": "Invalid project key."
+        }
+      ]
+    }
+  ],
+  "issues": []
+}
+2024-11-22 20:29:06,420 - INFO - [xray_client.py:436] - Import completed with status: failed

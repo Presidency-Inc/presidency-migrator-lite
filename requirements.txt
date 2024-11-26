@@ -3,4 +3,5 @@ python-dotenv
 PyYAML
 pytest
 responses
+gql[requests]
 # Include any other dependencies
