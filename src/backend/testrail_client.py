@@ -4,6 +4,8 @@ import json
 import requests
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 # Load environment variables from .env file
 load_dotenv()
@@ -11,6 +13,21 @@ load_dotenv()
 TESTRAIL_URL = os.getenv('TESTRAIL_URL')
 TESTRAIL_USER = os.getenv('TESTRAIL_USER')
 TESTRAIL_API_KEY = os.getenv('TESTRAIL_API_KEY')
+
+# Create a session
+session = requests.Session()
+session.auth = HTTPBasicAuth(TESTRAIL_USER, TESTRAIL_API_KEY)
+session.headers.update({'Content-Type': 'application/json'})
+
+# Configure retry strategy
+retry_strategy = Retry(
+    total=3,  # number of retries
+    backoff_factor=1,  # wait 1, 2, 4 seconds between retries
+    status_forcelist=[429, 500, 502, 503, 504]  # HTTP status codes to retry on
+)
+adapter = HTTPAdapter(max_retries=retry_strategy)
+session.mount("https://", adapter)
+session.mount("http://", adapter)
 
 auth = HTTPBasicAuth(TESTRAIL_USER, TESTRAIL_API_KEY)
 # headers = {'Content-Type': 'application/json'}
@@ -101,24 +118,14 @@ def get_attachments_for_test_cases(test_cases):
     
     return attachment_metadata
 
-
 def send_get(uri, params=None):
     url = f"{TESTRAIL_URL}index.php?/api/v2/{uri}"
     try:
-        response = requests.get(url, auth=auth, headers=headers, params=params)
-        response.raise_for_status()  # This will raise an exception for HTTP errors
-        if response.status_code == 429:
-            retry_after = int(response.headers.get('Retry-After', '60'))
-            print(f"Rate limit exceeded. Retrying after {retry_after} seconds.")
-            time.sleep(retry_after)
-            return send_get(uri, params)
+        response = session.get(url, params=params)  # Use session instead of requests
+        response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
         print(f"Error occurred while making request to {url}: {str(e)}")
-        print(f"Response content: {response.text}")
-        raise
-    except json.JSONDecodeError:
-        print(f"Error decoding JSON response from {url}")
         print(f"Response content: {response.text}")
         raise
 
@@ -245,6 +252,24 @@ def save_data(data, filename):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+def get_user(user_id):
+    """Get user details by ID"""
+    try:
+        return send_get(f'get_user/{user_id}')
+    except Exception as e:
+        print(f"Error getting user with ID {user_id}: {str(e)}")
+        return None
+
+def get_users(project_id=None):
+    """Get all users, optionally filtered by project"""
+    try:
+        if project_id:
+            return send_get(f'get_users/{project_id}')
+        return send_get('get_users')
+    except Exception as e:
+        print(f"Error getting users: {str(e)}")
+        return []
+
 def main():
     # Select project
     project_id = select_project()
@@ -291,6 +316,28 @@ def main():
     save_data(sections, 'sections.json')
     num_sections = len(sections.get('sections', []))  # Get length of the 'sections' array
     print(f"Saved {num_sections} sections to data/output/sections.json")
+
+    # Save users list for the specific project
+    print("Fetching users list...")
+    users_list = get_users(project_id)
+    if users_list:
+        print(f"Debug: users_list content: {users_list}")
+        save_data(users_list, 'users_list.json')
+        print(f"Saved users list to data/output/users_list.json")
+    
+    # Save detailed user information for each user
+    print("Fetching detailed user information...")
+    detailed_users = []
+    if isinstance(users_list, list):  # Verify it's a list
+        for user in users_list:
+            if isinstance(user, dict) and 'id' in user:  # Verify each user is a dict with 'id'
+                user_details = get_user(user['id'])
+                if user_details:
+                    detailed_users.append(user_details)
+            else:
+                print(f"Warning: Unexpected user format: {user}")
+    else:
+        print(f"Warning: users_list is not a list: {type(users_list)}")
 
 
 if __name__ == "__main__":

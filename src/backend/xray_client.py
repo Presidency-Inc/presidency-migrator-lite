@@ -199,6 +199,14 @@ class XrayClient:
                             if 'result' in status_data:
                                 logger.debug("Import result: %s", 
                                     json.dumps(status_data['result'], indent=2))
+                            
+                            # Add time estimate updates for successfully created tests
+                            if status_data.get('result', {}).get('test_issues'):
+                                for test_issue in status_data['result']['test_issues']:
+                                    issue_key = test_issue.get('key')
+                                    if issue_key:
+                                        self.update_time_estimate(issue_key, test_issue.get('originalEstimate'))
+                    
                         return status_data
                     
                 elif response.status_code == 404:
@@ -561,6 +569,34 @@ def parse_steps(steps_separated):
     
     return steps
 
+def parse_time_estimate(estimate_str):
+    """Convert TestRail time estimate (e.g., '8m', '1h 30m') to seconds"""
+    if not estimate_str:
+        return None
+    
+    total_seconds = 0
+    # Remove any whitespace and convert to lowercase
+    estimate_str = estimate_str.lower().strip()
+    
+    # Handle hours
+    if 'h' in estimate_str:
+        hours_part = estimate_str.split('h')[0]
+        try:
+            total_seconds += int(float(hours_part)) * 3600
+        except ValueError:
+            pass
+        estimate_str = estimate_str.split('h')[1]
+    
+    # Handle minutes
+    if 'm' in estimate_str:
+        minutes_part = estimate_str.split('m')[0]
+        try:
+            total_seconds += int(float(minutes_part)) * 60
+        except ValueError:
+            pass
+    
+    return total_seconds
+
 def map_test_case(test_case, field_mapping, sections_data):
     """Map a TestRail test case to Xray format"""
     mapped_test = {
@@ -574,13 +610,21 @@ def map_test_case(test_case, field_mapping, sections_data):
     # Map test type
     test_type = field_mapping['test_case_type_mapping'].get(str(test_case.get('template_id')), 'Manual')
     mapped_test['testtype'] = test_type
-    
+
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
 
+    # Add time tracking directly in fields object according to Xray support's structure
+    if test_case.get('estimate'):
+        mapped_test['fields']['timetracking'] = {
+            "originalEstimate": test_case['estimate'],
+            "remainingEstimate": test_case['estimate']
+        }
+        logger.info(f"Setting time estimate for test case {test_case.get('id')}: {test_case['estimate']}")
+    
+
     precond_data = {}
 
-    
     # -------- PRECONDITIONS --------
     try:
         if 'custom_preconds' in test_case and test_case['custom_preconds']:
@@ -612,12 +656,20 @@ def map_test_case(test_case, field_mapping, sections_data):
         logger.error(f"Error mapping preconditions for test case {test_case['id']}: {e}")
     # -------- PRECONDITIONS --------
     
-    # Map priority
+    # Map priority with enhanced debug logging
     priority_id = str(test_case.get('priority_id', '3'))
-    mapped_test['fields']['priority'] = {
-        "name": field_mapping['priority_mapping'].get(priority_id, 'Medium')
-    }
+    original_priority = test_case.get('priority', 'Unknown')
+    mapped_priority = field_mapping['priority_mapping'].get(priority_id, 'Low')
     
+    logger.info(f"""Priority Mapping for Test Case {test_case.get('id')} - "{test_case.get('title')}":
+        TestRail Priority ID: {priority_id}
+        TestRail Priority Name: {original_priority}
+        Mapped to Xray Priority: {mapped_priority}
+    """)
+    
+    mapped_test['fields']['priority'] = {
+        "name": mapped_priority
+    }
     
     # Build folder path for test repository
     if test_case.get('section_id'):
@@ -639,11 +691,13 @@ def map_test_case(test_case, field_mapping, sections_data):
         description = mapped_test['fields'].get('description', '') or ''
         mapped_test['fields']['description'] = description + uStepsDefinition
         steps = map_test_steps(test_case)
-
     
     # Map Cucumber/Gherkin scenarios
     elif test_type == 'Cucumber' and test_case.get('custom_testrail_bdd_scenario'):
         mapped_test['gherkin_def'] = test_case['custom_testrail_bdd_scenario']
+    
+    # Log the mapped test case for debugging
+    logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
     
     return mapped_test
 
