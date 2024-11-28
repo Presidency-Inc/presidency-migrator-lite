@@ -16,8 +16,90 @@ auth = HTTPBasicAuth(TESTRAIL_USER, TESTRAIL_API_KEY)
 # headers = {'Content-Type': 'application/json'}
 headers = {
     'Content-Type': 'application/json',
-    'Cookie': 'tr_session=29997fef-33fd-4be6-8414-47a928288e85'
+    'Cookie': 'tr_session=b549ec80-0015-4eb7-8f11-3ed04155b27c'
 }
+
+def get_attachments_for_test_cases(test_cases):
+    if not test_cases:
+        raise ValueError('test_cases is required')
+        
+    # Create attachmentFiles directory if it doesn't exist
+    attachment_dir = "./attachmentFiles"
+    os.makedirs(attachment_dir, exist_ok=True)
+    
+    # Create data/output directory if it doesn't exist
+    output_dir = "data/output"
+    os.makedirs(output_dir, exist_ok=True)
+        
+    attachment_metadata = []
+    
+    for test_case in test_cases:
+        case_id = test_case.get('id')
+        if case_id is None:
+            print(f"Skipping test case {test_case} as it doesn't have an ID")
+            continue
+        
+        print(f"\nProcessing test case ID: {case_id}")
+        
+        url = f"{TESTRAIL_URL}index.php?/api/v2/get_attachments_for_case/{case_id}"
+        try:
+            response = requests.get(url, auth=auth, headers=headers)
+            response.raise_for_status()
+            jsonResponse = response.json()
+            
+            attachments = jsonResponse.get('attachments', [])
+            
+            if not attachments:
+                print(f"No attachments found for case ID: {case_id}")
+                continue
+            
+            attachment_ids = []
+            
+            for attachment in attachments:
+                attachment_id = attachment['id']
+                filename = attachment['filename']
+                attachment_ids.append(attachment_id)
+                
+                # Download each attachment
+                download_url = f"{TESTRAIL_URL}index.php?/api/v2/get_attachment/{attachment_id}"
+                print(f"\nDownloading: {filename}")
+                
+                download_response = requests.get(download_url, auth=auth, headers=headers, stream=True)
+                download_response.raise_for_status()
+                
+                file_path = os.path.join(attachment_dir, filename)
+                with open(file_path, 'wb') as f:
+                    for chunk in download_response.iter_content(chunk_size=8192):
+                        if chunk:
+                            f.write(chunk)
+                print(f"Saved to: {file_path}")
+                
+                # Add metadata for JSON
+                attachment_metadata.append({
+                    'case_id': case_id,
+                    'attachment_id': attachment_id,
+                    'file_name': filename,
+                    'file_path': file_path
+                })
+            
+        except requests.exceptions.HTTPError as errh:
+            print ("HTTP Error:",errh)
+        except requests.exceptions.ConnectionError as errc:
+            print ("Error Connecting:",errc)
+        except requests.exceptions.Timeout as errt:
+            print ("Timeout Error:",errt)
+        except requests.exceptions.RequestException as err:
+            print ("Something went wrong",err)
+    
+    if not attachment_metadata:
+        print(f"No attachments found for any test cases in {test_cases}")
+        return None
+    
+    # Save metadata to JSON file
+    save_data(attachment_metadata, 'test_cases_attachment_files.json')
+    print(f"\nSaved attachment metadata to {os.path.join(output_dir, 'test_cases_attachment_files.json')}")
+    
+    return attachment_metadata
 
 
 def send_get(uri, params=None):
@@ -156,14 +238,12 @@ def get_all_test_cases(project_id, suite_id):
 
     return all_cases
 
-
 def save_data(data, filename):
     output_dir = os.path.join(os.path.dirname(__file__), '../../data/output')
     os.makedirs(output_dir, exist_ok=True)
     file_path = os.path.join(output_dir, filename)
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-
 
 def main():
     # Select project
@@ -194,8 +274,13 @@ def main():
     # Fetch and save test cases
     print("Fetching test cases...")
     all_test_cases = get_all_test_cases(project_id, suite_id)
+
     if all_test_cases:
+        print("Fetching test cases...")
         save_data(all_test_cases, 'test_cases.json')
+
+        print("Fetching attachments for test cases...")
+        get_attachments_for_test_cases(all_test_cases)
         print(f"Saved {len(all_test_cases)} test cases to data/output/test_cases.json")
     else:
         print("No test cases were fetched. Please check your project configuration and permissions.")
