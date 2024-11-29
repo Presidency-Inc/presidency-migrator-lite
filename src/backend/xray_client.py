@@ -360,117 +360,6 @@ class XrayClient:
         
         return '/'.join(path_parts)
 
-    def create_precondition(self, precondition_data):
-        """Create a precondition in Xray using GraphQL"""
-        try:
-            client = self._get_gql_client()
-            
-            create_precondition_mutation = gql("""
-                mutation createPrecondition(
-                    $preconditionType: UpdatePreconditionTypeInput!,
-                    $definition: String!,
-                    $folderPath: String!,
-                    $jira: JSON!
-                ) {
-                    createPrecondition(
-                        preconditionType: $preconditionType,
-                        definition: $definition,
-                        folderPath: $folderPath,
-                        jira: $jira
-                    ) {
-                        precondition {
-                            issueId
-                            preconditionType {
-                                name
-                            }
-                            definition
-                            jira(fields: ["key"])
-                        }
-                        warnings
-                    }
-                }
-            """)
-            
-            variables = {
-                "preconditionType": {"name": "Generic"},
-                "definition": precondition_data.get('custom_preconds', ''),
-                "folderPath": f"TestRail/{precondition_data.get('section_path', '')}",
-                "jira": {
-                    "fields": {
-                        "project": {"key": os.getenv('JIRA_PROJECT_KEY')},
-                        "summary": f"Precondition for: {precondition_data.get('title', '')}",
-                        "issuetype": {"name": "Precondition"}
-                    }
-                }
-            }
-            
-            logger.debug(f"Creating precondition for test: {precondition_data.get('title')}")
-            result = client.execute(create_precondition_mutation, variable_values=variables)
-            logger.debug(f"Precondition creation result: {json.dumps(result, indent=2)}")
-            
-            if result.get('createPrecondition', {}).get('precondition'):
-                return result['createPrecondition']['precondition']['issueId']
-            return None
-            
-        except Exception as e:
-            logger.error(f"Error creating precondition: {str(e)}")
-            return None
-
-    def link_precondition_to_test(self, test_issue_id, precondition_issue_id):
-        """Link a precondition to a test using GraphQL"""
-        try:
-            client = self._get_gql_client()
-            
-            add_precondition_mutation = gql("""
-                mutation addPreconditionsToTest(
-                    $issueId: String!,
-                    $preconditionIssueIds: [String]!
-                ) {
-                    addPreconditionsToTest(
-                        issueId: $issueId,
-                        preconditionIssueIds: $preconditionIssueIds
-                    ) {
-                        addedPreconditions
-                        warning
-                    }
-                }
-            """)
-            
-            variables = {
-                "issueId": test_issue_id,
-                "preconditionIssueIds": [precondition_issue_id]
-            }
-            
-            logger.debug(f"Linking precondition {precondition_issue_id} to test {test_issue_id}")
-            result = client.execute(add_precondition_mutation, variable_values=variables)
-            logger.debug(f"Precondition linking result: {json.dumps(result, indent=2)}")
-            
-            return bool(result.get('addPreconditionsToTest', {}).get('addedPreconditions'))
-            
-        except Exception as e:
-            logger.error(f"Error linking precondition to test: {str(e)}")
-            return False
-
-    def process_preconditions(self, test_cases):
-        """Process preconditions for all test cases"""
-        try:
-            precondition_mapping = {}  # TestRail ID -> Xray Issue ID
-            
-            for test in test_cases:
-                if test.get('is_deleted') or not test.get('custom_preconds'):
-                    continue
-                    
-                precondition_id = self.create_precondition(test)
-                if precondition_id:
-                    precondition_mapping[test['id']] = precondition_id
-                    logger.info(f"Created precondition for test {test['id']}")
-            
-            return precondition_mapping
-            
-        except Exception as e:
-            logger.error(f"Error processing preconditions: {str(e)}")
-            return {}
-
     def create_precondition_graphql(self, precondition_data):
         """Create a precondition in Xray using GraphQL"""
         try:
@@ -498,8 +387,11 @@ class XrayClient:
                     }
                 }
             """)
+
+            precondition_type = precondition_data.get('precondition_type', 'Generic')
+
             variables = {
-                "preconditionType": {"name": "Generic"},
+                "preconditionType": {"name": precondition_type},
                 "definition": precondition_data.get('custom_preconds', ''),
                 "jira": {
                     "fields": {
@@ -597,6 +489,46 @@ def parse_time_estimate(estimate_str):
     
     return total_seconds
 
+def format_bdd_scenarios(scenario_text):
+    """Format BDD scenarios with proper structure and numbering.
+    
+    Args:
+        scenario_text (str): Raw scenario text from TestRail
+        
+    Returns:
+        str: Formatted scenario text with proper numbering and structure
+    """
+    if not scenario_text:
+        return None
+        
+    # Split into individual lines and remove empty lines
+    lines = [line.strip() for line in scenario_text.split('\n') if line.strip()]
+    
+    formatted_scenarios = []
+    current_scenario = []
+    scenario_count = 0
+    
+    for line in lines:
+        # Check if line starts with Given/When/Then (ignoring case)
+        if any(line.lower().startswith(keyword.lower()) for keyword in ['Given', 'When', 'Then']):
+            if not current_scenario and scenario_count > 0:
+                # Add spacing between scenarios
+                formatted_scenarios.append('')
+                formatted_scenarios.append('')
+            
+            if not current_scenario:
+                # Start new scenario
+                scenario_count += 1
+                formatted_scenarios.append(f'# Scenario {scenario_count}:')
+            
+            current_scenario.append(line)
+            
+            # If this is a "Then" line, consider it the end of the current scenario
+            if line.lower().startswith('then'):
+                current_scenario = []
+    
+    return '\n'.join(formatted_scenarios)
+
 def map_test_case(test_case, field_mapping, sections_data):
     """Map a TestRail test case to Xray format"""
     mapped_test = {
@@ -613,6 +545,15 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
+
+    # Add enhanced logging here
+    logger.debug(f"""Test Type Mapping for Test Case {test_case.get('id')} - "{test_case.get('title')}":
+        TestRail Template ID: {original_template_id}
+        Mapped to Xray Test Type: {test_type}
+        Has Preconditions: {'custom_preconds' in test_case}
+        Preconditions Content: {test_case.get('custom_preconds', 'None')}
+        Raw Test Case Data: {json.dumps(test_case, indent=2)}
+    """)
 
     # Add time tracking directly in fields object according to Xray support's structure
     if test_case.get('estimate'):
@@ -633,27 +574,33 @@ def map_test_case(test_case, field_mapping, sections_data):
                 precond_data['title'] = test_case['title']
                 precond_data['custom_preconds'] = test_case.get('custom_preconds')
 
+                precondition_type = "Cucumber" if test_case.get("template_id") == 4 else "Generic"
+
+                precond_data['precondition_type'] = precondition_type
+
                 preconditions = []
 
                 client = XrayClient()
                 result = client.create_precondition_graphql(precond_data)
-                if isinstance(result, dict):
-                    jira_key = (
-                        result.get('createPrecondition', {})
-                        .get('precondition', {})
-                        .get('jira', {})
-                        .get('key')
-                    )
-                    if jira_key:
-                        preconditions.append(jira_key)
-                        logger.info(f"Created precondition for test {test_case['id']} with Jira key: {jira_key}")
-                else:
-                    logger.error(f"Unexpected result format: {result}")
-                    jira_key = None
-                
+            
+            if isinstance(result, dict):
+                jira_key = (
+                    result.get('createPrecondition', {})
+                    .get('precondition', {})
+                    .get('jira', {})
+                    .get('key')
+                )
+                if jira_key:
+                    preconditions.append(jira_key)
+                    logger.info(f"Created Generic precondition for test {test_case['id']} with Jira key: {jira_key}")
+            else:
+                logger.error(f"Unexpected result format: {result}")
+
+            if preconditions:
                 mapped_test['xray_preconditions'] = preconditions
     except Exception as e:
         logger.error(f"Error mapping preconditions for test case {test_case['id']}: {e}")
+    
     # -------- PRECONDITIONS --------
     
     # Map priority with enhanced debug logging
@@ -692,9 +639,17 @@ def map_test_case(test_case, field_mapping, sections_data):
         mapped_test['fields']['description'] = description + uStepsDefinition
         steps = map_test_steps(test_case)
     
-    # Map Cucumber/Gherkin scenarios
+    # Map Cucumber/Gherkin scenarios with proper formatting
     elif test_type == 'Cucumber' and test_case.get('custom_testrail_bdd_scenario'):
-        mapped_test['gherkin_def'] = test_case['custom_testrail_bdd_scenario']
+        # Format the BDD scenarios using the new formatter
+        formatted_scenarios = format_bdd_scenarios(test_case['custom_testrail_bdd_scenario'])
+        if formatted_scenarios:
+            mapped_test['gherkin_def'] = formatted_scenarios
+            logger.debug(f"Formatted BDD scenarios for test case {test_case.get('id')}:\n{formatted_scenarios}")
+        else:
+            # Fallback to original scenario if formatting fails
+            logger.warning(f"Could not format BDD scenarios for test case {test_case.get('id')}, using original")
+            mapped_test['gherkin_def'] = test_case['custom_testrail_bdd_scenario']
     
     # Log the mapped test case for debugging
     logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
@@ -785,7 +740,7 @@ def main():
             logger.info("Loaded sections data")
             
         # Load test cases
-        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases.json')
+        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases_testing.json')
         with open(input_file, 'r') as f:
             test_cases = json.load(f)
             logger.info(f"Loaded {len(test_cases)} test cases")
@@ -794,6 +749,7 @@ def main():
         mapped_tests = []
         for idx, test_case in enumerate(test_cases, 1):
             try:
+                logger.info(f"Processing test case {idx} of {len(test_cases)}: ID {test_case.get('id')}, Title: {test_case.get('title')}")
                 # Map the test case
                 mapped_test = map_test_case(test_case, field_mapping, sections_data)
                 
@@ -806,6 +762,7 @@ def main():
                 validate_test_case(mapped_test)
                 
                 mapped_tests.append(mapped_test)
+                logger.debug(f"Successfully mapped test case {idx}: {json.dumps(mapped_test, indent=2)}")
                 
             except Exception as e:
                 logger.error(f"Error mapping test case {idx}: {str(e)}")
