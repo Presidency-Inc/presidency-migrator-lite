@@ -117,6 +117,55 @@ class TestRailClient:
         """Get all available projects"""
         return self.send_get('get_projects')['projects']
 
+    def get_users(self, project_id=None):
+        """Get all users from TestRail, optionally filtered by project.
+        
+        Args:
+            project_id (int, optional): Project ID to filter users
+            
+        Returns:
+            list: List of user dictionaries
+        """
+        try:
+            # For non-admin users or when filtering by project
+            if project_id:
+                uri = f'get_users'  # Remove project_id from URI
+            else:
+                uri = 'get_users'
+                
+            print(f"Fetching users with URI: {uri}")
+            response = self.send_get(uri)
+            print(f"Raw API Response: {json.dumps(response, indent=2)}")
+            
+            # Handle different response formats
+            if isinstance(response, dict):
+                if 'users' in response:
+                    users = response['users']
+                else:
+                    users = []
+            elif isinstance(response, list):
+                users = response
+            else:
+                print(f"Unexpected response format: {type(response)}")
+                return []
+                
+            # Additional debugging
+            if not users:
+                print("No users found in response")
+            else:
+                print(f"Found {len(users)} users in response")
+                for user in users:
+                    print(f"User found: ID={user.get('id')}, Name={user.get('name')}")
+            
+            return users
+        except Exception as e:
+            print(f"Error getting users: {str(e)}")
+            print(f"Exception type: {type(e)}")
+            if hasattr(e, 'response'):
+                print(f"Response status code: {e.response.status_code}")
+                print(f"Response content: {e.response.text}")
+            return []
+
     def get_user(self, user_id):
         """Get a specific user by ID from TestRail.
         
@@ -127,13 +176,18 @@ class TestRailClient:
             dict: User information including email, name, and role
         """
         try:
+            print(f"Fetching user details for ID: {user_id}")
             response = self.send_get(f'get_user/{user_id}')
+            print(f"User details response: {json.dumps(response, indent=2)}")
             if not response:
                 print(f"No data returned for user ID {user_id}")
                 return None
             return response
         except Exception as e:
             print(f"Error getting user with ID {user_id}: {str(e)}")
+            if hasattr(e, 'response'):
+                print(f"Response status code: {e.response.status_code}")
+                print(f"Response content: {e.response.text}")
             return None
 
     def get_user_by_email(self, email):
@@ -146,38 +200,17 @@ class TestRailClient:
             dict: User information including id, name, and role
         """
         try:
-            return self.send_get(f'get_user_by_email&email={email}')
+            print(f"Looking up user by email: {email}")
+            # Note: The API expects the email parameter in the query string
+            response = self.send_get('get_user_by_email', {'email': email})
+            print(f"Email lookup response: {json.dumps(response, indent=2)}")
+            return response
         except Exception as e:
             print(f"Error getting user with email {email}: {str(e)}")
+            if hasattr(e, 'response'):
+                print(f"Response status code: {e.response.status_code}")
+                print(f"Response content: {e.response.text}")
             return None
-
-    def get_users(self, project_id=None):
-        """Get all users from TestRail, optionally filtered by project."""
-        try:
-            if project_id:
-                uri = f'get_users/{project_id}'
-                print(f"Fetching users for project ID: {project_id}...")
-            else:
-                uri = 'get_users'
-                print("Fetching all users...")
-                
-            response = self.send_get(uri)
-            print(f"Raw API Response: {json.dumps(response, indent=2)}")
-            
-            # Handle different response formats
-            if isinstance(response, dict) and 'users' in response:
-                users = response['users']
-            elif isinstance(response, list):
-                users = response
-            else:
-                print(f"Unexpected response format: {type(response)}")
-                return []
-                
-            print(f"Successfully retrieved {len(users)} users")
-            return users
-        except Exception as e:
-            print(f"Error getting users: {str(e)}")
-            return []
 
     def get_all_user_details(self, project_id=None):
         """Get detailed information for all users."""
@@ -235,39 +268,44 @@ class TestRailClient:
             print(f"Error building user email mapping: {str(e)}")
             return {}
 
-    def save_user_data(self, project_id):
+    def save_user_data(self, project_id=None):
         """Save all user-related data to JSON files."""
         print("\n=== Starting User Data Collection ===")
         
-        # Save basic user list
-        print("\nFetching and saving users list...")
-        users = self.get_users(project_id)
+        # Try getting users without project filter first
+        print("\nAttempting to fetch all users first...")
+        users = self.get_users()
+        
+        # If no users found, try with project filter
+        if not users and project_id:
+            print("\nNo users found in general query, trying with project filter...")
+            users = self.get_users(project_id)
+        
         if users:
-            print(f"Found {len(users)} users")
+            print(f"\nFound {len(users)} users total")
+            # Save basic user list
             self.save_data(users, 'users_list.json')
             print(f"✓ Saved users list to {os.path.join(self.output_dir, 'users_list.json')}")
+            
+            # Save detailed user information
+            print("\nFetching detailed information for each user...")
+            detailed_users = []
+            for user in users:
+                user_details = self.get_user(user['id'])
+                if user_details:
+                    detailed_users.append(user_details)
+            
+            if detailed_users:
+                self.save_data(detailed_users, 'users_detailed.json')
+                print(f"✓ Saved detailed user information to {os.path.join(self.output_dir, 'users_detailed.json')}")
+            
+            # Create and save email mapping
+            email_mapping = {str(user['id']): user.get('email') for user in detailed_users if user.get('email')}
+            if email_mapping:
+                self.save_data(email_mapping, 'user_email_mapping.json')
+                print(f"✓ Saved user email mapping to {os.path.join(self.output_dir, 'user_email_mapping.json')}")
         else:
-            print("No users found to save")
-        
-        # Save detailed user information
-        print("\nFetching and saving detailed user information...")
-        detailed_users = self.get_all_user_details(project_id)
-        if detailed_users:
-            print(f"Retrieved details for {len(detailed_users)} users")
-            self.save_data(detailed_users, 'users_detailed.json')
-            print(f"✓ Saved detailed user information to {os.path.join(self.output_dir, 'users_detailed.json')}")
-        else:
-            print("No detailed user information to save")
-        
-        # Save email mapping
-        print("\nCreating and saving user email mapping...")
-        email_mapping = self.get_user_email_mapping(project_id)
-        if email_mapping:
-            print(f"Created email mapping for {len(email_mapping)} users")
-            self.save_data(email_mapping, 'user_email_mapping.json')
-            print(f"✓ Saved user email mapping to {os.path.join(self.output_dir, 'user_email_mapping.json')}")
-        else:
-            print("No email mapping data to save")
+            print("\nNo users found. Please verify your TestRail permissions and configuration.")
         
         print("\n=== User Data Collection Complete ===")
 
