@@ -33,7 +33,7 @@ auth = HTTPBasicAuth(TESTRAIL_USER, TESTRAIL_API_KEY)
 # headers = {'Content-Type': 'application/json'}
 headers = {
     'Content-Type': 'application/json',
-    'Cookie': 'tr_session=b549ec80-0015-4eb7-8f11-3ed04155b27c'
+    'Cookie': 'tr_session=6aa39295-23e8-4983-9d06-9b00178fe2cf'
 }
 
 def get_attachments_for_test_cases(test_cases):

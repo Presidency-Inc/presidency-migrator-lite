@@ -1,0 +1,14 @@
+[
+    {
+        "case_id": 2061,
+        "attachment_id": "b059a420-262b-42a8-b64c-18de83aca7f8",
+        "file_name": "exmple.csv",
+        "file_path": "./attachmentFiles/exmple.csv"
+    },
+    {
+        "case_id": 2063,
+        "attachment_id": "d9054292-ea8e-4be0-bfe4-10551df24c4e",
+        "file_name": "employees.csv",
+        "file_path": "./attachmentFiles/employees.csv"
+    }
+]
