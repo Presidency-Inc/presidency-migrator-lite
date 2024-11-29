@@ -360,117 +360,6 @@ class XrayClient:
         
         return '/'.join(path_parts)
 
-    def create_precondition(self, precondition_data):
-        """Create a precondition in Xray using GraphQL"""
-        try:
-            client = self._get_gql_client()
-            
-            create_precondition_mutation = gql("""
-                mutation createPrecondition(
-                    $preconditionType: UpdatePreconditionTypeInput!,
-                    $definition: String!,
-                    $folderPath: String!,
-                    $jira: JSON!
-                ) {
-                    createPrecondition(
-                        preconditionType: $preconditionType,
-                        definition: $definition,
-                        folderPath: $folderPath,
-                        jira: $jira
-                    ) {
-                        precondition {
-                            issueId
-                            preconditionType {
-                                name
-                            }
-                            definition
-                            jira(fields: ["key"])
-                        }
-                        warnings
-                    }
-                }
-            """)
-            
-            variables = {
-                "preconditionType": {"name": "Generic"},
-                "definition": precondition_data.get('custom_preconds', ''),
-                "folderPath": f"TestRail/{precondition_data.get('section_path', '')}",
-                "jira": {
-                    "fields": {
-                        "project": {"key": os.getenv('JIRA_PROJECT_KEY')},
-                        "summary": f"Precondition for: {precondition_data.get('title', '')}",
-                        "issuetype": {"name": "Precondition"}
-                    }
-                }
-            }
-            
-            logger.debug(f"Creating precondition for test: {precondition_data.get('title')}")
-            result = client.execute(create_precondition_mutation, variable_values=variables)
-            logger.debug(f"Precondition creation result: {json.dumps(result, indent=2)}")
-            
-            if result.get('createPrecondition', {}).get('precondition'):
-                return result['createPrecondition']['precondition']['issueId']
-            return None
-            
-        except Exception as e:
-            logger.error(f"Error creating precondition: {str(e)}")
-            return None
-
-    def link_precondition_to_test(self, test_issue_id, precondition_issue_id):
-        """Link a precondition to a test using GraphQL"""
-        try:
-            client = self._get_gql_client()
-            
-            add_precondition_mutation = gql("""
-                mutation addPreconditionsToTest(
-                    $issueId: String!,
-                    $preconditionIssueIds: [String]!
-                ) {
-                    addPreconditionsToTest(
-                        issueId: $issueId,
-                        preconditionIssueIds: $preconditionIssueIds
-                    ) {
-                        addedPreconditions
-                        warning
-                    }
-                }
-            """)
-            
-            variables = {
-                "issueId": test_issue_id,
-                "preconditionIssueIds": [precondition_issue_id]
-            }
-            
-            logger.debug(f"Linking precondition {precondition_issue_id} to test {test_issue_id}")
-            result = client.execute(add_precondition_mutation, variable_values=variables)
-            logger.debug(f"Precondition linking result: {json.dumps(result, indent=2)}")
-            
-            return bool(result.get('addPreconditionsToTest', {}).get('addedPreconditions'))
-            
-        except Exception as e:
-            logger.error(f"Error linking precondition to test: {str(e)}")
-            return False
-
-    def process_preconditions(self, test_cases):
-        """Process preconditions for all test cases"""
-        try:
-            precondition_mapping = {}  # TestRail ID -> Xray Issue ID
-            
-            for test in test_cases:
-                if test.get('is_deleted') or not test.get('custom_preconds'):
-                    continue
-                    
-                precondition_id = self.create_precondition(test)
-                if precondition_id:
-                    precondition_mapping[test['id']] = precondition_id
-                    logger.info(f"Created precondition for test {test['id']}")
-            
-            return precondition_mapping
-            
-        except Exception as e:
-            logger.error(f"Error processing preconditions: {str(e)}")
-            return {}
-
     def create_precondition_graphql(self, precondition_data):
         """Create a precondition in Xray using GraphQL"""
         try:
@@ -498,8 +387,11 @@ class XrayClient:
                     }
                 }
             """)
+
+            precondition_type = precondition_data.get('precondition_type', 'Generic')
+
             variables = {
-                "preconditionType": {"name": "Generic"},
+                "preconditionType": {"name": precondition_type},
                 "definition": precondition_data.get('custom_preconds', ''),
                 "jira": {
                     "fields": {
@@ -690,6 +582,9 @@ def map_test_case(test_case, field_mapping, sections_data):
                 precond_data['title'] = test_case['title']
                 precond_data['custom_preconds'] = test_case.get('custom_preconds')
 
+                precondition_type = field_mapping['test_case_type_mapping'].get(str(test_case.get('template_id')), 'Generic')
+                precond_data['precondition_type'] = precondition_type
+
                 preconditions = []
 
                 client = XrayClient()
@@ -859,7 +754,7 @@ def main():
             logger.info("Loaded sections data")
             
         # Load test cases
-        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases_testing.json')
+        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_single.json')
         with open(input_file, 'r') as f:
             test_cases = json.load(f)
             logger.info(f"Loaded {len(test_cases)} test cases")
