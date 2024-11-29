@@ -597,6 +597,63 @@ def parse_time_estimate(estimate_str):
     
     return total_seconds
 
+def format_bdd_scenarios(scenarios_data):
+    """Format BDD scenarios with proper structure and numbering.
+    
+    Args:
+        scenarios_data (list): List of dictionaries containing scenario data
+            Each dictionary has a 'content' key with the scenario text
+        
+    Returns:
+        str: Formatted scenario text with proper numbering and structure
+    """
+    logger.info("Starting BDD scenario formatting")
+    logger.debug(f"Input scenarios data: {scenarios_data}")
+    
+    if not scenarios_data:
+        logger.warning("No scenarios data provided")
+        return None
+    
+    formatted_scenarios = []
+    scenario_count = 0
+    
+    try:
+        # Process each scenario in the list
+        for scenario in scenarios_data:
+            scenario_content = scenario.get('content', '')
+            logger.debug(f"Processing scenario content:\n{scenario_content}")
+            
+            if not scenario_content:
+                continue
+                
+            # Split the content into lines and process each line
+            lines = [line.strip() for line in scenario_content.split('\n') if line.strip()]
+            logger.debug(f"Scenario lines: {lines}")
+            
+            if lines:
+                # Start new scenario
+                scenario_count += 1
+                if scenario_count > 1:
+                    # Add spacing between scenarios
+                    formatted_scenarios.append('')
+                    formatted_scenarios.append('')
+                
+                # Add scenario header
+                formatted_scenarios.append(f'# Scenario {scenario_count}:')
+                formatted_scenarios.append('')  # Empty line after header
+                
+                # Add each line of the scenario
+                formatted_scenarios.extend(lines)
+        
+        result = '\n'.join(formatted_scenarios).strip()
+        logger.info(f"BDD formatting complete, generated {scenario_count} scenarios")
+        logger.debug(f"Final formatted output:\n{result}")
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error formatting BDD scenarios: {str(e)}")
+        return None
+
 def map_test_case(test_case, field_mapping, sections_data):
     """Map a TestRail test case to Xray format"""
     mapped_test = {
@@ -692,9 +749,26 @@ def map_test_case(test_case, field_mapping, sections_data):
         mapped_test['fields']['description'] = description + uStepsDefinition
         steps = map_test_steps(test_case)
     
-    # Map Cucumber/Gherkin scenarios
-    elif test_type == 'Cucumber' and test_case.get('custom_testrail_bdd_scenario'):
-        mapped_test['gherkin_def'] = test_case['custom_testrail_bdd_scenario']
+    elif test_type == 'Cucumber':
+        # Handle BDD/Cucumber scenarios
+        logger.info(f"Processing Cucumber test case: {test_case.get('id')} - {test_case.get('title')}")
+        
+        bdd_scenario = json.loads(test_case.get('custom_testrail_bdd_scenario')) if test_case.get('custom_testrail_bdd_scenario') else None
+        if bdd_scenario:
+            logger.debug(f"Found BDD scenario content:\n{bdd_scenario}")
+            formatted_scenarios = format_bdd_scenarios(bdd_scenario)
+            
+            if formatted_scenarios:
+                mapped_test['gherkin_def'] = formatted_scenarios
+                logger.info(f"Successfully mapped BDD scenarios for test case {test_case.get('id')}")
+                logger.debug(f"Mapped scenarios:\n{formatted_scenarios}")
+            else:
+                logger.warning(f"No formatted scenarios generated for test case {test_case.get('id')}")
+        else:
+            logger.warning(f"No BDD scenario content found for Cucumber test case {test_case.get('id')}")
+        
+        # Log the complete mapped test case
+        logger.debug(f"Complete mapped test case with BDD scenario:\n{json.dumps(mapped_test, indent=2)}")
     
     # Log the mapped test case for debugging
     logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
@@ -785,7 +859,7 @@ def main():
             logger.info("Loaded sections data")
             
         # Load test cases
-        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases.json')
+        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases_testing.json')
         with open(input_file, 'r') as f:
             test_cases = json.load(f)
             logger.info(f"Loaded {len(test_cases)} test cases")
