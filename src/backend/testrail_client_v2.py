@@ -268,48 +268,6 @@ class TestRailClient:
             print(f"Error building user email mapping: {str(e)}")
             return {}
 
-    def save_user_data(self, project_id=None):
-        """Save all user-related data to JSON files."""
-        print("\n=== Starting User Data Collection ===")
-        
-        # Try getting users without project filter first
-        print("\nAttempting to fetch all users first...")
-        users = self.get_users()
-        
-        # If no users found, try with project filter
-        if not users and project_id:
-            print("\nNo users found in general query, trying with project filter...")
-            users = self.get_users(project_id)
-        
-        if users:
-            print(f"\nFound {len(users)} users total")
-            # Save basic user list
-            self.save_data(users, 'users_list.json')
-            print(f"✓ Saved users list to {os.path.join(self.output_dir, 'users_list.json')}")
-            
-            # Save detailed user information
-            print("\nFetching detailed information for each user...")
-            detailed_users = []
-            for user in users:
-                user_details = self.get_user(user['id'])
-                if user_details:
-                    detailed_users.append(user_details)
-            
-            if detailed_users:
-                self.save_data(detailed_users, 'users_detailed.json')
-                print(f"✓ Saved detailed user information to {os.path.join(self.output_dir, 'users_detailed.json')}")
-            
-            # Create and save email mapping
-            email_mapping = {str(user['id']): user.get('email') for user in detailed_users if user.get('email')}
-            if email_mapping:
-                self.save_data(email_mapping, 'user_email_mapping.json')
-                print(f"✓ Saved user email mapping to {os.path.join(self.output_dir, 'user_email_mapping.json')}")
-        else:
-            print("\nNo users found. Please verify your TestRail permissions and configuration.")
-        
-        print("\n=== User Data Collection Complete ===")
-
-
     def get_project(self, project_id):
         """Get a specific project by ID"""
         return self.send_get(f'get_project/{project_id}')
