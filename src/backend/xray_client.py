@@ -533,7 +533,6 @@ def map_test_case(test_case, field_mapping, sections_data):
     """Map a TestRail test case to Xray format"""
     mapped_test = {
         "fields": {
-            #"project": {"key": "${JIRA_PROJECT_KEY}"},
             "project": {"key": "XSP"},
             "issuetype": {"name": "Test"}
         }
@@ -543,12 +542,9 @@ def map_test_case(test_case, field_mapping, sections_data):
     test_type = field_mapping['test_case_type_mapping'].get(str(test_case.get('template_id')), 'Manual')
     mapped_test['testtype'] = test_type
 
-    # Map basic fields
-    mapped_test['fields']['summary'] = test_case.get('title', '')
-
-    # Add enhanced logging here
+    # Add enhanced logging here with corrected variable references
     logger.debug(f"""Test Type Mapping for Test Case {test_case.get('id')} - "{test_case.get('title')}":
-        TestRail Template ID: {original_template_id}
+        TestRail Template ID: {test_case.get('template_id')}
         Mapped to Xray Test Type: {test_type}
         Has Preconditions: {'custom_preconds' in test_case}
         Preconditions Content: {test_case.get('custom_preconds', 'None')}
