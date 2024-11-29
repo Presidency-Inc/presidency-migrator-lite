@@ -665,6 +665,19 @@ def map_test_case(test_case, field_mapping, sections_data):
         # Log the complete mapped test case
         logger.debug(f"Complete mapped test case with BDD scenario:\n{json.dumps(mapped_test, indent=2)}")
     
+    elif test_type == 'Exploratory':
+        # Handle Exploratory test cases
+        logger.info(f"Processing Exploratory test case: {test_case.get('id')} - {test_case.get('title')}")
+
+        missionString = test_case.get('custom_mission') or ''
+        goalsString = test_case.get('custom_goals') or ''
+        
+        uMissionDefinition = '*Mission:* '+missionString+'\n' if missionString else ''
+        uGoalsDefinition = '*Goals:* '+goalsString+'\n' if goalsString else ''
+        
+        mapped_test['unstructured_def'] = uMissionDefinition + uGoalsDefinition
+
+
     # Log the mapped test case for debugging
     logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
     
