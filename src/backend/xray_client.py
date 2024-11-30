@@ -169,7 +169,7 @@ class XrayClient:
             logger.error("Network error during test import: %s", str(e))
             raise XrayAPIError(f"Network error: {str(e)}")
 
-    def check_import_status(self, job_id, polling_interval=5, max_retries=60):
+    def check_import_status(self, job_id, polling_interval=5, max_retries=4):
         """Check the status of an import job with retry logic"""
         if not self._token:
             logger.warning("No authentication token found. Authenticating first...")
@@ -562,6 +562,9 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
+
+    mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
+    mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
 
     # Add time tracking directly in fields object according to Xray support's structure
     if test_case.get('estimate'):

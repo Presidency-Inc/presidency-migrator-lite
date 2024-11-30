@@ -11,6 +11,20 @@
         "2": "Low",
         "1": "Lowest"
     },
+    "automation_type_mapping": {
+        "1": "Acceptance",
+        "2": "Accessibility",
+        "3": "Automated",
+        "4": "Compatibility",
+        "5": "Destructive",
+        "6": "Functional",
+        "7": "Other",
+        "8": "Performance",
+        "9": "Regression",
+        "10": "Security",
+        "11": "Smoke & Sanity",
+        "12": "Usability"
+    },
     "field_mapping": {
         "id": "__xray_testId",
         "title": "fields.summary",
