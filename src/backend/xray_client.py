@@ -8,6 +8,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
+from jira_client import JiraClient
 
 class XrayAPIError(Exception):
     """Custom exception for Xray API errors"""
@@ -547,6 +548,9 @@ def format_bdd_scenarios(scenarios_data):
         return None
 
 def map_test_case(test_case, field_mapping, sections_data):
+    # Create an instance of JiraClient
+    client = JiraClient()
+
     """Map a TestRail test case to Xray format"""
     mapped_test = {
         "fields": {
@@ -565,6 +569,35 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
+
+    # ------- Attachments -------
+    test_cases_attachment_files_data = []
+    with open('data/output/test_cases_attachment_files.json', 'r') as f:
+        test_cases_attachment_files = json.load(f)
+        test_cases_attachment_files_data = test_cases_attachment_files.copy()
+    for item in test_cases_attachment_files:
+        if test_case.get('id') == item['case_id']:
+            self_link = None
+            
+            # creating confluence page to attach file and get the link
+            page_data = client.create_page(
+                space_key=os.getenv('JIRA_SPACE_KEY'),
+                title=f"{test_case.get('id')} - {test_case.get('title')}",
+                content="<p>This is a test page created via API</p>"
+            )
+
+            if page_data:
+                attachment_data = client.attach_file(
+                    content_id=page_data['id'],
+                    file_path=item['file_path'],
+                    comment="Test attachment"
+                )
+                self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
+
+            mapped_test['fields']['description'] = f"*Attached File Link:* {self_link}"
+            test_cases_attachment_files_data.remove(item)
+            break
+    
 
     # Add time tracking directly in fields object according to Xray support's structure
     if test_case.get('estimate'):
