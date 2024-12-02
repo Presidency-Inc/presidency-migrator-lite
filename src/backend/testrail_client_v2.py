@@ -293,7 +293,7 @@ class TestRailClient:
         if limit:
             params += f'&limit={limit}'
         response = self.send_get(params)
-        return response.get('cases', [])
+        return response
 
     def get_all_test_cases(self, project_id, suite_id=None):
         """Get all test cases for a project"""
