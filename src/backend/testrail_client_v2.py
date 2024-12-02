@@ -115,7 +115,7 @@ class TestRailClient:
 
     def get_projects(self):
         """Get all available projects"""
-        return self.send_get('get_projects')['projects']
+        return self.send_get('get_projects')
 
     def get_users(self, project_id=None):
         """Get all users from TestRail, optionally filtered by project.
