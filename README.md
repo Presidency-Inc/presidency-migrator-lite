@@ -27,7 +27,7 @@ This proof-of-concept tool automates the process of migrating test cases from Te
 1. Clone the repository:
 ```bash
 git clone [repository-url]
-cd asset-mark-migration-poc
+cd presidency-migrator-lite
 ```
 
 2. Create and activate a virtual environment:
