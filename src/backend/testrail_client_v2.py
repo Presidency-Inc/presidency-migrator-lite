@@ -1,4 +1,4 @@
-"""TestRail API Client for Asset Mark Migration.
+"""TestRail API Client.
 
 Based on the official TestRail API binding for Python 3.x.
 """

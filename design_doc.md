@@ -34,7 +34,7 @@
 
 ## **1. Introduction**
 
-This document outlines the design for Phase 1 of the TestRail to Xray migration tool. The goal is to develop a tool that can extract test cases and associated data from TestRail and import them into Xray for Jira, facilitating a smooth migration process for Asset Mark.
+This document outlines the design for Phase 1 of the TestRail to Xray migration tool. The goal is to develop a tool that can extract test cases and associated data from TestRail and import them into Xray for Jira, facilitating a smooth migration process.
 
 ---
 
