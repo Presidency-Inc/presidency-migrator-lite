@@ -26,7 +26,7 @@ This guide provides step-by-step instructions to successfully integrate with the
 - **Python Packages**: `requests`, `python-dotenv`, `PyYAML` installed in your environment.
 - **Code Editor or IDE**: Such as Cursor AI IDE, Visual Studio Code, PyCharm, etc.
 - **Internet Connection**: Required to interact with the TestRail API.
-- **Project Repository**: Cloned `asset-mark-migration` repository with the structured project layout.
+- **Project Repository**: Cloned `presidency-migrator-lite` repository with the structured project layout.
 
 ---
 
@@ -70,10 +70,10 @@ If you haven't already cloned the project repository, do so now:
 cd /path/to/your/projects
 
 # Clone the repository
-git clone https://github.com/yourusername/asset-mark-migration.git
+git clone https://github.com/yourusername/presidency-migrator-lite.git
 
 # Navigate into the project directory
-cd asset-mark-migration
+cd presidency-migrator-lite
 ```
 
 ### **3.2 Navigate to the Backend Directory**

@@ -6,14 +6,14 @@
 
 To ensure modularity, maintainability, and scalability of your project, it's essential to organize your repository following best practices. This involves structuring your codebase so that each component is managed in its dedicated space, promoting separation of concerns and ease of development.
 
-Below, I provide a recommended project structure for your `asset-mark-migration` root folder. Additionally, I highlight necessary updates to the previously provided documents to align them with this structure.
+Below, I provide a recommended project structure for your root folder. Additionally, I highlight necessary updates to the previously provided documents to align them with this structure.
 
 ---
 
 ## **Recommended Project Structure**
 
 ```
-asset-mark-migration/
+presidency-migrator-lite/
 ├── README.md
 ├── LICENSE
 ├── .gitignore

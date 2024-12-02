@@ -66,10 +66,10 @@ Navigate to your desired parent directory and clone the repository:
 cd /path/to/your/projects
 
 # Clone the repository
-git clone https://github.com/yourusername/asset-mark-migration.git
+git clone https://github.com/yourusername/presidency-migrator-lite.git
 
 # Navigate into the project directory
-cd asset-mark-migration
+cd presidency-migrator-lite
 ```
 
 ### **3.2 Set Up a Virtual Environment**
@@ -101,7 +101,7 @@ pip install -r requirements.txt
 Familiarize yourself with the project structure as outlined in the repository:
 
 ```
-asset-mark-migration/
+presidency-migrator-lite/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
