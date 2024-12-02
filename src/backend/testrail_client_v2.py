@@ -84,15 +84,15 @@ class TestRailClient:
         if method == 'POST':
             if uri[:14] == 'add_attachment':    # add_attachment API method
                 files = {'attachment': (open(data, 'rb'))}
-                response = requests.post(url, headers=headers, files=files)
+                response = requests.post(url, headers=headers, files=files, verify=False)
                 files['attachment'].close()
             else:
                 headers['Content-Type'] = 'application/json'
                 payload = bytes(json.dumps(data), 'utf-8')
-                response = requests.post(url, headers=headers, data=payload)
+                response = requests.post(url, headers=headers, data=payload, verify=False)
         else:
             headers['Content-Type'] = 'application/json'
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, verify=False)
 
         if response.status_code > 201:
             try:
