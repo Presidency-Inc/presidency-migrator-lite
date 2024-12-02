@@ -466,7 +466,7 @@ def main():
     print("\nFetching sections...")
     sections = client.get_sections(project_id, suite_id)
     client.save_data(sections, 'sections.json')
-    num_sections = len(sections.get('sections', []))
+    num_sections = len(sections)
     print(f"Saved {num_sections} sections to data/output/sections.json")
     
     # Save users list for the specific project
