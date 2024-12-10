@@ -7,6 +7,8 @@ import os
 import base64
 import json
 import requests
+import logging
+from datetime import datetime
 from dotenv import load_dotenv
 
 class APIError(Exception):
@@ -30,8 +32,30 @@ class TestRailClient:
         # Create necessary directories
         self.attachment_dir = "./attachmentFiles"
         self.output_dir = "data/output"
+        self.logs_dir = "logs"
         os.makedirs(self.attachment_dir, exist_ok=True)
         os.makedirs(self.output_dir, exist_ok=True)
+        os.makedirs(self.logs_dir, exist_ok=True)
+        
+        # Setup logging
+        self._setup_logging()
+
+    def _setup_logging(self):
+        """Configure logging for the TestRail client."""
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        log_file = os.path.join(self.logs_dir, f'testrail_client_{timestamp}.log')
+        
+        # Configure logging format and settings
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler(log_file),
+                logging.StreamHandler()
+            ]
+        )
+        self.logger = logging.getLogger('TestRailClient')
+        self.logger.info('TestRail Client initialized')
 
     def send_get(self, uri, filepath=None):
         """Issue a GET request (read) against the API.
@@ -72,6 +96,7 @@ class TestRailClient:
             Response data (JSON decoded or file path for attachments)
         """
         url = self.__url + uri
+        self.logger.info(f'Sending {method} request to {url}')
 
         auth = str(
             base64.b64encode(
@@ -81,37 +106,51 @@ class TestRailClient:
         ).strip()
         headers = {'Authorization': 'Basic ' + auth}
 
-        if method == 'POST':
-            if uri[:14] == 'add_attachment':    # add_attachment API method
-                files = {'attachment': (open(data, 'rb'))}
-                response = requests.post(url, headers=headers, files=files, verify=False)
-                files['attachment'].close()
+        try:
+            if method == 'POST':
+                if uri[:14] == 'add_attachment':    # add_attachment API method
+                    self.logger.info(f'Uploading attachment: {data}')
+                    files = {'attachment': (open(data, 'rb'))}
+                    response = requests.post(url, headers=headers, files=files, verify=False)
+                    files['attachment'].close()
+                else:
+                    headers['Content-Type'] = 'application/json'
+                    payload = bytes(json.dumps(data), 'utf-8')
+                    self.logger.debug(f'POST payload: {json.dumps(data)}')
+                    response = requests.post(url, headers=headers, data=payload, verify=False)
             else:
                 headers['Content-Type'] = 'application/json'
-                payload = bytes(json.dumps(data), 'utf-8')
-                response = requests.post(url, headers=headers, data=payload, verify=False)
-        else:
-            headers['Content-Type'] = 'application/json'
-            response = requests.get(url, headers=headers, verify=False)
+                response = requests.get(url, headers=headers, verify=False)
 
-        if response.status_code > 201:
-            try:
-                error = response.json()
-            except:     # response.content not formatted as JSON
-                error = str(response.content)
-            raise APIError('TestRail API returned HTTP %s (%s)' % (response.status_code, error))
-        else:
-            if uri[:15] == 'get_attachment/':   # Expecting file, not JSON
+            if response.status_code > 201:
                 try:
-                    open(data, 'wb').write(response.content)
-                    return data
-                except:
-                    return "Error saving attachment."
+                    error = response.json()
+                except:     # response.content not formatted as JSON
+                    error = str(response.content)
+                error_msg = f'TestRail API returned HTTP {response.status_code} ({error})'
+                self.logger.error(error_msg)
+                raise APIError(error_msg)
             else:
-                try:
-                    return response.json()
-                except: # Nothing to return
-                    return {}
+                if uri[:15] == 'get_attachment/':   # Expecting file, not JSON
+                    try:
+                        open(data, 'wb').write(response.content)
+                        self.logger.info(f'Successfully saved attachment to {data}')
+                        return data
+                    except Exception as e:
+                        error_msg = f'Error saving attachment: {str(e)}'
+                        self.logger.error(error_msg)
+                        return "Error saving attachment."
+                else:
+                    try:
+                        result = response.json()
+                        self.logger.debug(f'API response: {json.dumps(result)}')
+                        return result
+                    except:  # Nothing to return
+                        return {}
+        except Exception as e:
+            error_msg = f'Error in API request: {str(e)}'
+            self.logger.error(error_msg)
+            raise APIError(error_msg)
 
     def get_projects(self):
         """Get all available projects"""
@@ -127,43 +166,27 @@ class TestRailClient:
             list: List of user dictionaries
         """
         try:
-            # For non-admin users or when filtering by project
             if project_id:
-                uri = f'get_users'  # Remove project_id from URI
+                uri = f'get_users'
+                self.logger.info(f'Fetching users for project {project_id}')
             else:
                 uri = 'get_users'
+                self.logger.info('Fetching all users')
                 
-            print(f"Fetching users with URI: {uri}")
             response = self.send_get(uri)
-            print(f"Raw API Response: {json.dumps(response, indent=2)}")
             
-            # Handle different response formats
             if isinstance(response, dict):
-                if 'users' in response:
-                    users = response['users']
-                else:
-                    users = []
+                users = response.get('users', [])
             elif isinstance(response, list):
                 users = response
             else:
-                print(f"Unexpected response format: {type(response)}")
+                self.logger.warning(f'Unexpected response format: {type(response)}')
                 return []
                 
-            # Additional debugging
-            if not users:
-                print("No users found in response")
-            else:
-                print(f"Found {len(users)} users in response")
-                for user in users:
-                    print(f"User found: ID={user.get('id')}, Name={user.get('name')}")
-            
+            self.logger.info(f'Found {len(users)} users')
             return users
         except Exception as e:
-            print(f"Error getting users: {str(e)}")
-            print(f"Exception type: {type(e)}")
-            if hasattr(e, 'response'):
-                print(f"Response status code: {e.response.status_code}")
-                print(f"Response content: {e.response.text}")
+            self.logger.error(f'Error getting users: {str(e)}')
             return []
 
     def get_user(self, user_id):
@@ -176,18 +199,15 @@ class TestRailClient:
             dict: User information including email, name, and role
         """
         try:
-            print(f"Fetching user details for ID: {user_id}")
+            self.logger.info(f'Fetching user details for ID: {user_id}')
             response = self.send_get(f'get_user/{user_id}')
-            print(f"User details response: {json.dumps(response, indent=2)}")
+            self.logger.info(f'User details response: {json.dumps(response, indent=2)}')
             if not response:
-                print(f"No data returned for user ID {user_id}")
+                self.logger.info(f'No data returned for user ID {user_id}')
                 return None
             return response
         except Exception as e:
-            print(f"Error getting user with ID {user_id}: {str(e)}")
-            if hasattr(e, 'response'):
-                print(f"Response status code: {e.response.status_code}")
-                print(f"Response content: {e.response.text}")
+            self.logger.error(f'Error getting user with ID {user_id}: {str(e)}')
             return None
 
     def get_user_by_email(self, email):
@@ -200,72 +220,69 @@ class TestRailClient:
             dict: User information including id, name, and role
         """
         try:
-            print(f"Looking up user by email: {email}")
+            self.logger.info(f'Looking up user by email: {email}')
             # Note: The API expects the email parameter in the query string
             response = self.send_get('get_user_by_email', {'email': email})
-            print(f"Email lookup response: {json.dumps(response, indent=2)}")
+            self.logger.info(f'Email lookup response: {json.dumps(response, indent=2)}')
             return response
         except Exception as e:
-            print(f"Error getting user with email {email}: {str(e)}")
-            if hasattr(e, 'response'):
-                print(f"Response status code: {e.response.status_code}")
-                print(f"Response content: {e.response.text}")
+            self.logger.error(f'Error getting user with email {email}: {str(e)}')
             return None
 
     def get_all_user_details(self, project_id=None):
         """Get detailed information for all users."""
         try:
-            print("\nGetting basic user list...")
+            self.logger.info("\nGetting basic user list...")
             users = self.get_users(project_id)
             if not users:
-                print("No users found in basic list")
+                self.logger.info("No users found in basic list")
                 return []
                 
-            print(f"\nFetching detailed information for {len(users)} users...")
+            self.logger.info(f"\nFetching detailed information for {len(users)} users...")
             detailed_users = []
             
             for i, user in enumerate(users, 1):
                 if isinstance(user, dict) and 'id' in user:
-                    print(f"Fetching details for user {i}/{len(users)} (ID: {user['id']})...")
+                    self.logger.info(f"Fetching details for user {i}/{len(users)} (ID: {user['id']})...")
                     user_details = self.get_user(user['id'])
                     if user_details:
                         detailed_users.append(user_details)
-                        print(f"Successfully got details for user {user.get('name', user['id'])}")
+                        self.logger.info(f"Successfully got details for user {user.get('name', user['id'])}")
                     else:
-                        print(f"Could not get details for user {user['id']}")
+                        self.logger.info(f"Could not get details for user {user['id']}")
                 else:
-                    print(f"Invalid user format: {user}")
+                    self.logger.info(f"Invalid user format: {user}")
             
-            print(f"\nSuccessfully retrieved details for {len(detailed_users)} users")
+            self.logger.info(f"\nSuccessfully retrieved details for {len(detailed_users)} users")
             return detailed_users
         except Exception as e:
-            print(f"Error getting all user details: {str(e)}")
+            self.logger.error(f"Error getting all user details: {str(e)}")
             return []
 
     def get_user_email_mapping(self, project_id=None):
         """Build a mapping of user IDs to email addresses."""
         try:
-            print("\nBuilding user email mapping...")
+            self.logger.info("\nBuilding user email mapping...")
             users = self.get_users(project_id)
             email_mapping = {}
             
             for user in users:
                 if isinstance(user, dict) and 'id' in user:
-                    print(f"Processing user ID: {user['id']}...")
+                    self.logger.info(f"Processing user ID: {user['id']}...")
                     if 'email' not in user:
-                        print(f"Fetching additional details for user {user['id']}...")
+                        self.logger.info(f"Fetching additional details for user {user['id']}...")
                         user_details = self.get_user(user['id'])
                         if user_details and 'email' in user_details:
                             email_mapping[str(user['id'])] = user_details['email']
-                            print(f"Added email mapping for user {user['id']}")
+                            self.logger.info(f"Added email mapping for user {user['id']}")
                     else:
                         email_mapping[str(user['id'])] = user['email']
-                        print(f"Added email mapping for user {user['id']}")
+                        self.logger.info(f"Added email mapping for user {user['id']}")
             
-            print(f"\nCreated email mapping for {len(email_mapping)} users")
+            self.logger.info(f"\nCreated email mapping for {len(email_mapping)} users")
             return email_mapping
         except Exception as e:
-            print(f"Error building user email mapping: {str(e)}")
+            self.logger.error(f"Error building user email mapping: {str(e)}")
             return {}
 
     def get_project(self, project_id):
@@ -306,7 +323,7 @@ class TestRailClient:
             if not test_cases:
                 break
             all_cases.extend(test_cases)
-            print(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
+            self.logger.info(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
             if len(test_cases) < limit:
                 break
             offset += limit
@@ -323,16 +340,16 @@ class TestRailClient:
         for test_case in test_cases:
             case_id = test_case.get('id')
             if case_id is None:
-                print(f"Skipping test case {test_case} as it doesn't have an ID")
+                self.logger.info(f"Skipping test case {test_case} as it doesn't have an ID")
                 continue
             
-            print(f"\nProcessing test case ID: {case_id}")
+            self.logger.info(f"\nProcessing test case ID: {case_id}")
             
             try:
                 attachments = self.send_get(f'get_attachments_for_case/{case_id}').get('attachments', [])
                 
                 if not attachments:
-                    print(f"No attachments found for case ID: {case_id}")
+                    self.logger.info(f"No attachments found for case ID: {case_id}")
                     continue
                 
                 for attachment in attachments:
@@ -341,10 +358,10 @@ class TestRailClient:
                     
                     # Download attachment
                     file_path = os.path.join(self.attachment_dir, filename)
-                    print(f"\nDownloading: {filename}")
+                    self.logger.info(f"\nDownloading: {filename}")
                     
                     self.send_get(f'get_attachment/{attachment_id}', file_path)
-                    print(f"Saved to: {file_path}")
+                    self.logger.info(f"Saved to: {file_path}")
                     
                     attachment_metadata.append({
                         'case_id': case_id,
@@ -354,15 +371,15 @@ class TestRailClient:
                     })
                 
             except Exception as e:
-                print(f"Error processing case {case_id}: {str(e)}")
+                self.logger.error(f"Error processing case {case_id}: {str(e)}")
                 continue
         
         if not attachment_metadata:
-            print(f"No attachments found for any test cases")
+            self.logger.info(f"No attachments found for any test cases")
             return None
         
         self.save_data(attachment_metadata, 'test_cases_attachment_files.json')
-        print(f"\nSaved attachment metadata to {os.path.join(self.output_dir, 'test_cases_attachment_files.json')}")
+        self.logger.info(f"\nSaved attachment metadata to {os.path.join(self.output_dir, 'test_cases_attachment_files.json')}")
         
         return attachment_metadata
 
@@ -421,6 +438,7 @@ def select_suite(client, project_id):
                 print("Invalid Suite ID. Please try again.")
         else:
             print("Please enter a numeric Suite ID.")
+
 
 def main():
     # Initialize TestRail client
