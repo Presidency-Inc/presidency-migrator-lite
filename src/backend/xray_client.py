@@ -844,7 +844,7 @@ def main():
         sections_file = os.path.join(os.path.dirname(__file__), '../../data/output/sections.json')
         with open(sections_file, 'r') as f:
             sections_raw = json.load(f)
-            sections_data = {str(section['id']): section for section in sections_raw['sections']}
+            sections_data = {section['id']: section for section in sections_raw}
             logger.info("Loaded sections data")
             
         # Load test cases
