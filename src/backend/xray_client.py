@@ -463,19 +463,33 @@ def build_folder_path(section_id, sections_data):
         return None
         
     path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
-    current = sections_data.get(str(section_id))
     
-    # Add suite name if available
-    if current and 'suite_id' in current:
-        suite_name = get_suite_name(current['suite_id'])  # New function needed
+    # Find the section in the array
+    current = next((section for section in sections_data if section['id'] == section_id), None)
+    
+    if not current:
+        return None
+    
+    # Collect all parts of the path (we'll reverse them later)
+    section_parts = []
+    
+    # First, get the suite name if available
+    if 'suite_id' in current:
+        suite_name = get_suite_name(current['suite_id'])
         if suite_name:
             path_parts.append(suite_name)
     
-    # Build section hierarchy
+    # Then build the section hierarchy from current section up to root
     while current:
-        path_parts.append(current['name'])
-        parent_id = current.get('parent_id')
-        current = sections_data.get(str(parent_id)) if parent_id else None
+        section_parts.append(current['name'])
+        if current.get('parent_id'):
+            # Find parent section in the array
+            current = next((section for section in sections_data if section['id'] == current['parent_id']), None)
+        else:
+            break
+    
+    # Add sections in reverse order (from root to leaf)
+    path_parts.extend(reversed(section_parts))
     
     return '/'.join(path_parts)
 
@@ -636,7 +650,8 @@ def map_test_case(test_case, field_mapping, sections_data):
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
 
-    mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
+    # mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
+    mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
 
     # ------- Attachments -------
@@ -909,7 +924,7 @@ def main():
         # Create folder structure before import
         try:
             logger.info("Creating folder structure in Xray")
-            client.create_folder_structure({'sections': sections_raw['sections']}, client.project_id)
+            client.create_folder_structure({'sections': sections_raw}, client.project_id)
         except Exception as e:
             logger.warning(f"Failed to create folder structure: {str(e)}")
             # Continue with import even if folder creation fails
