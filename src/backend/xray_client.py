@@ -872,7 +872,7 @@ def main():
             logger.info("Loaded sections data")
             
         # Load test cases
-        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_single.json')
+        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases.json')
         with open(input_file, 'r') as f:
             test_cases = json.load(f)
             logger.info(f"Loaded {len(test_cases)} test cases")
