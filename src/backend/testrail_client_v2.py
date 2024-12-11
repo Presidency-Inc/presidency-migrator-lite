@@ -157,13 +157,13 @@ class TestRailClient:
         return self.send_get('get_projects')
 
     def get_users(self, project_id=None):
-        """Get all users from TestRail, optionally filtered by project.
+        """Get all active users from TestRail, optionally filtered by project.
         
         Args:
             project_id (int, optional): Project ID to filter users
             
         Returns:
-            list: List of user dictionaries
+            list: List of active user dictionaries
         """
         try:
             if project_id:
@@ -176,15 +176,19 @@ class TestRailClient:
             response = self.send_get(uri)
             
             if isinstance(response, dict):
-                users = response.get('users', [])
+                all_users = response.get('users', [])
             elif isinstance(response, list):
-                users = response
+                all_users = response
             else:
                 self.logger.warning(f'Unexpected response format: {type(response)}')
                 return []
-                
-            self.logger.info(f'Found {len(users)} users')
-            return users
+            
+            # Filter only active users
+            active_users = [user for user in all_users if user.get('is_active', False)]
+            
+            self.logger.info(f'Found {len(active_users)} active users out of {len(all_users)} total users')
+            return active_users
+            
         except Exception as e:
             self.logger.error(f'Error getting users: {str(e)}')
             return []
