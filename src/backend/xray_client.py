@@ -171,7 +171,7 @@ class XrayClient:
             logger.error("Network error during test import: %s", str(e))
             raise XrayAPIError(f"Network error: {str(e)}")
 
-    def check_import_status(self, job_id, polling_interval=5, max_retries=4):
+    def check_import_status(self, job_id, polling_interval=10, max_retries=12):
         """Check the status of an import job with retry logic"""
         if not self._token:
             logger.warning("No authentication token found. Authenticating first...")
