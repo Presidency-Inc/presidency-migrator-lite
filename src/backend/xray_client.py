@@ -512,88 +512,6 @@ class XrayClient:
             logger.error(f"Error getting suite name for suite_id {suite_id}: {str(e)}")
             return None
 
-# def build_folder_path(section_id, sections_data):
-#     """Build the full folder path from section hierarchy"""
-#     if not section_id:
-#         return None
-        
-#     path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
-    
-#     # Convert section_id to int if it's a string
-#     if isinstance(section_id, str):
-#         section_id = int(section_id)
-    
-#     logger.debug(f"Starting build_folder_path with section_id={section_id}")
-    
-#     # Find the section in the array
-#     try:
-#         # sections_data is now directly the array
-#         current = next((section for section in sections_data 
-#                        if section['id'] == section_id), None)
-        
-#         if not current:
-#             logger.warning(f"Section {section_id} not found in sections data")
-#             return None
-                
-#         logger.debug(f"Found section: {current}")
-                
-#         # Collect all parts of the path (we'll reverse them later)
-#         section_parts = []
-        
-#         # First, get the suite name if available
-#         if 'suite_id' in current and current['suite_id']:
-#             suite_name = get_suite_name(current['suite_id'])
-#             if suite_name:
-#                 path_parts.append(suite_name)
-#                 logger.debug(f"Appended suite_name: {suite_name}")
-#             else:
-#                 logger.warning(f"Suite name for suite_id {current['suite_id']} not found")
-#         else:
-#             logger.warning(f"No suite_id in current section {current['id']}")
-        
-#         # Then build the section hierarchy from current section up to root
-#         while current:
-#             section_parts.append(current['name'])
-#             logger.debug(f"Appended section name: {current['name']}")
-            
-#             parent_id = current.get('parent_id')
-#             if parent_id:
-#                 logger.debug(f"Current parent_id: {parent_id}")
-#                 # Find parent section in the array
-#                 current = next((section for section in sections_data 
-#                                 if section['id'] == parent_id), None)
-#                 logger.debug(f"Found parent section: {current}")
-#             else:
-#                 logger.debug("No parent_id found, reached top of hierarchy")
-#                 break
-        
-#         # Add sections in reverse order (from root to leaf)
-#         path_parts.extend(reversed(section_parts))
-        
-#         built_path = '/'.join(path_parts)
-#         logger.debug(f"Built folder path: {built_path}")
-#         return built_path
-        
-#     except Exception as e:
-#         logger.error(f"Error building folder path for section {section_id}: {str(e)}")
-#         return None
-
-# def get_suite_name(suite_id):
-#     """Retrieve the suite name given a suite ID"""
-#     # Load the suites data
-#     with open('data/output/suites.json', 'r') as f:
-#         suites_data = json.load(f)
-    
-#     # Find the suite in the data
-#     suite = next((suite for suite in suites_data if suite['id'] == suite_id), None)
-    
-#     if suite:
-#         logger.debug(f"Found suite: {suite}")
-#         return suite['name']
-#     else:
-#         logger.warning(f"Suite {suite_id} not found in suites data")
-#         return None
-
 def map_test_steps(test_case):
     """Map TestRail test steps to Xray format"""
     if test_case.get('custom_steps_separated'):
@@ -719,12 +637,11 @@ def format_bdd_scenarios(scenarios_data):
 
 def map_test_case(test_case, field_mapping, sections_data):
     """Map a TestRail test case to Xray format"""
-    # Create an instance of JiraClient
-    # jiraClient = JiraClient()
+    # Create an instance of XrayClient for folder path building
+    client = XrayClient()
 
     mapped_test = {
         "fields": {
-            #"project": {"key": "${JIRA_PROJECT_KEY}"},
             "project": {"key": "XSP"},
             "issuetype": {"name": "Test"}
         }
@@ -794,7 +711,6 @@ def map_test_case(test_case, field_mapping, sections_data):
 
                 preconditions = []
 
-                client = XrayClient()
                 result = client.create_precondition_graphql(precond_data)
                 if isinstance(result, dict):
                     jira_key = (
@@ -835,7 +751,7 @@ def map_test_case(test_case, field_mapping, sections_data):
         try:
             # Convert section_id to int if it's a string
             section_id = int(test_case['section_id']) if isinstance(test_case['section_id'], str) else test_case['section_id']
-            folder_path = build_folder_path(section_id, sections_data)
+            folder_path = client.build_folder_path(section_id, sections_data)
             if folder_path:
                 mapped_test['xray_test_repository_folder'] = folder_path
                 logger.debug(f"Set folder path for test case {test_case.get('id')}: {folder_path}")
