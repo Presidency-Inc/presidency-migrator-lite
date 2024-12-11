@@ -348,7 +348,7 @@ class XrayClient:
 
     def build_folder_path(self, section, sections_data):
         """Build the full folder path for a section"""
-        path_parts = ['TestRail']
+        path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
         current = section
         
         while current:
@@ -422,7 +422,7 @@ def build_folder_path(section_id, sections_data):
         parent_id = current.get('parent_id')
         current = sections_data.get(str(parent_id)) if parent_id else None
     
-    return '/'.join(['TestRail'] + path_parts)
+    return '/'.join(['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1'] + path_parts)
 
 def map_test_steps(test_case):
     """Map TestRail test steps to Xray format"""
@@ -778,7 +778,7 @@ def build_repository_path(test_case, sections_data):
         current_section = sections_data.get(str(parent_id)) if parent_id else None
     
     # Build path from root to leaf
-    path_parts = ['TestRail'] + sections[::-1]  # Reverse the sections list
+    path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1'] + sections[::-1]  # Reverse the sections list
     return '/'.join(path_parts) if path_parts else None
 
 def main():

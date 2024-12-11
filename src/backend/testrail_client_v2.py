@@ -154,6 +154,7 @@ class TestRailClient:
 
     def get_projects(self):
         """Get all available projects"""
+        # return self.send_get('get_projects')['projects'] # TR version 5.4 returns a list
         return self.send_get('get_projects')
 
     def get_users(self, project_id=None):
@@ -315,22 +316,42 @@ class TestRailClient:
             params += f'&limit={limit}'
         response = self.send_get(params)
         return response
+        # return response.get('cases', []) # TR version 5.4 returns a list
 
     def get_all_test_cases(self, project_id, suite_id=None):
         """Get all test cases for a project"""
         all_cases = []
-        offset = 0
-        limit = 250
+        if isinstance(suite_id, list):
+            for suite in suite_id:
+                if isinstance(suite, dict):
+                    suite_id = suite.get('id')
+                else:
+                    suite_id = suite
+                offset = 0
+                limit = 250
 
-        while True:
-            test_cases = self.get_test_cases(project_id, suite_id, offset, limit)
-            if not test_cases:
-                break
-            all_cases.extend(test_cases)
-            self.logger.info(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
-            if len(test_cases) < limit:
-                break
-            offset += limit
+                while True:
+                    test_cases = self.get_test_cases(project_id, suite_id, offset, limit)
+                    if not test_cases:
+                        break
+                    all_cases.extend(test_cases)
+                    self.logger.info(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
+                    if len(test_cases) < limit:
+                        break
+                    offset += limit
+        else:
+            offset = 0
+            limit = 250
+
+            while True:
+                test_cases = self.get_test_cases(project_id, suite_id, offset, limit)
+                if not test_cases:
+                    break
+                all_cases.extend(test_cases)
+                self.logger.info(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
+                if len(test_cases) < limit:
+                    break
+                offset += limit
 
         return all_cases
 
@@ -427,21 +448,30 @@ def select_suite(client, project_id):
     if not suites:
         print("No test suites found for this project.")
         return None
+    
+    # Save suites data to JSON
+    client.save_data(suites, 'suites.json')
+    print(f"\nSaved {len(suites)} suites to data/output/suites.json")
         
     print("\nAvailable Test Suites:")
     for suite in suites:
         print(f"ID: {suite['id']}, Name: {suite['name']}")
         
     while True:
-        suite_id_input = input("\nEnter the Suite ID you want to select: ").strip()
+        suite_id_input = input("\nEnter the Suite ID you want to select (or 'get_all' for all suites): ").strip()
         if suite_id_input.isdigit():
             suite_id = int(suite_id_input)
             if any(suite['id'] == suite_id for suite in suites):
                 return suite_id
             else:
                 print("Invalid Suite ID. Please try again.")
+        elif suite_id_input.lower() == "get_all":
+            print("\nSelecting all suites...")
+            suite_ids = [suite['id'] for suite in suites]
+            client.logger.info(f"Selected all suite IDs: {suite_ids}")
+            return suite_ids
         else:
-            print("Please enter a numeric Suite ID.")
+            print("Please enter a numeric Suite ID or 'get_all' for all suites.")
 
 
 def main():
@@ -487,9 +517,25 @@ def main():
 
     # Fetch and save sections
     print("\nFetching sections...")
-    sections = client.get_sections(project_id, suite_id)
+    sections = []
+    if isinstance(suite_id, list):
+        for suite in suite_id:
+            print(f"Fetching sections for suite {suite}...")
+            
+
+            if not isinstance(suite, int):
+                print(f"Invalid suite_id {suite}. Skipping...")
+                continue
+            response = client.get_sections(project_id, suite) # client.get_sections returns a list in v5.4
+            # sections_data = response.get('sections', [])
+            print(f"Response for suite {suite}: {response}")
+            # sections.extend(sections_data) # client.get_sections returns a list in v5.4
+            sections.extend(response)
+    else:
+        sections = client.get_sections(project_id, suite_id) # client.get_sections returns a list in v5.4
     client.save_data(sections, 'sections.json')
     num_sections = len(sections)
+    # num_sections = len(sections.get('sections', []))
     print(f"Saved {num_sections} sections to data/output/sections.json")
     
     # Deprecated user extraction
