@@ -338,61 +338,110 @@ class XrayClient:
         self.create_test_repository_folder(root_folder, project_key)
         created_folders.add(root_folder)
         
-        # Get unique suite IDs from sections
-        suite_ids = {section.get('suite_id') for section in sections_data['sections'] if section.get('suite_id')}
-        
-        # Create suite folders first
-        for suite_id in suite_ids:
-            suite_name = self.get_suite_name(suite_id)
-            if suite_name:
-                suite_path = f"{root_folder}/{suite_name}"
-                if suite_path not in created_folders:
-                    if self.create_test_repository_folder(suite_path, project_key):
-                        created_folders.add(suite_path)
-        
-        # Sort sections by depth to create parent folders first
-        sorted_sections = sorted(sections_data['sections'], 
-                               key=lambda x: len(self.build_folder_path(x, sections_data).split('/')))
-        
-        # Create section folders
-        for section in sorted_sections:
-            folder_path = self.build_folder_path(section, sections_data)
-            if folder_path and folder_path not in created_folders:
-                # Create each level of the folder hierarchy
-                path_parts = folder_path.split('/')
-                for i in range(2, len(path_parts) + 1):  # Start from 2 to skip root folder
-                    partial_path = '/'.join(path_parts[:i])
-                    if partial_path not in created_folders:
-                        if self.create_test_repository_folder(partial_path, project_key):
-                            created_folders.add(partial_path)
-                        else:
-                            logger.warning(f"Failed to create folder: {partial_path}")
-        
-        # Verify the folder structure
-        return self.verify_folder_structure(project_key)
+        try:
+            # Get unique suite IDs directly from sections array
+            suite_ids = {section.get('suite_id') for section in sections_data if section.get('suite_id')}
+            
+            # Create suite folders first
+            for suite_id in suite_ids:
+                suite_name = self.get_suite_name(suite_id)
+                if suite_name:
+                    suite_path = f"{root_folder}/{suite_name}"
+                    if suite_path not in created_folders:
+                        if self.create_test_repository_folder(suite_path, project_key):
+                            created_folders.add(suite_path)
+            
+            # Sort sections by depth to create parent folders first
+            sorted_sections = sorted(sections_data, 
+                                key=lambda x: x.get('depth', 0))
+            
+            # Create section folders
+            for section in sorted_sections:
+                folder_path = self.build_folder_path(section['id'], sections_data)
+                if folder_path and folder_path not in created_folders:
+                    # Create each level of the folder hierarchy
+                    path_parts = folder_path.split('/')
+                    for i in range(2, len(path_parts) + 1):  # Start from 2 to skip root folder
+                        partial_path = '/'.join(path_parts[:i])
+                        if partial_path not in created_folders:
+                            if self.create_test_repository_folder(partial_path, project_key):
+                                created_folders.add(partial_path)
+                            else:
+                                logger.warning(f"Failed to create folder: {partial_path}")
+            
+            # Verify the folder structure
+            return self.verify_folder_structure(project_key)
+            
+        except Exception as e:
+            logger.error(f"Error creating folder structure: {str(e)}")
+            return False
 
-    def build_folder_path(self, section, sections_data):
-        """Build the full folder path for a section"""
-        # Get the project root folder name
+    def build_folder_path(self, section_id, sections_data):
+        """Build the full folder path from section hierarchy"""
+        if not section_id:
+            return None
+        
         path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
         
-        # Add suite name if available
-        if 'suite_id' in section:
-            suite_name = self.get_suite_name(section['suite_id'])  # New method needed
-            if suite_name:
-                path_parts.append(suite_name)
+        # Convert section_id to int if it's a string
+        if isinstance(section_id, str):
+            section_id = int(section_id)
         
-        # Build the section hierarchy
-        current = section
-        while current:
-            path_parts.append(current['name'])
-            if current.get('parent_id'):
-                parent_id = str(current['parent_id'])
-                current = next((s for s in sections_data['sections'] if str(s['id']) == parent_id), None)
-            else:
-                break
+        logger.debug(f"Starting build_folder_path with section_id={section_id}")
         
-        return '/'.join(path_parts)
+        try:
+            # Find the section in the array
+            current = next((section for section in sections_data 
+                        if section['id'] == section_id), None)
+            
+            if not current:
+                logger.warning(f"Section {section_id} not found in sections data")
+                return None
+                
+            logger.debug(f"Found section: {current}")
+                
+            # Collect all parts of the path (we'll reverse them later)
+            section_parts = []
+            
+            # First, get the suite name if available
+            if 'suite_id' in current and current['suite_id']:
+                suite_name = self.get_suite_name(current['suite_id'])
+                if suite_name:
+                    path_parts.append(suite_name)
+                    logger.debug(f"Appended suite_name: {suite_name}")
+                else:
+                    logger.warning(f"Suite name for suite_id {current['suite_id']} not found")
+            
+            # Then build the section hierarchy from current section up to root
+            while current:
+                section_parts.append(current['name'])
+                logger.debug(f"Appended section name: {current['name']}")
+                
+                parent_id = current.get('parent_id')
+                if parent_id:
+                    logger.debug(f"Current parent_id: {parent_id}")
+                    # Find parent section in the array
+                    current = next((section for section in sections_data 
+                                    if section['id'] == parent_id), None)
+                    if current:
+                        logger.debug(f"Found parent section: {current}")
+                    else:
+                        logger.warning(f"Parent section {parent_id} not found")
+                        break
+                else:
+                    logger.debug("No parent_id found, reached top of hierarchy")
+                    break
+            
+            # Add sections in reverse order (from root to leaf)
+            path_parts.extend(reversed(section_parts))
+            
+            built_path = '/'.join(path_parts)
+            logger.debug(f"Built folder path: {built_path}")
+            return built_path
+            
+        except Exception as e:
+            logger.error(f"Error building folder path for section {section_id}: {str(e)}")
+            return None
 
     def create_precondition_graphql(self, precondition_data):
         """Create a precondition in Xray using GraphQL"""
@@ -443,69 +492,107 @@ class XrayClient:
             return None
 
     def get_suite_name(self, suite_id):
-        """Get suite name from suites data"""
+        """Retrieve the suite name given a suite ID"""
         try:
+            # Load the suites data
             with open('data/output/suites.json', 'r') as f:
                 suites_data = json.load(f)
             
-            suite = next((s for s in suites_data if s['id'] == suite_id), None)
+            # Find the suite in the data
+            suite = next((suite for suite in suites_data if suite['id'] == suite_id), None)
+            
             if suite:
-                # Replace spaces and special characters with underscores
-                return re.sub(r'[^\w\s-]', '_', suite['name'].replace(' ', '_'))
-            return None
+                logger.debug(f"Found suite: {suite}")
+                return suite['name']
+            else:
+                logger.warning(f"Suite {suite_id} not found in suites data")
+                return None
+                
         except Exception as e:
-            logger.error(f"Error getting suite name: {str(e)}")
+            logger.error(f"Error getting suite name for suite_id {suite_id}: {str(e)}")
             return None
 
-def build_folder_path(section_id, sections_data):
-    """Build the full folder path from section hierarchy"""
-    if not section_id:
-        return None
+# def build_folder_path(section_id, sections_data):
+#     """Build the full folder path from section hierarchy"""
+#     if not section_id:
+#         return None
         
-    path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
+#     path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
     
-    # Find the section in the array
-    current = next((section for section in sections_data if section['id'] == section_id), None)
+#     # Convert section_id to int if it's a string
+#     if isinstance(section_id, str):
+#         section_id = int(section_id)
     
-    if not current:
-        return None
+#     logger.debug(f"Starting build_folder_path with section_id={section_id}")
     
-    # Collect all parts of the path (we'll reverse them later)
-    section_parts = []
-    
-    # First, get the suite name if available
-    if 'suite_id' in current:
-        suite_name = get_suite_name(current['suite_id'])
-        if suite_name:
-            path_parts.append(suite_name)
-    
-    # Then build the section hierarchy from current section up to root
-    while current:
-        section_parts.append(current['name'])
-        if current.get('parent_id'):
-            # Find parent section in the array
-            current = next((section for section in sections_data if section['id'] == current['parent_id']), None)
-        else:
-            break
-    
-    # Add sections in reverse order (from root to leaf)
-    path_parts.extend(reversed(section_parts))
-    
-    return '/'.join(path_parts)
+#     # Find the section in the array
+#     try:
+#         # sections_data is now directly the array
+#         current = next((section for section in sections_data 
+#                        if section['id'] == section_id), None)
+        
+#         if not current:
+#             logger.warning(f"Section {section_id} not found in sections data")
+#             return None
+                
+#         logger.debug(f"Found section: {current}")
+                
+#         # Collect all parts of the path (we'll reverse them later)
+#         section_parts = []
+        
+#         # First, get the suite name if available
+#         if 'suite_id' in current and current['suite_id']:
+#             suite_name = get_suite_name(current['suite_id'])
+#             if suite_name:
+#                 path_parts.append(suite_name)
+#                 logger.debug(f"Appended suite_name: {suite_name}")
+#             else:
+#                 logger.warning(f"Suite name for suite_id {current['suite_id']} not found")
+#         else:
+#             logger.warning(f"No suite_id in current section {current['id']}")
+        
+#         # Then build the section hierarchy from current section up to root
+#         while current:
+#             section_parts.append(current['name'])
+#             logger.debug(f"Appended section name: {current['name']}")
+            
+#             parent_id = current.get('parent_id')
+#             if parent_id:
+#                 logger.debug(f"Current parent_id: {parent_id}")
+#                 # Find parent section in the array
+#                 current = next((section for section in sections_data 
+#                                 if section['id'] == parent_id), None)
+#                 logger.debug(f"Found parent section: {current}")
+#             else:
+#                 logger.debug("No parent_id found, reached top of hierarchy")
+#                 break
+        
+#         # Add sections in reverse order (from root to leaf)
+#         path_parts.extend(reversed(section_parts))
+        
+#         built_path = '/'.join(path_parts)
+#         logger.debug(f"Built folder path: {built_path}")
+#         return built_path
+        
+#     except Exception as e:
+#         logger.error(f"Error building folder path for section {section_id}: {str(e)}")
+#         return None
 
-def get_suite_name(suite_id):
-    """Get suite name from suites data"""
-    try:
-        with open('data/output/suites.json', 'r') as f:
-            suites_data = json.load(f)
-        
-        suite = next((s for s in suites_data if s['id'] == suite_id), None)
-        if suite:
-            return re.sub(r'[^\w\s-]', '_', suite['name'].replace(' ', '_'))
-        return None
-    except Exception as e:
-        logger.error(f"Error getting suite name: {str(e)}")
-        return None
+# def get_suite_name(suite_id):
+#     """Retrieve the suite name given a suite ID"""
+#     # Load the suites data
+#     with open('data/output/suites.json', 'r') as f:
+#         suites_data = json.load(f)
+    
+#     # Find the suite in the data
+#     suite = next((suite for suite in suites_data if suite['id'] == suite_id), None)
+    
+#     if suite:
+#         logger.debug(f"Found suite: {suite}")
+#         return suite['name']
+#     else:
+#         logger.warning(f"Suite {suite_id} not found in suites data")
+#         return None
 
 def map_test_steps(test_case):
     """Map TestRail test steps to Xray format"""
@@ -631,10 +718,10 @@ def format_bdd_scenarios(scenarios_data):
         return None
 
 def map_test_case(test_case, field_mapping, sections_data):
+    """Map a TestRail test case to Xray format"""
     # Create an instance of JiraClient
     # jiraClient = JiraClient()
 
-    """Map a TestRail test case to Xray format"""
     mapped_test = {
         "fields": {
             #"project": {"key": "${JIRA_PROJECT_KEY}"},
@@ -745,9 +832,19 @@ def map_test_case(test_case, field_mapping, sections_data):
     
     # Build folder path for test repository
     if test_case.get('section_id'):
-        folder_path = build_folder_path(test_case['section_id'], sections_data)
-        if folder_path:
-            mapped_test['xray_test_repository_folder'] = folder_path
+        try:
+            # Convert section_id to int if it's a string
+            section_id = int(test_case['section_id']) if isinstance(test_case['section_id'], str) else test_case['section_id']
+            folder_path = build_folder_path(section_id, sections_data)
+            if folder_path:
+                mapped_test['xray_test_repository_folder'] = folder_path
+                logger.debug(f"Set folder path for test case {test_case.get('id')}: {folder_path}")
+            else:
+                logger.warning(f"Could not build folder path for test case {test_case.get('id')} with section_id {section_id}")
+        except Exception as e:
+            logger.error(f"Error building folder path for test case {test_case.get('id')}: {str(e)}")
+            logger.debug(f"Section ID: {test_case.get('section_id')}, Type: {type(test_case.get('section_id'))}")
+            logger.debug(f"Sections data sample: {str(sections_data[:1])}")
     
     # Map test steps based on type
     if test_type == 'Manual':
@@ -802,7 +899,6 @@ def map_test_case(test_case, field_mapping, sections_data):
     logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
     
     return mapped_test
-
 
 def get_xray_issue_type(test_case):
     """Determine Xray issue type based on test case attributes"""
@@ -879,11 +975,10 @@ def main():
             logger.info("Loaded field mapping configuration")
             logger.debug("Field mapping: %s", json.dumps(field_mapping, indent=2))
 
-        # Load sections data
+        # Load sections data - keep as array
         sections_file = os.path.join(os.path.dirname(__file__), '../../data/output/sections.json')
         with open(sections_file, 'r') as f:
-            sections_raw = json.load(f)
-            sections_data = {section['id']: section for section in sections_raw}
+            sections_data = json.load(f)  # Keep as array, don't convert to dict
             logger.info("Loaded sections data")
             
         # Load test cases
@@ -899,10 +994,11 @@ def main():
                 # Map the test case
                 mapped_test = map_test_case(test_case, field_mapping, sections_data)
                 
-                # Add repository path
-                repo_path = build_repository_path(test_case, sections_data)
-                if repo_path:
-                    mapped_test['xray_test_repository_folder'] = repo_path
+                # Add repository path using class method
+                if test_case.get('section_id'):
+                    folder_path = client.build_folder_path(test_case['section_id'], sections_data)
+                    if folder_path:
+                        mapped_test['xray_test_repository_folder'] = folder_path
                 
                 # Validate required fields
                 validate_test_case(mapped_test)
@@ -924,7 +1020,7 @@ def main():
         # Create folder structure before import
         try:
             logger.info("Creating folder structure in Xray")
-            client.create_folder_structure({'sections': sections_raw}, client.project_id)
+            client.create_folder_structure(sections_data, client.project_id)  # Pass array directly
         except Exception as e:
             logger.warning(f"Failed to create folder structure: {str(e)}")
             # Continue with import even if folder creation fails
@@ -933,7 +1029,6 @@ def main():
         job_id = client.import_tests(mapped_tests, project_key)
         # logger.info(f"Import job created with ID: {job_id}")
 
-        
         # Monitor import status
         final_status = client.check_import_status(job_id)
         logger.info(f"Import completed with status: {final_status.get('status')}")
