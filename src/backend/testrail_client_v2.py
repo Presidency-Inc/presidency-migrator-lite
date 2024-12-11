@@ -157,13 +157,13 @@ class TestRailClient:
         return self.send_get('get_projects')
 
     def get_users(self, project_id=None):
-        """Get all users from TestRail, optionally filtered by project.
+        """Get all active users from TestRail, optionally filtered by project.
         
         Args:
             project_id (int, optional): Project ID to filter users
             
         Returns:
-            list: List of user dictionaries
+            list: List of active user dictionaries
         """
         try:
             if project_id:
@@ -176,15 +176,19 @@ class TestRailClient:
             response = self.send_get(uri)
             
             if isinstance(response, dict):
-                users = response.get('users', [])
+                all_users = response.get('users', [])
             elif isinstance(response, list):
-                users = response
+                all_users = response
             else:
                 self.logger.warning(f'Unexpected response format: {type(response)}')
                 return []
-                
-            self.logger.info(f'Found {len(users)} users')
-            return users
+            
+            # Filter only active users
+            active_users = [user for user in all_users if user.get('is_active', False)]
+            
+            self.logger.info(f'Found {len(active_users)} active users out of {len(all_users)} total users')
+            return active_users
+            
         except Exception as e:
             self.logger.error(f'Error getting users: {str(e)}')
             return []
@@ -488,29 +492,30 @@ def main():
     num_sections = len(sections)
     print(f"Saved {num_sections} sections to data/output/sections.json")
     
-    # Save users list for the specific project
-    print("\nFetching users list...")
-    users = client.get_users(project_id)
-    if users:
-        print(f"Found {len(users)} users")
-        client.save_data(users, 'users_list.json')
-        print(f"Saved users list to data/output/users_list.json")
+    # Deprecated user extraction
+    # # Save users list for the specific project
+    # print("\nFetching users list...")
+    # users = client.get_users(project_id)
+    # if users:
+    #     print(f"Found {len(users)} users")
+    #     client.save_data(users, 'users_list.json')
+    #     print(f"Saved users list to data/output/users_list.json")
     
-    # Save detailed user information
-    print("\nFetching detailed user information...")
-    detailed_users = client.get_all_user_details(project_id)
-    if detailed_users:
-        print(f"Retrieved details for {len(detailed_users)} users")
-        client.save_data(detailed_users, 'users_detailed.json')
-        print(f"Saved detailed user information to data/output/users_detailed.json")
+    # # Save detailed user information
+    # print("\nFetching detailed user information...")
+    # detailed_users = client.get_all_user_details(project_id)
+    # if detailed_users:
+    #     print(f"Retrieved details for {len(detailed_users)} users")
+    #     client.save_data(detailed_users, 'users_detailed.json')
+    #     print(f"Saved detailed user information to data/output/users_detailed.json")
     
-    # Create email mapping
-    print("\nCreating user email mapping...")
-    email_mapping = client.get_user_email_mapping(project_id)
-    if email_mapping:
-        print(f"Created email mapping for {len(email_mapping)} users")
-        client.save_data(email_mapping, 'user_email_mapping.json')
-        print(f"Saved user email mapping to data/output/user_email_mapping.json")
+    # # Create email mapping
+    # print("\nCreating user email mapping...")
+    # email_mapping = client.get_user_email_mapping(project_id)
+    # if email_mapping:
+    #     print(f"Created email mapping for {len(email_mapping)} users")
+    #     client.save_data(email_mapping, 'user_email_mapping.json')
+    #     print(f"Saved user email mapping to data/output/user_email_mapping.json")
 
 
 if __name__ == "__main__":
