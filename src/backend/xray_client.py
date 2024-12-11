@@ -333,19 +333,43 @@ class XrayClient:
         logger.info("Creating folder structure in Xray")
         created_folders = set()
         
-        # Sort sections by depth to create parent folders first
-        sorted_sections = sorted(sections_data['sections'], key=lambda x: x['depth'])
+        # First, create the project root folder
+        root_folder = 'Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1'
+        self.create_test_repository_folder(root_folder, project_key)
+        created_folders.add(root_folder)
         
+        # Get unique suite IDs from sections
+        suite_ids = {section.get('suite_id') for section in sections_data['sections'] if section.get('suite_id')}
+        
+        # Create suite folders first
+        for suite_id in suite_ids:
+            suite_name = self.get_suite_name(suite_id)
+            if suite_name:
+                suite_path = f"{root_folder}/{suite_name}"
+                if suite_path not in created_folders:
+                    if self.create_test_repository_folder(suite_path, project_key):
+                        created_folders.add(suite_path)
+        
+        # Sort sections by depth to create parent folders first
+        sorted_sections = sorted(sections_data['sections'], 
+                               key=lambda x: len(self.build_folder_path(x, sections_data).split('/')))
+        
+        # Create section folders
         for section in sorted_sections:
             folder_path = self.build_folder_path(section, sections_data)
             if folder_path and folder_path not in created_folders:
-                if self.create_test_repository_folder(folder_path, project_key):
-                    created_folders.add(folder_path)
-                else:
-                    logger.warning(f"Failed to create folder: {folder_path}")
+                # Create each level of the folder hierarchy
+                path_parts = folder_path.split('/')
+                for i in range(2, len(path_parts) + 1):  # Start from 2 to skip root folder
+                    partial_path = '/'.join(path_parts[:i])
+                    if partial_path not in created_folders:
+                        if self.create_test_repository_folder(partial_path, project_key):
+                            created_folders.add(partial_path)
+                        else:
+                            logger.warning(f"Failed to create folder: {partial_path}")
         
         # Verify the folder structure
-        self.verify_folder_structure(project_key)
+        return self.verify_folder_structure(project_key)
 
     def build_folder_path(self, section, sections_data):
         """Build the full folder path for a section"""
