@@ -492,29 +492,30 @@ def main():
     num_sections = len(sections)
     print(f"Saved {num_sections} sections to data/output/sections.json")
     
-    # Save users list for the specific project
-    print("\nFetching users list...")
-    users = client.get_users(project_id)
-    if users:
-        print(f"Found {len(users)} users")
-        client.save_data(users, 'users_list.json')
-        print(f"Saved users list to data/output/users_list.json")
+    # Deprecated user extraction
+    # # Save users list for the specific project
+    # print("\nFetching users list...")
+    # users = client.get_users(project_id)
+    # if users:
+    #     print(f"Found {len(users)} users")
+    #     client.save_data(users, 'users_list.json')
+    #     print(f"Saved users list to data/output/users_list.json")
     
-    # Save detailed user information
-    print("\nFetching detailed user information...")
-    detailed_users = client.get_all_user_details(project_id)
-    if detailed_users:
-        print(f"Retrieved details for {len(detailed_users)} users")
-        client.save_data(detailed_users, 'users_detailed.json')
-        print(f"Saved detailed user information to data/output/users_detailed.json")
+    # # Save detailed user information
+    # print("\nFetching detailed user information...")
+    # detailed_users = client.get_all_user_details(project_id)
+    # if detailed_users:
+    #     print(f"Retrieved details for {len(detailed_users)} users")
+    #     client.save_data(detailed_users, 'users_detailed.json')
+    #     print(f"Saved detailed user information to data/output/users_detailed.json")
     
-    # Create email mapping
-    print("\nCreating user email mapping...")
-    email_mapping = client.get_user_email_mapping(project_id)
-    if email_mapping:
-        print(f"Created email mapping for {len(email_mapping)} users")
-        client.save_data(email_mapping, 'user_email_mapping.json')
-        print(f"Saved user email mapping to data/output/user_email_mapping.json")
+    # # Create email mapping
+    # print("\nCreating user email mapping...")
+    # email_mapping = client.get_user_email_mapping(project_id)
+    # if email_mapping:
+    #     print(f"Created email mapping for {len(email_mapping)} users")
+    #     client.save_data(email_mapping, 'user_email_mapping.json')
+    #     print(f"Saved user email mapping to data/output/user_email_mapping.json")
 
 
 if __name__ == "__main__":
