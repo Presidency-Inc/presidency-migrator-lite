@@ -154,8 +154,8 @@ class TestRailClient:
 
     def get_projects(self):
         """Get all available projects"""
-        # return self.send_get('get_projects')['projects'] # TR version 5.4 returns a list
-        return self.send_get('get_projects')
+        return self.send_get('get_projects')['projects'] # TR version 5.4 returns a list
+        # return self.send_get('get_projects')
 
     def get_users(self, project_id=None):
         """Get all active users from TestRail, optionally filtered by project.
@@ -315,8 +315,8 @@ class TestRailClient:
         if limit:
             params += f'&limit={limit}'
         response = self.send_get(params)
-        return response
-        # return response.get('cases', []) # TR version 5.4 returns a list
+        # return response
+        return response.get('cases', []) # TR version 5.4 returns a list
 
     def get_all_test_cases(self, project_id, suite_id=None):
         """Get all test cases for a project"""
@@ -527,10 +527,10 @@ def main():
                 print(f"Invalid suite_id {suite}. Skipping...")
                 continue
             response = client.get_sections(project_id, suite) # client.get_sections returns a list in v5.4
-            # sections_data = response.get('sections', [])
+            sections_data = response.get('sections', [])
             print(f"Response for suite {suite}: {response}")
-            # sections.extend(sections_data) # client.get_sections returns a list in v5.4
-            sections.extend(response)
+            sections.extend(sections_data) # client.get_sections returns a list in v5.4
+            # sections.extend(response)
     else:
         sections = client.get_sections(project_id, suite_id) # client.get_sections returns a list in v5.4
     client.save_data(sections, 'sections.json')
