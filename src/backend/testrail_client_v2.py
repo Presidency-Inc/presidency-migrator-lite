@@ -427,21 +427,30 @@ def select_suite(client, project_id):
     if not suites:
         print("No test suites found for this project.")
         return None
+    
+    # Save suites data to JSON
+    client.save_data(suites, 'suites.json')
+    print(f"\nSaved {len(suites)} suites to data/output/suites.json")
         
     print("\nAvailable Test Suites:")
     for suite in suites:
         print(f"ID: {suite['id']}, Name: {suite['name']}")
         
     while True:
-        suite_id_input = input("\nEnter the Suite ID you want to select: ").strip()
+        suite_id_input = input("\nEnter the Suite ID you want to select (or 'get_all' for all suites): ").strip()
         if suite_id_input.isdigit():
             suite_id = int(suite_id_input)
             if any(suite['id'] == suite_id for suite in suites):
                 return suite_id
             else:
                 print("Invalid Suite ID. Please try again.")
+        elif suite_id_input.lower() == "get_all":
+            print("\nSelecting all suites...")
+            suite_ids = [suite['id'] for suite in suites]
+            client.logger.info(f"Selected all suite IDs: {suite_ids}")
+            return suite_ids
         else:
-            print("Please enter a numeric Suite ID.")
+            print("Please enter a numeric Suite ID or 'get_all' for all suites.")
 
 
 def main():
