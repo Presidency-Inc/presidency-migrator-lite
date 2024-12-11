@@ -9,6 +9,7 @@ from logging.handlers import RotatingFileHandler
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 from jira_client import JiraClient
+import re
 
 class XrayAPIError(Exception):
     """Custom exception for Xray API errors"""
@@ -348,11 +349,19 @@ class XrayClient:
 
     def build_folder_path(self, section, sections_data):
         """Build the full folder path for a section"""
+        # Get the project root folder name
         path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
-        current = section
         
+        # Add suite name if available
+        if 'suite_id' in section:
+            suite_name = self.get_suite_name(section['suite_id'])  # New method needed
+            if suite_name:
+                path_parts.append(suite_name)
+        
+        # Build the section hierarchy
+        current = section
         while current:
-            path_parts.insert(1, current['name'])
+            path_parts.append(current['name'])
             if current.get('parent_id'):
                 parent_id = str(current['parent_id'])
                 current = next((s for s in sections_data['sections'] if str(s['id']) == parent_id), None)
@@ -409,20 +418,56 @@ class XrayClient:
             logger.error(f"Error creating precondition: {str(e)}")
             return None
 
+    def get_suite_name(self, suite_id):
+        """Get suite name from suites data"""
+        try:
+            with open('data/output/suites.json', 'r') as f:
+                suites_data = json.load(f)
+            
+            suite = next((s for s in suites_data if s['id'] == suite_id), None)
+            if suite:
+                # Replace spaces and special characters with underscores
+                return re.sub(r'[^\w\s-]', '_', suite['name'].replace(' ', '_'))
+            return None
+        except Exception as e:
+            logger.error(f"Error getting suite name: {str(e)}")
+            return None
+
 def build_folder_path(section_id, sections_data):
     """Build the full folder path from section hierarchy"""
     if not section_id:
         return None
         
-    path_parts = []
+    path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
     current = sections_data.get(str(section_id))
     
+    # Add suite name if available
+    if current and 'suite_id' in current:
+        suite_name = get_suite_name(current['suite_id'])  # New function needed
+        if suite_name:
+            path_parts.append(suite_name)
+    
+    # Build section hierarchy
     while current:
-        path_parts.insert(0, current['name'])
+        path_parts.append(current['name'])
         parent_id = current.get('parent_id')
         current = sections_data.get(str(parent_id)) if parent_id else None
     
-    return '/'.join(['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1'] + path_parts)
+    return '/'.join(path_parts)
+
+def get_suite_name(suite_id):
+    """Get suite name from suites data"""
+    try:
+        with open('data/output/suites.json', 'r') as f:
+            suites_data = json.load(f)
+        
+        suite = next((s for s in suites_data if s['id'] == suite_id), None)
+        if suite:
+            return re.sub(r'[^\w\s-]', '_', suite['name'].replace(' ', '_'))
+        return None
+    except Exception as e:
+        logger.error(f"Error getting suite name: {str(e)}")
+        return None
 
 def map_test_steps(test_case):
     """Map TestRail test steps to Xray format"""
