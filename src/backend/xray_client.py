@@ -567,7 +567,7 @@ def map_test_case(test_case, field_mapping, sections_data):
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
 
-    mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
+    mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
 
     # ------- Attachments -------
