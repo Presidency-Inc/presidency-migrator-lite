@@ -475,8 +475,9 @@ def main():
         client.save_data(all_test_cases, 'test_cases.json')
         print(f"Saved {len(all_test_cases)} test cases to data/output/test_cases.json")
 
-        print("\nFetching attachments for test cases...")
-        client.get_attachments_for_test_cases(all_test_cases)
+        # Deprecated fetching attachments for test cases
+        # print("\nFetching attachments for test cases...")
+        # client.get_attachments_for_test_cases(all_test_cases)
     else:
         print("No test cases were fetched. Please check your project configuration and permissions.")
 
