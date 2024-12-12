@@ -512,22 +512,6 @@ class XrayClient:
             logger.error(f"Error getting suite name for suite_id {suite_id}: {str(e)}")
             return None
 
-def map_test_steps(test_case):
-    """Map TestRail test steps to Xray format"""
-    if test_case.get('custom_steps_separated'):
-        return [{
-            'action': step.get('content', ''),
-            'data': step.get('additional_info', ''),
-            'result': step.get('expected', '')
-        } for step in test_case['custom_steps_separated']]
-    elif test_case.get('custom_steps'):
-        return [{
-            'action': test_case['custom_steps'],
-            'data': '',
-            'result': test_case.get('custom_expected', '')
-        }]
-    return None
-
 def parse_steps(steps_separated):
     """Parse test steps and expected results from TestRail format to Xray format.
     Args:
@@ -642,7 +626,7 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     mapped_test = {
         "fields": {
-            "project": {"key": "DM"},
+            "project": {"key": "XSP"},
             "issuetype": {"name": "Test"}
         }
     }
@@ -654,8 +638,8 @@ def map_test_case(test_case, field_mapping, sections_data):
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
 
-    mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
-    # mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
+    # mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
+    mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
 
     # ------- Attachments -------
@@ -773,9 +757,10 @@ def map_test_case(test_case, field_mapping, sections_data):
     elif test_type == 'Generic':
         stepsString = test_case.get('custom_steps') or ''
         uStepsDefinition = '*Steps:* '+stepsString+'\n' if stepsString else ''
+        expectedResultsString = test_case.get('custom_expected', '') or ''
+        uExpectedResultsDefinition = '*ExpectedResults:* '+expectedResultsString+'\n' if expectedResultsString else ''
         description = mapped_test['fields'].get('description', '') or ''
-        mapped_test['fields']['description'] = description + uStepsDefinition
-        steps = map_test_steps(test_case)
+        mapped_test['fields']['description'] = description + uStepsDefinition + uExpectedResultsDefinition
     
     elif test_type == 'Cucumber':
         # Handle BDD/Cucumber scenarios
