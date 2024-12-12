@@ -382,7 +382,10 @@ class XrayClient:
             return None
         
         path_parts = ['TestRail']
-        
+
+        if isinstance(sections_data, dict):
+            sections_data = sections_data.get('sections', [])
+
         # Convert section_id to int if it's a string
         if isinstance(section_id, str):
             section_id = int(section_id)
@@ -756,11 +759,16 @@ def map_test_case(test_case, field_mapping, sections_data):
             mapped_test['steps'] = steps
     elif test_type == 'Generic':
         stepsString = test_case.get('custom_steps') or ''
-        uStepsDefinition = '*Steps:* '+stepsString+'\n' if stepsString else ''
+        uStepsDefinition = '*Steps:* '+stepsString if stepsString else ''
         expectedResultsString = test_case.get('custom_expected', '') or ''
-        uExpectedResultsDefinition = '*ExpectedResults:* '+expectedResultsString+'\n' if expectedResultsString else ''
+        uExpectedResultsDefinition = '*Expected Results:* '+expectedResultsString if expectedResultsString else ''
+        
         description = mapped_test['fields'].get('description', '') or ''
-        mapped_test['fields']['description'] = description + uStepsDefinition + uExpectedResultsDefinition
+        if uStepsDefinition:
+            description += uStepsDefinition + '\n-----------------\n'
+        if uExpectedResultsDefinition:
+            description += uExpectedResultsDefinition
+        mapped_test['fields']['description'] = description
     
     elif test_type == 'Cucumber':
         # Handle BDD/Cucumber scenarios
