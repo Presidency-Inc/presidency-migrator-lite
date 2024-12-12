@@ -171,7 +171,7 @@ class XrayClient:
             logger.error("Network error during test import: %s", str(e))
             raise XrayAPIError(f"Network error: {str(e)}")
 
-    def check_import_status(self, job_id, polling_interval=5, max_retries=4):
+    def check_import_status(self, job_id, polling_interval=30, max_retries=12):
         """Check the status of an import job with retry logic"""
         if not self._token:
             logger.warning("No authentication token found. Authenticating first...")
@@ -334,7 +334,7 @@ class XrayClient:
         created_folders = set()
         
         # First, create the project root folder
-        root_folder = 'Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1'
+        root_folder = 'TestRail'
         self.create_test_repository_folder(root_folder, project_key)
         created_folders.add(root_folder)
         
@@ -381,7 +381,7 @@ class XrayClient:
         if not section_id:
             return None
         
-        path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1']
+        path_parts = ['TestRail']
         
         # Convert section_id to int if it's a string
         if isinstance(section_id, str):
@@ -495,7 +495,7 @@ class XrayClient:
         """Retrieve the suite name given a suite ID"""
         try:
             # Load the suites data
-            with open('data/output/suites.json', 'r') as f:
+            with open('data/output/suites.json', 'r', encoding='utf-8') as f:
                 suites_data = json.load(f)
             
             # Find the suite in the data
@@ -642,7 +642,7 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     mapped_test = {
         "fields": {
-            "project": {"key": "XSP"},
+            "project": {"key": "DM"},
             "issuetype": {"name": "Test"}
         }
     }
@@ -654,8 +654,8 @@ def map_test_case(test_case, field_mapping, sections_data):
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
 
-    # mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
-    mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
+    mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
+    # mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
 
     # ------- Attachments -------
@@ -874,7 +874,7 @@ def build_repository_path(test_case, sections_data):
         current_section = sections_data.get(str(parent_id)) if parent_id else None
     
     # Build path from root to leaf
-    path_parts = ['Capital_Group_IM_Third_Party_Manager_Launch_POC_Migration_1'] + sections[::-1]  # Reverse the sections list
+    path_parts = ['TestRail'] + sections[::-1]  # Reverse the sections list
     return '/'.join(path_parts) if path_parts else None
 
 def main():
@@ -886,20 +886,20 @@ def main():
         
         # Load field mapping configuration
         config_path = os.path.join(os.path.dirname(__file__), 'config', 'field_mapping.json')
-        with open(config_path, 'r') as f:
+        with open(config_path, 'r', encoding='utf-8') as f:
             field_mapping = json.load(f)
             logger.info("Loaded field mapping configuration")
             logger.debug("Field mapping: %s", json.dumps(field_mapping, indent=2))
 
         # Load sections data - keep as array
         sections_file = os.path.join(os.path.dirname(__file__), '../../data/output/sections.json')
-        with open(sections_file, 'r') as f:
+        with open(sections_file, 'r', encoding='utf-8') as f:
             sections_data = json.load(f)  # Keep as array, don't convert to dict
             logger.info("Loaded sections data")
             
         # Load test cases
         input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases.json')
-        with open(input_file, 'r') as f:
+        with open(input_file, 'r', encoding='utf-8') as f:
             test_cases = json.load(f)
             logger.info(f"Loaded {len(test_cases)} test cases")
 
