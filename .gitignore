@@ -3,6 +3,13 @@
 
 # Virtual environment
 venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 
 # Log files
 logs/
