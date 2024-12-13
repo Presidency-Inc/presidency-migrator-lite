@@ -10,6 +10,24 @@ from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 from jira_client import JiraClient
 import re
+from tenacity import retry, stop_after_attempt, wait_exponential
+from ratelimit import limits, sleep_and_retry
+
+ONE_MINUTE = 60
+MAX_CALLS_PER_MINUTE = 25  # Based on Xray's resolver limit
+
+@sleep_and_retry
+@limits(calls=MAX_CALLS_PER_MINUTE, period=ONE_MINUTE)
+def rate_limited_call():
+    """Placeholder function for rate limiting"""
+    pass
+
+def rate_limited_request(func):
+    """Decorator to apply rate limiting to API calls"""
+    def wrapper(*args, **kwargs):
+        rate_limited_call()  # This enforces the rate limit
+        return func(*args, **kwargs)
+    return wrapper
 
 class XrayAPIError(Exception):
     """Custom exception for Xray API errors"""
@@ -57,82 +75,337 @@ logger = setup_logging()
 
 class XrayClient:
     def __init__(self):
+        # Initialize logger first
+        self.logger = logging.getLogger('xray_client')
+
+        # Then proceed with other initializations
         load_dotenv()
+        self._init_config()
+        self._init_api_urls()
+        self.folder_cache = set()  # Cache for existing folders
+        self.verify_batch_size = 10  # Number of folders to verify in each batch
+        self._load_suite_data()
+        
+        # Now we can use self.logger in other methods
+        self._load_suite_data()
+
+        # Authenticate
+        self.authenticate()
+
+    def _init_config(self):
+        """Initialize configuration and credentials"""
+        # Load credentials
         self.client_id = os.getenv('XRAY_CLIENT_ID')
         self.client_secret = os.getenv('XRAY_CLIENT_SECRET')
-        self.base_url = os.getenv('XRAY_CLOUD_BASE_URL', 'https://xray.cloud.getxray.app')
-        self.api_url = f"{self.base_url}/api/v2"
         self.project_id = os.getenv('JIRA_PROJECT_ID')
+        
+        # Initialize state
         self._token = None
         self._gql_client = None
         
-        # Validate environment variables
-        missing_vars = []
-        if not self.client_id:
-            missing_vars.append('XRAY_CLIENT_ID')
-        if not self.client_secret:
-            missing_vars.append('XRAY_CLIENT_SECRET')
-        if not self.base_url:
-            missing_vars.append('XRAY_CLOUD_BASE_URL')
-        if not self.project_id:
-            missing_vars.append('JIRA_PROJECT_ID')
+        # Load field mapping to get root folder name
+        try:
+            config_path = os.path.join(os.path.dirname(__file__), 'config', 'field_mapping.json')
+            with open(config_path, 'r', encoding='utf-8') as f:
+                field_mapping = json.load(f)
+                self.root_folder = field_mapping.get('section_mapping', {}).get('root_folder', 'TestRail')
+        except Exception as e:
+            self.logger.warning(f"Could not load root folder from field mapping: {str(e)}")
+            self.root_folder = 'TestRail'  # Default value
+
+    def _ensure_root_folder_exists(self):
+        """Ensure root folder exists in repository"""
+        try:
+            if self.root_folder in self.folder_cache:
+                return True
+                
+            if not self._create_single_folder(self.root_folder, self.project_id):
+                self.logger.error("Failed to create root folder")
+                return False
+                
+            self.folder_cache.add(self.root_folder)
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Error ensuring root folder exists: {str(e)}")
+            return False
+
+    def _get_project_suite_mode(self):
+        """Get project suite mode from project info file"""
+        try:
+            project_info_path = os.path.join(os.path.dirname(__file__), 
+                                           '../../data/output/project_info.json')
+            with open(project_info_path, 'r', encoding='utf-8') as f:
+                return json.load(f).get('suite_mode', 1)
+        except Exception as e:
+            self.logger.error(f"Error reading project suite mode: {str(e)}")
+            return 1  # Default to single suite mode
+
+    def _init_api_urls(self):
+        """Initialize API URLs with proper endpoints"""
+        self.base_url = os.getenv('XRAY_CLOUD_BASE_URL', 'https://xray.cloud.getxray.app')
+        self.api_url = f"{self.base_url}/api/v2"
+        self.graphql_url = f"{self.base_url}/api/v2/graphql"  # Correct GraphQL endpoint
+
+    def _load_suite_data(self):
+        """Load and cache suite data at initialization"""
+        try:
+            with open('data/output/suites.json', 'r', encoding='utf-8') as f:
+                self.suites_data = {suite['id']: suite for suite in json.load(f)}
+            self.logger.info(f"Loaded {len(self.suites_data)} suites")
+        except Exception as e:
+            self.logger.error(f"Error loading suites data: {str(e)}")
+            self.suites_data = {}
+
+    def create_folder_structure(self, sections_data, project_key):
+        """Create folder structure with batched operations and caching"""
+        self.logger.info("Creating folder structure in Xray")
         
-        if missing_vars:
-            error_msg = f"Missing required environment variables: {', '.join(missing_vars)}"
-            logger.error(error_msg)
-            raise ValueError(error_msg)
+        # Create root folder first
+        if not self._ensure_root_folder_exists():
+            return False
+
+        try:
+            # Convert sections to hierarchical structure
+            folders_to_create = self._build_folder_hierarchy(sections_data)
+            
+            # Create folders in batches
+            for i in range(0, len(folders_to_create), self.verify_batch_size):
+                batch = folders_to_create[i:i + self.verify_batch_size]
+                self._create_folder_batch(batch, project_key)
+
+            return self.verify_folder_structure(project_key)
+        except Exception as e:
+            self.logger.error(f"Error creating folder structure: {str(e)}")
+            return False
+
+    def _create_folder_batch(self, folders, project_key):
+        """Create multiple folders in parallel"""
+        import concurrent.futures
         
-        logger.info("XrayClient initialized with base URL: %s", self.api_url)
-        # Authenticate immediately upon initialization
-        self.authenticate()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            futures = []
+            for folder_path in folders:
+                if folder_path not in self.folder_cache:
+                    futures.append(
+                        executor.submit(self._create_single_folder, folder_path, project_key)
+                    )
+            
+            # Wait for all folders in batch to be created
+            concurrent.futures.wait(futures)
+    
+    @rate_limited_request
+    def _create_single_folder(self, folder_path, project_key):
+        """Create a single folder with optimized existence check and rate limiting"""
+        try:
+            if folder_path in self.folder_cache:
+                self.logger.debug(f"Folder already exists in cache: {folder_path}")
+                return True
+                
+            # Sanitize folder path
+            folder_path = re.sub(r'[<>:"/\\|?*]', '_', folder_path)
+            
+            try:
+                client = self._get_gql_client()
+                
+                create_folder_mutation = gql("""
+                    mutation createFolder($projectId: String!, $path: String!) {
+                        createFolder(projectId: $projectId, path: $path) {
+                            folder { 
+                                path
+                                name 
+                            }
+                        }
+                    }
+                """)
+                
+                result = client.execute(
+                    create_folder_mutation,
+                    variable_values={
+                        "projectId": project_key,
+                        "path": folder_path
+                    }
+                )
+                
+                if result.get('createFolder', {}).get('folder'):
+                    self.folder_cache.add(folder_path)
+                    self.logger.info(f"Created folder: {folder_path}")
+                    return True
+                
+                self.logger.error(f"Failed to create folder {folder_path}. Response: {result}")
+                return False
+                
+            except Exception as gql_error:
+                self.logger.error(f"GraphQL error creating folder {folder_path}: {str(gql_error)}")
+                return False
+            
+        except Exception as e:
+            self.logger.error(f"Unexpected error creating folder {folder_path}: {str(e)}")
+            return False
+
+    def verify_folder_structure(self, project_key):
+        """Verify the folder structure in Xray"""
+        try:
+            if not self._token:
+                self.authenticate()
+                
+            url = f"{self.base_url}/api/v2/graphql"
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {self._token}'
+            }
+            
+            query = {
+                "query": """
+                query getFolder($projectId: String!, $path: String!) {
+                    getFolder(projectId: $projectId, path: $path) {
+                        name
+                        path
+                        testsCount
+                        folders
+                    }
+                }
+                """,
+                "variables": {
+                    "projectId": project_key,
+                    "path": self.root_folder  # Use the path parameter in the query
+                }
+            }
+            
+            self.logger.info("Verifying folder structure")
+            self.logger.debug("GraphQL query: %s", json.dumps(query, indent=2))
+            
+            response = requests.post(url, headers=headers, json=query)
+            if response.status_code == 200:
+                result = response.json()
+                self.logger.debug("Folder structure: %s", json.dumps(result, indent=2))
+                return True
+            else:
+                self.logger.error(f"Failed to verify folder structure. Status code: {response.status_code}")
+                self.logger.error(f"Response content: {response.text}")
+            return False
+                
+        except Exception as e:
+            self.logger.error(f"Error verifying folder structure: {str(e)}")
+            return False
+
+    def _build_folder_hierarchy(self, sections_data):
+        """Build complete folder hierarchy with proper ordering"""
+        folders = set()
+        sections = sections_data if isinstance(sections_data, list) else sections_data.get('sections', [])
+        
+        # Sort sections by depth to ensure parent folders are created first
+        sorted_sections = sorted(sections, key=lambda x: x.get('depth', 0))
+        
+        for section in sorted_sections:
+            # Pass the sections list to _get_folder_path_parts
+            path_parts = self._get_folder_path_parts(section, sections)
+            if not path_parts:
+                continue
+                
+            # Add each level of the path
+            current_path = []
+            for part in path_parts:
+                current_path.append(part)
+                folders.add('/'.join(current_path))
+        
+        return sorted(folders)  # Return sorted list for consistent creation order
+
+    def _get_folder_path_parts(self, section, sections=None):
+        """Get folder path parts with suite name handling"""
+        path_parts = [self.root_folder]
+        
+        # Add suite name for multiple suites mode
+        if self._get_project_suite_mode() == 3 and section.get('suite_id'):
+            suite = self.suites_data.get(section['suite_id'])
+            if suite:
+                path_parts.append(suite['name'])
+            
+        # Build section hierarchy
+        current = section
+        section_parts = []
+        while current:
+            section_parts.append(current['name'])
+            parent_id = current.get('parent_id')
+            if sections:  # Only use sections if provided
+                current = next((s for s in sections if s['id'] == parent_id), None)
+            else:
+                current = None
+        
+        # Add sections in reverse order
+        path_parts.extend(reversed(section_parts))
+        return path_parts
 
     def _get_gql_client(self):
         """Initialize or return existing GraphQL client"""
-        if not self._gql_client:
-            if not self._token:
-                logger.warning("No authentication token found. Authenticating first...")
-                self.authenticate()
+        if not self._token:
+            self.logger.warning("No authentication token found. Authenticating first...")
+            if not self.authenticate():
+                raise XrayAPIError("Failed to authenticate")
                 
-            transport = RequestsHTTPTransport(
-                url=f"{self.base_url}/api/v2/graphql",
-                headers={
-                    'Authorization': f'Bearer {self._token}',
-                    'Content-Type': 'application/json',
-                }
-            )
-            self._gql_client = Client(transport=transport, fetch_schema_from_transport=True)
-        return self._gql_client
-
-    def authenticate(self):
-        """Authenticate with Xray API"""
+        # Create a new transport for each request
+        transport = RequestsHTTPTransport(
+            url=self.graphql_url,  # Use the correct URL
+            headers={
+                'Authorization': f'Bearer {self._token}',
+                'Content-Type': 'application/json',
+            },
+            retries=3,
+            timeout=30
+        )
+        
         try:
-            logger.debug("Attempting authentication with Xray API")
-            url = f"{self.api_url}/authenticate"
-            logger.debug("Authentication URL: %s", url)
-            
-            response = requests.post(
-                url,
-                json={
-                    "client_id": self.client_id,
-                    "client_secret": self.client_secret
-                }
+            # Create a new client each time
+            return Client(
+                transport=transport,
+                fetch_schema_from_transport=True,
+                execute_timeout=30
             )
-            
-            if response.status_code == 200:
-                self._token = response.text.strip('"')
-                logger.info("Successfully authenticated with Xray API")
-                # Recreate GraphQL client with new token
-                self._gql_client = None  # Force recreation of client with new token
-                return True
-            else:
-                logger.error(f"Authentication failed. Status code: {response.status_code}")
-                logger.debug(f"Response content: {response.text}")
-                return False
-                
         except Exception as e:
-            logger.error(f"Authentication error: {str(e)}")
-            return False
+            self.logger.error(f"Failed to initialize GraphQL client: {str(e)}")
+            raise XrayAPIError(f"GraphQL client initialization failed: {str(e)}")
 
+    def authenticate(self, max_retries=3, timeout=30):
+        """Authenticate with Xray API with retries and timeout"""
+        for attempt in range(max_retries):
+            try:
+                logger.debug("Attempting authentication with Xray API")
+                url = f"{self.api_url}/authenticate"
+                logger.debug("Authentication URL: %s", url)
+                
+                response = requests.post(
+                    url,
+                    json={
+                        "client_id": self.client_id,
+                        "client_secret": self.client_secret
+                    },
+                    timeout=timeout
+                )
+                
+                if response.status_code == 200:
+                    self._token = response.text.strip('"')
+                    logger.info("Successfully authenticated with Xray API")
+                    # Recreate GraphQL client with new token
+                    self._gql_client = None  # Force recreation of client with new token
+                    return True
+                else:
+                    logger.error(f"Authentication failed. Status code: {response.status_code}")
+                    logger.debug(f"Response content: {response.text}")
+                    
+            except requests.exceptions.Timeout:
+                logger.warning(f"Authentication attempt {attempt + 1} timed out, retrying...")
+                if attempt == max_retries - 1:
+                    logger.error("Authentication failed after all retry attempts")
+                    return False
+                time.sleep(2 ** attempt)  # Exponential backoff
+                continue
+            except Exception as e:
+                logger.error(f"Authentication error: {str(e)}")
+                return False
+        
+        return False
+
+    @rate_limited_request
     def import_tests(self, tests, project_key=None):
         """Import tests in bulk to Xray"""
         try:
@@ -171,6 +444,7 @@ class XrayClient:
             logger.error("Network error during test import: %s", str(e))
             raise XrayAPIError(f"Network error: {str(e)}")
 
+    @rate_limited_request
     def check_import_status(self, job_id, polling_interval=30, max_retries=12):
         """Check the status of an import job with retry logic"""
         if not self._token:
@@ -230,150 +504,78 @@ class XrayClient:
     def create_test_repository_folder(self, folder_path, project_key=None):
         """Create a test repository folder in Xray using GraphQL"""
         try:
-            client = self._get_gql_client()
+            if folder_path in self.folder_cache:
+                self.logger.debug(f"Folder already exists in cache: {folder_path}")
+                return True
+
+            # Sanitize folder path
+            folder_path = re.sub(r'[<>:"/\\|?*]', '_', folder_path)
             
             # Check if folder exists
-            check_folder_query = gql("""
-                query getFolder($projectId: String!, $path: String!) {
-                    getFolder(projectId: $projectId, path: $path) {
-                        name
-                        path
-                        testsCount
-                        folders
-                    }
-                }
-            """)
-            
-            variables = {
-                "projectId": self.project_id,
-                "path": folder_path
-            }
-            
-            logger.debug(f"Checking if folder exists: {folder_path}")
             try:
-                result = client.execute(check_folder_query, variable_values=variables)
-                if result.get('getFolder'):
-                    logger.info(f"Folder already exists: {folder_path}")
-                    return True
-            except Exception as e:
-                logger.debug(f"Folder does not exist: {str(e)}")
-            
-            # Create folder if it doesn't exist
-            create_folder_mutation = gql("""
-                mutation createFolder($projectId: String!, $path: String!) {
-                    createFolder(
-                        projectId: $projectId,
-                        path: $path
-                    ) {
-                        folder {
+                client = self._get_gql_client()
+                check_folder_query = gql("""
+                    query getFolder($projectId: String!, $path: String!) {
+                        getFolder(projectId: $projectId, path: $path) {
                             name
                             path
                             testsCount
+                            folders
                         }
-                        warnings
                     }
+                """)
+                
+                variables = {
+                    "projectId": project_key or self.project_id,
+                    "path": folder_path
                 }
-            """)
+                
+                self.logger.debug(f"Checking if folder exists: {folder_path}")
+                result = client.execute(check_folder_query, variable_values=variables)
+                if result.get('getFolder'):
+                    self.logger.info(f"Folder already exists: {folder_path}")
+                    self.folder_cache.add(folder_path)
+                    return True
+                    
+            except Exception as e:
+                self.logger.debug(f"Folder does not exist: {str(e)}")
             
-            logger.debug(f"Creating folder: {folder_path}")
-            result = client.execute(create_folder_mutation, variable_values=variables)
-            
-            if result.get('createFolder', {}).get('folder'):
-                logger.info(f"Successfully created folder: {folder_path}")
-                return True
-            else:
-                logger.error(f"Failed to create folder. Response: {result}")
+            # Create folder if it doesn't exist
+            try:
+                client = self._get_gql_client()  # Get fresh client for creation
+                create_folder_mutation = gql("""
+                    mutation createFolder($projectId: String!, $path: String!) {
+                        createFolder(
+                            projectId: $projectId,
+                            path: $path
+                        ) {
+                            folder {
+                                name
+                                path
+                                testsCount
+                            }
+                            warnings
+                        }
+                    }
+                """)
+                
+                self.logger.debug(f"Creating folder: {folder_path}")
+                result = client.execute(create_folder_mutation, variable_values=variables)
+                
+                if result.get('createFolder', {}).get('folder'):
+                    self.logger.info(f"Successfully created folder: {folder_path}")
+                    self.folder_cache.add(folder_path)
+                    return True
+                else:
+                    self.logger.error(f"Failed to create folder. Response: {result}")
+                    return False
+                    
+            except Exception as gql_error:
+                self.logger.error(f"GraphQL error creating folder {folder_path}: {str(gql_error)}")
                 return False
                 
         except Exception as e:
-            logger.error(f"Error creating folder {folder_path}: {str(e)}")
-            return False
-
-    def verify_folder_structure(self, project_key):
-        """Verify the folder structure in Xray"""
-        try:
-            if not self._token:
-                self.authenticate()
-                
-            url = f"{self.base_url}/graphql"
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {self._token}'
-            }
-            
-            query = {
-                "query": """
-                query {
-                    getFolder(projectId: "%s", path: "/") {
-                        name
-                        path
-                        testsCount
-                        folders
-                    }
-                }
-                """ % project_key
-            }
-            
-            logger.info("Verifying folder structure")
-            logger.debug("GraphQL query: %s", json.dumps(query, indent=2))
-            
-            response = requests.post(url, headers=headers, json=query)
-            if response.status_code == 200:
-                result = response.json()
-                logger.debug("Folder structure: %s", json.dumps(result, indent=2))
-                return True
-            return False
-                
-        except Exception as e:
-            logger.error(f"Error verifying folder structure: {str(e)}")
-            return False
-
-    def create_folder_structure(self, sections_data, project_key):
-        """Create the complete folder structure from sections data"""
-        logger.info("Creating folder structure in Xray")
-        created_folders = set()
-        
-        # First, create the project root folder
-        root_folder = 'TestRail'
-        self.create_test_repository_folder(root_folder, project_key)
-        created_folders.add(root_folder)
-        
-        try:
-            # Get unique suite IDs directly from sections array
-            suite_ids = {section.get('suite_id') for section in sections_data if section.get('suite_id')}
-            
-            # Create suite folders first
-            for suite_id in suite_ids:
-                suite_name = self.get_suite_name(suite_id)
-                if suite_name:
-                    suite_path = f"{root_folder}/{suite_name}"
-                    if suite_path not in created_folders:
-                        if self.create_test_repository_folder(suite_path, project_key):
-                            created_folders.add(suite_path)
-            
-            # Sort sections by depth to create parent folders first
-            sorted_sections = sorted(sections_data, 
-                                key=lambda x: x.get('depth', 0))
-            
-            # Create section folders
-            for section in sorted_sections:
-                folder_path = self.build_folder_path(section['id'], sections_data)
-                if folder_path and folder_path not in created_folders:
-                    # Create each level of the folder hierarchy
-                    path_parts = folder_path.split('/')
-                    for i in range(2, len(path_parts) + 1):  # Start from 2 to skip root folder
-                        partial_path = '/'.join(path_parts[:i])
-                        if partial_path not in created_folders:
-                            if self.create_test_repository_folder(partial_path, project_key):
-                                created_folders.add(partial_path)
-                            else:
-                                logger.warning(f"Failed to create folder: {partial_path}")
-            
-            # Verify the folder structure
-            return self.verify_folder_structure(project_key)
-            
-        except Exception as e:
-            logger.error(f"Error creating folder structure: {str(e)}")
+            self.logger.error(f"Unexpected error creating folder {folder_path}: {str(e)}")
             return False
 
     def build_folder_path(self, section_id, sections_data):
@@ -381,7 +583,7 @@ class XrayClient:
         if not section_id:
             return None
         
-        path_parts = ['TestRail']
+        path_parts = [self.root_folder]  # Use class variable
 
         if isinstance(sections_data, dict):
             sections_data = sections_data.get('sections', [])
@@ -393,6 +595,13 @@ class XrayClient:
         logger.debug(f"Starting build_folder_path with section_id={section_id}")
         
         try:
+            # Load project info to check suite mode
+            project_info_path = os.path.join(os.path.dirname(__file__), 
+                                           '../../data/output/project_info.json')
+            with open(project_info_path, 'r', encoding='utf-8') as f:
+                project_info = json.load(f)
+                suite_mode = project_info.get('suite_mode')
+            
             # Find the section in the array
             current = next((section for section in sections_data 
                         if section['id'] == section_id), None)
@@ -406,8 +615,8 @@ class XrayClient:
             # Collect all parts of the path (we'll reverse them later)
             section_parts = []
             
-            # First, get the suite name if available
-            if 'suite_id' in current and current['suite_id']:
+            # Only include suite name for suite_mode 3 (Multiple Suites Mode)
+            if suite_mode == 3 and 'suite_id' in current and current['suite_id']:
                 suite_name = self.get_suite_name(current['suite_id'])
                 if suite_name:
                     path_parts.append(suite_name)
@@ -446,6 +655,7 @@ class XrayClient:
             logger.error(f"Error building folder path for section {section_id}: {str(e)}")
             return None
 
+    @rate_limited_request
     def create_precondition_graphql(self, precondition_data):
         """Create a precondition in Xray using GraphQL"""
         try:
@@ -475,7 +685,7 @@ class XrayClient:
             """)
 
             precondition_type = precondition_data.get('precondition_type', 'Generic')
-
+            
             variables = {
                 "preconditionType": {"name": precondition_type},
                 "definition": precondition_data.get('custom_preconds', ''),
@@ -486,12 +696,19 @@ class XrayClient:
                     }
                 }
             }
-            logger.debug(f"Creating precondition for test: {precondition_data.get('title')}")
-            result = client.execute(create_precondition_mutation, variable_values=variables)
-            logger.debug(f"Precondition creation result: {json.dumps(result, indent=2)}")
-            return result
+            
+            self.logger.debug(f"Creating precondition for test: {precondition_data.get('title')}")
+            
+            try:
+                result = client.execute(create_precondition_mutation, variable_values=variables)
+                self.logger.debug(f"Precondition creation result: {json.dumps(result, indent=2)}")
+                return result
+            except Exception as gql_error:
+                self.logger.error(f"GraphQL error creating precondition: {str(gql_error)}")
+                return None
+                
         except Exception as e:
-            logger.error(f"Error creating precondition: {str(e)}")
+            self.logger.error(f"Unexpected error creating precondition: {str(e)}")
             return None
 
     def get_suite_name(self, suite_id):
@@ -514,6 +731,25 @@ class XrayClient:
         except Exception as e:
             logger.error(f"Error getting suite name for suite_id {suite_id}: {str(e)}")
             return None
+
+    def build_repository_path(self, test_case, sections_data):
+        """Build Xray test repository folder path from TestRail section"""
+        section_id = test_case.get('section_id')
+        if not section_id:
+            return None
+            
+        # Collect sections from leaf to root
+        sections = []
+        current_section = sections_data.get(str(section_id))
+        
+        while current_section:
+            sections.append(current_section['name'])
+            parent_id = current_section.get('parent_id')
+            current_section = sections_data.get(str(parent_id)) if parent_id else None
+        
+        # Build path from root to leaf using the instance root folder
+        path_parts = [self.root_folder] + sections[::-1]  # Reverse the sections list
+        return '/'.join(path_parts) if path_parts else None
 
 def parse_steps(steps_separated):
     """Parse test steps and expected results from TestRail format to Xray format.
@@ -629,7 +865,7 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     mapped_test = {
         "fields": {
-            "project": {"key": "XSP"},
+            "project": {"key": os.getenv('JIRA_PROJECT_KEY')},  # Use from .env
             "issuetype": {"name": "Test"}
         }
     }
@@ -644,35 +880,6 @@ def map_test_case(test_case, field_mapping, sections_data):
     # mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
     mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
-
-    # ------- Attachments -------
-    # test_cases_attachment_files_data = []
-    # with open('data/output/test_cases_attachment_files.json', 'r') as f:
-    #     test_cases_attachment_files = json.load(f)
-    #     test_cases_attachment_files_data = test_cases_attachment_files.copy()
-    # for item in test_cases_attachment_files:
-    #     if test_case.get('id') == item['case_id']:
-    #         self_link = None
-            
-    #         # creating confluence page to attach file and get the link
-    #         page_data = jiraClient.create_page(
-    #             space_key=os.getenv('JIRA_SPACE_KEY'),
-    #             title=f"{test_case.get('id')} - {test_case.get('title')}",
-    #             content="<p>This is a test page created via API</p>"
-    #         )
-
-    #         if page_data:
-    #             attachment_data = jiraClient.attach_file(
-    #                 content_id=page_data['id'],
-    #                 file_path=item['file_path'],
-    #                 comment="Test attachment"
-    #             )
-    #             self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
-
-    #         mapped_test['fields']['description'] = f"*Attached File Link:* {self_link}"
-    #         test_cases_attachment_files_data.remove(item)
-    #         break
-    
 
     # Add time tracking directly in fields object according to Xray support's structure
     if test_case.get('estimate'):
@@ -851,25 +1058,6 @@ def validate_test_case(mapped_test):
     if missing_fields:
         raise ValueError(f"Missing required fields: {', '.join(missing_fields)}")
 
-def build_repository_path(test_case, sections_data):
-    """Build Xray test repository folder path from TestRail section"""
-    section_id = test_case.get('section_id')
-    if not section_id:
-        return None
-        
-    # Collect sections from leaf to root
-    sections = []
-    current_section = sections_data.get(str(section_id))
-    
-    while current_section:
-        sections.append(current_section['name'])
-        parent_id = current_section.get('parent_id')
-        current_section = sections_data.get(str(parent_id)) if parent_id else None
-    
-    # Build path from root to leaf
-    path_parts = ['TestRail'] + sections[::-1]  # Reverse the sections list
-    return '/'.join(path_parts) if path_parts else None
-
 def main():
     try:
         logger.info("Starting Xray test import process")
@@ -889,6 +1077,24 @@ def main():
         with open(sections_file, 'r', encoding='utf-8') as f:
             sections_data = json.load(f)  # Keep as array, don't convert to dict
             logger.info("Loaded sections data")
+            
+        # Create folder structure before mapping test cases
+        try:
+            logger.info("Creating folder structure in Xray")
+            success = client.create_folder_structure(sections_data, client.project_id)  # Pass array directly
+            if not success:
+                logger.error("Failed to create folder structure. Aborting import.")
+                return
+                
+            # Verify folder structure
+            if not client.verify_folder_structure(client.project_id):
+                logger.error("Folder structure verification failed. Aborting import.")
+                return
+                
+            logger.info("Successfully created and verified folder structure")
+        except Exception as e:
+            logger.error(f"Failed to create folder structure: {str(e)}")
+            return
             
         # Load test cases
         input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases.json')
@@ -925,14 +1131,6 @@ def main():
         if not mapped_tests:
             logger.error("No test cases were successfully mapped")
             return
-
-        # Create folder structure before import
-        try:
-            logger.info("Creating folder structure in Xray")
-            client.create_folder_structure(sections_data, client.project_id)  # Pass array directly
-        except Exception as e:
-            logger.warning(f"Failed to create folder structure: {str(e)}")
-            # Continue with import even if folder creation fails
         
         # Import tests
         job_id = client.import_tests(mapped_tests, project_key)

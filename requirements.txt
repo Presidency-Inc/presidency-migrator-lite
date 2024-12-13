@@ -4,4 +4,7 @@ PyYAML
 pytest
 responses
 gql[requests]
+tenacity>=8.0.0
+futures>=3.0.5
+ratelimit
 # Include any other dependencies

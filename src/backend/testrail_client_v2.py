@@ -487,6 +487,17 @@ def main():
     project = client.get_project(project_id)
     suite_mode = project['suite_mode']
 
+    # Save project information
+    project_info = {
+        'id': project_id,
+        'name': project['name'],
+        'suite_mode': suite_mode,
+        'announcement': project.get('announcement', ''),
+        'is_completed': project['is_completed']
+    }
+    client.save_data(project_info, 'project_info.json')
+    print(f"Saved project information to data/output/project_info.json")
+
     # Determine suite_id based on suite_mode
     if suite_mode == 1:
         suite_id = None
