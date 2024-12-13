@@ -8,6 +8,8 @@ import base64
 import json
 import requests
 import logging
+import re
+
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -33,6 +35,11 @@ class TestRailClient:
         self.attachment_dir = "./attachmentFiles"
         self.output_dir = "data/output"
         self.logs_dir = "logs"
+
+        # Create necessary cookies
+        self.tr_session = os.getenv('TESTRAIL_SESSION')
+        self.tr_rememberme = os.getenv('TESTRAIL_REMEMBERME')
+
         os.makedirs(self.attachment_dir, exist_ok=True)
         os.makedirs(self.output_dir, exist_ok=True)
         os.makedirs(self.logs_dir, exist_ok=True)
@@ -131,7 +138,7 @@ class TestRailClient:
                 self.logger.error(error_msg)
                 raise APIError(error_msg)
             else:
-                if uri[:15] == 'get_attachment/':   # Expecting file, not JSON
+                if uri[:15] == 'attachments/':   # Expecting file, not JSON
                     try:
                         open(data, 'wb').write(response.content)
                         self.logger.info(f'Successfully saved attachment to {data}')
@@ -147,6 +154,66 @@ class TestRailClient:
                         return result
                     except:  # Nothing to return
                         return {}
+        except Exception as e:
+            error_msg = f'Error in API request: {str(e)}'
+            self.logger.error(error_msg)
+            raise APIError(error_msg)
+
+    def __send_attachment_request(self, uri, file_section):
+        """Send request to TestRail API.
+            Args:
+                uri: API method URI
+        """
+        url = self.base_url + uri
+
+        try:
+            headers = {
+                'cookie': (
+                    'tr_session={}; '.format(self.tr_session) +
+                    'tr_rememberme={}; '.format(self.tr_rememberme)
+                ),
+            }
+
+            # Make the request
+            response = requests.get(url, headers=headers, verify=False)
+            response.raise_for_status()  # Raise an exception for bad status codes
+
+            # Create downloads directory if it doesn't exist
+            download_dir = os.path.join(os.path.dirname(__file__), 'attachmentFiles')
+
+            # Use the session to download the file
+            # response = session.get(url, verify=False)
+                
+            if response.status_code > 201:
+                try:
+                    error = response.json()
+                except:     # response.content not formatted as JSON
+                    error = str(response.content)
+                error_msg = f'TestRail API returned HTTP {response.status_code} ({error})'
+                self.logger.error(error_msg)
+                raise APIError(error_msg)
+            else:
+                try:
+                    file_path = os.path.join(self.attachment_dir, os.path.basename(uri))
+                    os.makedirs(download_dir, exist_ok=True)
+
+                    # Generate filename with timestamp
+                    current_datetime = datetime.now()
+                    milliseconds = int(current_datetime.timestamp() * 1000)
+                    filename = f'{file_section}_tr_{milliseconds}.png'
+                    filepath = os.path.join(download_dir, filename)
+
+                    # Save the image
+                    with open(filepath, 'wb') as f:
+                        f.write(response.content)
+
+                    self.logger.info(f'Successfully saved attachment to {file_path}')
+                    return filename
+                except Exception as e:
+                    error_msg = f'Error saving attachment: {str(e)}'
+                    self.logger.error(error_msg)
+                    return "Error saving attachment."
+                
         except Exception as e:
             error_msg = f'Error in API request: {str(e)}'
             self.logger.error(error_msg)
@@ -355,6 +422,43 @@ class TestRailClient:
 
         return all_cases
 
+    def attachment_lookup(self, test_case):
+        """Lookup attachments for a test case"""
+        attachments = []
+        required_fields = ['custom_preconds', 'custom_steps', 'custom_expected', 'custom_mission', 'custom_goals']
+        try:
+            attachments = []
+            for field in required_fields:
+                value = test_case.get(field)
+                if value and 'index.php?/attachments/get/' in value:
+                    # Extract the specific substring using a regular expression
+                    # match = re.search(r'index\.php\?/attachments/get/\S+', value)
+                    matches = re.findall(r'index\.php\?/attachments/get/\S+', value)
+                    if matches:
+                        matches_list = []
+                        for match in matches:
+                            attachment_value = match
+                            attachment_value = attachment_value.replace(')', '')
+                            matches_list.append(attachment_value)
+                            self.logger.info(f"Extracted attachment for test case {test_case.get('id')}: {attachment_value}")
+
+                        attachments.append({
+                            "field": field,
+                            "paths": matches_list
+                        })
+                        self.logger.info(f"Extracted attachment for test case {test_case.get('id')}: {attachment_value}")
+                else:
+                    self.logger.info(f"Test case {test_case.get('id')} does not have an attachment in field {field}")
+            
+            if not attachments:
+                self.logger.info(f"No attachments found for test case {test_case.get('id')}")
+                return None
+
+            return attachments
+        except Exception as e:
+            self.logger.error(f"Error extracting attachments (attachment_lookup) for test case {test_case.get('id')}: {e}")
+            return None
+
     def get_attachments_for_test_cases(self, test_cases):
         """Get and download attachments for multiple test cases"""
         if not test_cases:
@@ -364,6 +468,7 @@ class TestRailClient:
         
         for test_case in test_cases:
             case_id = test_case.get('id')
+            case_title = test_case.get('title')
             if case_id is None:
                 self.logger.info(f"Skipping test case {test_case} as it doesn't have an ID")
                 continue
@@ -371,29 +476,41 @@ class TestRailClient:
             self.logger.info(f"\nProcessing test case ID: {case_id}")
             
             try:
-                attachments = self.send_get(f'get_attachments_for_case/{case_id}').get('attachments', [])
+                attachments = self.attachment_lookup(test_case)
+
+                self.logger.info('-' * 100)
+
+                if attachments:
+                    self.logger.info(f"Attachments found for case ID: {case_id}: {attachments}")
+
+                self.logger.info('-' * 100)
                 
                 if not attachments:
                     self.logger.info(f"No attachments found for case ID: {case_id}")
                     continue
                 
+                stored_data = []
                 for attachment in attachments:
-                    attachment_id = attachment['id']
-                    filename = attachment['filename']
-                    
-                    # Download attachment
-                    file_path = os.path.join(self.attachment_dir, filename)
-                    self.logger.info(f"\nDownloading: {filename}")
-                    
-                    self.send_get(f'get_attachment/{attachment_id}', file_path)
-                    self.logger.info(f"Saved to: {file_path}")
-                    
-                    attachment_metadata.append({
-                        'case_id': case_id,
-                        'attachment_id': attachment_id,
-                        'file_name': filename,
-                        'file_path': file_path
-                    })
+                    saved_files = []
+                    for file_path in attachment.get('paths', []):
+                        self.logger.info(f"\nDownloading: {file_path}")
+                        
+                        saved_file_name = self.__send_attachment_request(file_path, attachment.get('field'))
+                        self.logger.info(f"Saved to: ./attachmentFiles")
+                        
+                        stored_data.append({
+                            'file_path': file_path,
+                            'field': attachment.get('field'),
+                            'stored_file_name': saved_file_name
+                        })
+                        
+                        saved_files.append(saved_file_name)                     
+
+                attachment_metadata.append({
+                    'case_id': case_id,
+                    'case_title': case_title,
+                    'stored_data': stored_data
+                })
                 
             except Exception as e:
                 self.logger.error(f"Error processing case {case_id}: {str(e)}")
@@ -407,6 +524,60 @@ class TestRailClient:
         self.logger.info(f"\nSaved attachment metadata to {os.path.join(self.output_dir, 'test_cases_attachment_files.json')}")
         
         return attachment_metadata
+
+    # Deprecated method - Only for TR version 5.7 and above
+    # def get_attachments_for_test_cases(self, test_cases):
+    #     """Get and download attachments for multiple test cases"""
+    #     if not test_cases:
+    #         raise ValueError('test_cases is required')
+            
+    #     attachment_metadata = []
+        
+    #     for test_case in test_cases:
+    #         case_id = test_case.get('id')
+    #         if case_id is None:
+    #             self.logger.info(f"Skipping test case {test_case} as it doesn't have an ID")
+    #             continue
+            
+    #         self.logger.info(f"\nProcessing test case ID: {case_id}")
+            
+    #         try:
+    #             attachments = self.send_get(f'get_attachments_for_case/{case_id}').get('attachments', [])
+                
+    #             if not attachments:
+    #                 self.logger.info(f"No attachments found for case ID: {case_id}")
+    #                 continue
+                
+    #             for attachment in attachments:
+    #                 attachment_id = attachment['id']
+    #                 filename = attachment['filename']
+                    
+    #                 # Download attachment
+    #                 file_path = os.path.join(self.attachment_dir, filename)
+    #                 self.logger.info(f"\nDownloading: {filename}")
+                    
+    #                 self.send_get(f'get_attachment/{attachment_id}', file_path)
+    #                 self.logger.info(f"Saved to: {file_path}")
+                    
+    #                 attachment_metadata.append({
+    #                     'case_id': case_id,
+    #                     'attachment_id': attachment_id,
+    #                     'file_name': filename,
+    #                     'file_path': file_path
+    #                 })
+                
+    #         except Exception as e:
+    #             self.logger.error(f"Error processing case {case_id}: {str(e)}")
+    #             continue
+        
+    #     if not attachment_metadata:
+    #         self.logger.info(f"No attachments found for any test cases")
+    #         return None
+        
+    #     self.save_data(attachment_metadata, 'test_cases_attachment_files.json')
+    #     self.logger.info(f"\nSaved attachment metadata to {os.path.join(self.output_dir, 'test_cases_attachment_files.json')}")
+        
+    #     return attachment_metadata
 
     def save_data(self, data, filename):
         """Save data to JSON file"""
@@ -511,7 +682,7 @@ def main():
 
         # Deprecated fetching attachments for test cases
         # print("\nFetching attachments for test cases...")
-        # client.get_attachments_for_test_cases(all_test_cases)
+        client.get_attachments_for_test_cases(all_test_cases)
     else:
         print("No test cases were fetched. Please check your project configuration and permissions.")
 
