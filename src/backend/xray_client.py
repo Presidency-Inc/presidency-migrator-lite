@@ -646,6 +646,7 @@ def map_test_case(test_case, field_mapping, sections_data):
     mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
 
+
     # ------- Attachments -------
     test_cases_attachment_files_data = []
     with open('data/output/test_cases_attachment_files.json', 'r') as f:
@@ -681,7 +682,7 @@ def map_test_case(test_case, field_mapping, sections_data):
                 # self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
                 self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_data['id']}"
 
-            mapped_test['fields']['description'] = f"*Attached File Link:* {self_link}\n"
+            mapped_test['fields']['description'] = f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
             test_cases_attachment_files_data.remove(item)
             break
     
@@ -771,15 +772,15 @@ def map_test_case(test_case, field_mapping, sections_data):
             mapped_test['steps'] = steps
     elif test_type == 'Generic':
         stepsString = test_case.get('custom_steps') or ''
-        uStepsDefinition = '*Steps:* '+stepsString if stepsString else ''
+        uStepsDefinition = '*Steps:* \n'+stepsString if stepsString else ''
         expectedResultsString = test_case.get('custom_expected', '') or ''
-        uExpectedResultsDefinition = '*Expected Results:* '+expectedResultsString if expectedResultsString else ''
+        uExpectedResultsDefinition = '*Expected Results:* \n'+expectedResultsString if expectedResultsString else ''
         
         description = mapped_test['fields'].get('description', '') or ''
         if uStepsDefinition:
             description += uStepsDefinition + '\n-----------------\n'
         if uExpectedResultsDefinition:
-            description += uExpectedResultsDefinition
+            description += uExpectedResultsDefinition + '\n-----------------\n'
 
         mapped_test['fields']['description'] = description
     
@@ -818,7 +819,14 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     pattern = r'!\[\]\(.*?\)'
     description = re.sub(pattern, '', mapped_test['fields']['description'])
+
     mapped_test['fields']['description'] = description
+
+    references = test_case.get('refs') or ''
+    references_list = references.split(',')
+    references_list = [f"({jiraClient.base_url}/browse/{ref})" for ref in references_list]
+    uReferences = '*References:* \n' + ', '.join(references_list) + '\n' if references else ''
+    mapped_test['fields']['description'] = description + uReferences + '\n-----------------\n'
 
     # Log the mapped test case for debugging
     logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
