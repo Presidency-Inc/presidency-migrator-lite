@@ -148,11 +148,32 @@ class XrayClient:
         self.graphql_url = f"{self.base_url}/api/v2/graphql"  # Correct GraphQL endpoint
 
     def _load_suite_data(self):
-        """Load and cache suite data at initialization"""
+        """Load and cache suite data at initialization only if suite mode is 3"""
         try:
-            with open('data/output/suites.json', 'r', encoding='utf-8') as f:
-                self.suites_data = {suite['id']: suite for suite in json.load(f)}
-            self.logger.info(f"Loaded {len(self.suites_data)} suites")
+            # First check if we need suite data
+            project_info_path = os.path.join(os.path.dirname(__file__), 
+                                           '../../data/output/project_info.json')
+            if os.path.exists(project_info_path):
+                with open(project_info_path, 'r', encoding='utf-8') as f:
+                    project_info = json.load(f)
+                    suite_mode = project_info.get('suite_mode')
+                
+                # Only load suites if suite_mode is 3
+                if suite_mode == 3:
+                    suites_path = os.path.join(os.path.dirname(__file__), 
+                                             '../../data/output/suites.json')
+                    if os.path.exists(suites_path):
+                        with open(suites_path, 'r', encoding='utf-8') as f:
+                            self.suites_data = {suite['id']: suite for suite in json.load(f)}
+                        self.logger.info(f"Loaded {len(self.suites_data)} suites")
+                    else:
+                        self.logger.warning("Suites file not found, but suite mode is 3")
+                else:
+                    self.logger.debug("Suite mode is not 3, skipping suite data loading")
+                    self.suites_data = {}
+            else:
+                self.logger.warning("Project info file not found")
+                self.suites_data = {}
         except Exception as e:
             self.logger.error(f"Error loading suites data: {str(e)}")
             self.suites_data = {}
@@ -202,8 +223,8 @@ class XrayClient:
                 self.logger.debug(f"Folder already exists in cache: {folder_path}")
                 return True
                 
-            # Sanitize folder path
-            folder_path = re.sub(r'[<>:"/\\|?*]', '_', folder_path)
+            # Don't sanitize slashes, but sanitize other special characters
+            folder_path = re.sub(r'[<>:"\\|?*]', '_', folder_path)
             
             try:
                 client = self._get_gql_client()
@@ -583,7 +604,7 @@ class XrayClient:
         if not section_id:
             return None
         
-        path_parts = [self.root_folder]  # Use class variable
+        path_parts = [self.root_folder]  # Start with TestRail
 
         if isinstance(sections_data, dict):
             sections_data = sections_data.get('sections', [])
@@ -592,25 +613,28 @@ class XrayClient:
         if isinstance(section_id, str):
             section_id = int(section_id)
         
-        logger.debug(f"Starting build_folder_path with section_id={section_id}")
+        self.logger.debug(f"Starting build_folder_path with section_id={section_id}")
         
         try:
             # Load project info to check suite mode
             project_info_path = os.path.join(os.path.dirname(__file__), 
                                            '../../data/output/project_info.json')
-            with open(project_info_path, 'r', encoding='utf-8') as f:
-                project_info = json.load(f)
-                suite_mode = project_info.get('suite_mode')
+            suite_mode = 1  # Default to single suite mode
+            
+            if os.path.exists(project_info_path):
+                with open(project_info_path, 'r', encoding='utf-8') as f:
+                    project_info = json.load(f)
+                    suite_mode = project_info.get('suite_mode', 1)
             
             # Find the section in the array
             current = next((section for section in sections_data 
                         if section['id'] == section_id), None)
             
             if not current:
-                logger.warning(f"Section {section_id} not found in sections data")
+                self.logger.warning(f"Section {section_id} not found in sections data")
                 return None
                 
-            logger.debug(f"Found section: {current}")
+            self.logger.debug(f"Found section: {current}")
                 
             # Collect all parts of the path (we'll reverse them later)
             section_parts = []
@@ -619,40 +643,40 @@ class XrayClient:
             if suite_mode == 3 and 'suite_id' in current and current['suite_id']:
                 suite_name = self.get_suite_name(current['suite_id'])
                 if suite_name:
-                    path_parts.append(suite_name)
-                    logger.debug(f"Appended suite_name: {suite_name}")
+                    section_parts.append(suite_name)
+                    self.logger.debug(f"Appended suite_name: {suite_name}")
                 else:
-                    logger.warning(f"Suite name for suite_id {current['suite_id']} not found")
+                    self.logger.warning(f"Suite name for suite_id {current['suite_id']} not found")
             
             # Then build the section hierarchy from current section up to root
             while current:
                 section_parts.append(current['name'])
-                logger.debug(f"Appended section name: {current['name']}")
+                self.logger.debug(f"Appended section name: {current['name']}")
                 
                 parent_id = current.get('parent_id')
                 if parent_id:
-                    logger.debug(f"Current parent_id: {parent_id}")
-                    # Find parent section in the array
+                    self.logger.debug(f"Current parent_id: {parent_id}")
                     current = next((section for section in sections_data 
                                     if section['id'] == parent_id), None)
                     if current:
-                        logger.debug(f"Found parent section: {current}")
+                        self.logger.debug(f"Found parent section: {current}")
                     else:
-                        logger.warning(f"Parent section {parent_id} not found")
+                        self.logger.warning(f"Parent section {parent_id} not found")
                         break
                 else:
-                    logger.debug("No parent_id found, reached top of hierarchy")
+                    self.logger.debug("No parent_id found, reached top of hierarchy")
                     break
             
             # Add sections in reverse order (from root to leaf)
             path_parts.extend(reversed(section_parts))
             
+            # Join with forward slashes and ensure proper structure
             built_path = '/'.join(path_parts)
-            logger.debug(f"Built folder path: {built_path}")
+            self.logger.debug(f"Built folder path: {built_path}")
             return built_path
             
         except Exception as e:
-            logger.error(f"Error building folder path for section {section_id}: {str(e)}")
+            self.logger.error(f"Error building folder path for section {section_id}: {str(e)}")
             return None
 
     @rate_limited_request
