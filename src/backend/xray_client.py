@@ -382,7 +382,10 @@ class XrayClient:
             return None
         
         path_parts = ['TestRail']
-        
+
+        if isinstance(sections_data, dict):
+            sections_data = sections_data.get('sections', [])
+
         # Convert section_id to int if it's a string
         if isinstance(section_id, str):
             section_id = int(section_id)
@@ -511,22 +514,6 @@ class XrayClient:
         except Exception as e:
             logger.error(f"Error getting suite name for suite_id {suite_id}: {str(e)}")
             return None
-
-def map_test_steps(test_case):
-    """Map TestRail test steps to Xray format"""
-    if test_case.get('custom_steps_separated'):
-        return [{
-            'action': step.get('content', ''),
-            'data': step.get('additional_info', ''),
-            'result': step.get('expected', '')
-        } for step in test_case['custom_steps_separated']]
-    elif test_case.get('custom_steps'):
-        return [{
-            'action': test_case['custom_steps'],
-            'data': '',
-            'result': test_case.get('custom_expected', '')
-        }]
-    return None
 
 def parse_steps(steps_separated):
     """Parse test steps and expected results from TestRail format to Xray format.
@@ -659,6 +646,7 @@ def map_test_case(test_case, field_mapping, sections_data):
     # mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
 
+
     # ------- Attachments -------
     test_cases_attachment_files_data = []
     with open('data/output/test_cases_attachment_files.json', 'r') as f:
@@ -694,7 +682,7 @@ def map_test_case(test_case, field_mapping, sections_data):
                 # self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
                 self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_data['id']}"
 
-            mapped_test['fields']['description'] = f"*Attached File Link:* {self_link}\n"
+            mapped_test['fields']['description'] = f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
             test_cases_attachment_files_data.remove(item)
             break
     
@@ -784,10 +772,17 @@ def map_test_case(test_case, field_mapping, sections_data):
             mapped_test['steps'] = steps
     elif test_type == 'Generic':
         stepsString = test_case.get('custom_steps') or ''
-        uStepsDefinition = '*Steps:* '+stepsString+'\n' if stepsString else ''
+        uStepsDefinition = '*Steps:* \n'+stepsString if stepsString else ''
+        expectedResultsString = test_case.get('custom_expected', '') or ''
+        uExpectedResultsDefinition = '*Expected Results:* \n'+expectedResultsString if expectedResultsString else ''
+        
         description = mapped_test['fields'].get('description', '') or ''
-        mapped_test['fields']['description'] = description + uStepsDefinition
-        steps = map_test_steps(test_case)
+        if uStepsDefinition:
+            description += uStepsDefinition + '\n-----------------\n'
+        if uExpectedResultsDefinition:
+            description += uExpectedResultsDefinition + '\n-----------------\n'
+
+        mapped_test['fields']['description'] = description
     
     elif test_type == 'Cucumber':
         # Handle BDD/Cucumber scenarios
@@ -824,7 +819,14 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     pattern = r'!\[\]\(.*?\)'
     description = re.sub(pattern, '', mapped_test['fields']['description'])
+
     mapped_test['fields']['description'] = description
+
+    references = test_case.get('refs') or ''
+    references_list = references.split(',')
+    references_list = [f"({jiraClient.base_url}/browse/{ref})" for ref in references_list]
+    uReferences = '*References:* \n' + ', '.join(references_list) + '\n' if references else ''
+    mapped_test['fields']['description'] = description + uReferences + '\n-----------------\n'
 
     # Log the mapped test case for debugging
     logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
