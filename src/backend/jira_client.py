@@ -58,6 +58,7 @@ class JiraClient:
         self.username = os.getenv('JIRA_USERNAME')
         self.api_token = os.getenv('JIRA_API_TOKEN')
         self.base_url = os.getenv('CONFLUENCE_BASE_URL')
+        self.base_reference_url = os.getenv('REFERENCE_BASE_URL')
         
         # Validate environment variables
         missing_vars = []
