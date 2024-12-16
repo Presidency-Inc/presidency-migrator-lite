@@ -630,7 +630,7 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     mapped_test = {
         "fields": {
-            "project": {"key": "XSP"},
+            "project": {"key": os.getenv('JIRA_PROJECT_KEY')},
             "issuetype": {"name": "Test"}
         }
     }
@@ -642,9 +642,14 @@ def map_test_case(test_case, field_mapping, sections_data):
     # Map basic fields
     mapped_test['fields']['summary'] = test_case.get('title', '')
 
-    # mapped_test['fields']['assignee'] = { "name": "Aditya Bhatnagar" }
-    mapped_test['fields']['assignee'] = { "name": "Francisco Trejo" }
+    mapped_test['fields']['assignee'] = { "name": os.getenv('JIRA_ASSIGNEE_NAME') }
     mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
+
+    # -------- TestRail URL Reference --------
+    tr_url_reference = f"{os.getenv('TESTRAIL_URL')}index.php?/cases/view/{test_case['id']}"
+    description = mapped_test['fields'].get('description', '')
+    mapped_test['fields']['description'] = description + f"\n*TestRail URL Reference:* {tr_url_reference}\n-----------------\n"
+    # -------- TestRail URL Reference --------  
 
 
     # ------- Attachments -------
@@ -682,7 +687,8 @@ def map_test_case(test_case, field_mapping, sections_data):
                 # self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
                 self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_data['id']}"
 
-            mapped_test['fields']['description'] = f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
+            description = mapped_test['fields'].get('description', '')
+            mapped_test['fields']['description'] = description + f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
             test_cases_attachment_files_data.remove(item)
             break
     
@@ -699,37 +705,14 @@ def map_test_case(test_case, field_mapping, sections_data):
     precond_data = {}
 
     # -------- PRECONDITIONS --------
-    try:
-        if 'custom_preconds' in test_case and test_case['custom_preconds']:
-            if test_case.get('custom_preconds'):
-                precond_data['id'] = test_case['id']
-                precond_data['title'] = test_case['title']
-                precond_data['custom_preconds'] = test_case.get('custom_preconds')
-
-                precondition_type = field_mapping['test_case_type_mapping'].get(str(test_case.get('template_id')), 'Generic')
-                precond_data['precondition_type'] = precondition_type
-
-                preconditions = []
-
-                result = client.create_precondition_graphql(precond_data)
-                if isinstance(result, dict):
-                    jira_key = (
-                        result.get('createPrecondition', {})
-                        .get('precondition', {})
-                        .get('jira', {})
-                        .get('key')
-                    )
-                    if jira_key:
-                        preconditions.append(jira_key)
-                        logger.info(f"Created precondition for test {test_case['id']} with Jira key: {jira_key}")
-                else:
-                    logger.error(f"Unexpected result format: {result}")
-                    jira_key = None
-                
-                mapped_test['xray_preconditions'] = preconditions
-    except Exception as e:
-        logger.error(f"Error mapping preconditions for test case {test_case['id']}: {e}")
+    if 'custom_preconds' in test_case and test_case['custom_preconds'] is not None:
+        description = mapped_test['fields'].get('description', '')
+        preconditions = test_case.get('custom_preconds', '')
+        if preconditions.strip():  # Check if custom_preconds is not just whitespace
+            uPrecondsDefinition = '*Preconditions:* \n' + preconditions
+            mapped_test['fields']['description'] = description + uPrecondsDefinition + '\n-----------------\n'
     # -------- PRECONDITIONS --------
+
     
     # Map priority with enhanced debug logging
     priority_id = str(test_case.get('priority_id', '3'))
@@ -823,10 +806,11 @@ def map_test_case(test_case, field_mapping, sections_data):
     mapped_test['fields']['description'] = description
 
     references = test_case.get('refs') or ''
-    references_list = references.split(',')
-    references_list = [f"({jiraClient.base_url}/browse/{ref})" for ref in references_list]
-    uReferences = '*References:* \n' + ', '.join(references_list) + '\n' if references else ''
-    mapped_test['fields']['description'] = description + uReferences + '\n-----------------\n'
+    if references:
+        references_list = references.split(',')
+        references_list = [f"({jiraClient.base_reference_url}/{ref})" for ref in references_list]
+        uReferences = '*References:* \n' + ', '.join(references_list) + '\n' if references else ''
+        mapped_test['fields']['description'] = description + uReferences + '\n-----------------\n'
 
     # Log the mapped test case for debugging
     logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
