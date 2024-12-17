@@ -1,0 +1,23 @@
+[
+    {
+        "sourceProjectId": "1",
+        "targetProjectKey": "SFDC",
+        "targetProjectId": "10001",
+        "rootFolderPath": "Testing/MainFolder/Third Level",
+        "assignee": "Francisco Trejo"
+    },
+    {
+        "sourceProjectId": "4",
+        "targetProjectKey": "SFDC",
+        "targetProjectId": "10001",
+        "rootFolderPath": "Testing/MainFolder/Third Level",
+        "assignee": "Francisco Trejo"
+    },
+    {
+        "sourceProjectId": "3",
+        "targetProjectKey": "SFDC",
+        "targetProjectId": "10001",
+        "rootFolderPath": "Testing/MainFolder/Third Level",
+        "assignee": "Francisco Trejo"
+    }
+]

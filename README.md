@@ -54,6 +54,18 @@ XRAY_CLIENT_SECRET=your-client-secret
 JIRA_URL=your-jira-url
 ```
 
+5. Define migration scope file:
+[
+    {
+        "sourceProjectId": "TEMP_PROJECT_ID", # TestRail project ID
+        "targetProjectKey": "TEMP_PROJECT_KEY", # Xray project key
+        "targetProjectId": "TEMP_PROJECT_ID",  # Xray project ID
+        "rootFolderPath": "TEMP_FOLDER_PATH", # Xray folder path
+        "assignee": "TEMP_ASSIGNEE" # Xray assignee
+    }
+]
+
+
 ## Usage
 
 1. Configure your migration settings in the UI or through configuration files.

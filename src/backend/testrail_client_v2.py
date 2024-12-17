@@ -9,6 +9,7 @@ import json
 import requests
 import logging
 import re
+from scope_client import ScopeClient
 
 from datetime import datetime
 from dotenv import load_dotenv
@@ -385,41 +386,36 @@ class TestRailClient:
         # return response
         return response.get('cases', []) # TR version 5.4 returns a list
 
-    def get_all_test_cases(self, project_id, suite_id=None):
+    def get_all_test_cases(self, suites_list=None):
         """Get all test cases for a project"""
         all_cases = []
-        if isinstance(suite_id, list):
-            for suite in suite_id:
-                if isinstance(suite, dict):
-                    suite_id = suite.get('id')
-                else:
-                    suite_id = suite
-                offset = 0
-                limit = 250
+        if isinstance(suites_list, list):
 
-                while True:
-                    test_cases = self.get_test_cases(project_id, suite_id, offset, limit)
-                    if not test_cases:
-                        break
-                    all_cases.extend(test_cases)
-                    self.logger.info(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
-                    if len(test_cases) < limit:
-                        break
-                    offset += limit
-        else:
+            print("@@@ is a multi suite")
+            print("@@@ is a single suite array", suites_list)
+
             offset = 0
             limit = 250
 
-            while True:
-                test_cases = self.get_test_cases(project_id, suite_id, offset, limit)
-                if not test_cases:
-                    break
-                all_cases.extend(test_cases)
-                self.logger.info(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
-                if len(test_cases) < limit:
-                    break
-                offset += limit
-
+            for suite in suites_list:
+                suite_id = None
+                if isinstance(suite, dict):
+                    suite_id = suite.get('id')
+                    project_id = suite.get('project_id')
+                    if not suite_id:
+                        self.logger.warning(f"Suite ID not found in suite: {suite} that means project is single suite.")
+                        test_cases = self.get_test_cases(project_id, None, offset, limit)
+                        all_cases.extend(test_cases)
+                        self.logger.info(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
+                    else:
+                        test_cases = self.get_test_cases(project_id, suite_id, offset, limit)
+                        all_cases.extend(test_cases)
+                        self.logger.info(f"Fetched {len(test_cases)} test cases. Total: {len(all_cases)}")
+                else:
+                    self.logger.warning(f"Invalid suite format: {suite}")
+                    continue
+        else:
+            self.logger.warning(f"Invalid suites_list format: {suites_list}")
         return all_cases
 
     def attachment_lookup(self, test_case):
@@ -585,32 +581,32 @@ class TestRailClient:
         with open(file_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
-
-def select_project(client):
-    """Interactive project selection"""
-    projects = client.get_projects()
+# Deprecated - Getting all projects from scopeClient
+# def select_project(client):
+#     """Interactive project selection"""
+#     projects = client.get_projects()
     
-    if not projects:
-        print("No projects available.")
-        return None
+#     if not projects:
+#         print("No projects available.")
+#         return None
 
-    print("\nAvailable Projects:")
-    for project in projects:
-        status = 'Completed' if project['is_completed'] else 'Active'
-        print(f"ID: {project['id']}, Name: {project['name']}, Status: {status}")
+#     print("\nAvailable Projects:")
+#     for project in projects:
+#         status = 'Completed' if project['is_completed'] else 'Active'
+#         print(f"ID: {project['id']}, Name: {project['name']}, Status: {status}")
     
-    while True:
-        project_id_input = input("\nEnter the Project ID you want to select (or 'q' to quit): ").strip().lower()
-        if project_id_input == 'q':
-            return None
-        if project_id_input.isdigit():
-            project_id = int(project_id_input)
-            if any(project['id'] == project_id for project in projects):
-                return project_id
-            else:
-                print("Invalid Project ID. Please try again.")
-        else:
-            print("Please enter a numeric Project ID or 'q' to quit.")
+#     while True:
+#         project_id_input = input("\nEnter the Project ID you want to select (or 'q' to quit): ").strip().lower()
+#         if project_id_input == 'q':
+#             return None
+#         if project_id_input.isdigit():
+#             project_id = int(project_id_input)
+#             if any(project['id'] == project_id for project in projects):
+#                 return project_id
+#             else:
+#                 print("Invalid Project ID. Please try again.")
+#         else:
+#             print("Please enter a numeric Project ID or 'q' to quit.")
 
 
 def select_suite(client, project_id):
@@ -648,92 +644,67 @@ def select_suite(client, project_id):
 def main():
     # Initialize TestRail client
     client = TestRailClient()
+    scopeClient = ScopeClient()
     
-    # Select project
-    project_id = select_project(client)
-    if not project_id:
-        print("No project selected. Exiting.")
-        return
+    print("\nProjects from scopeClient:")
+    suites_list = []
+    migration_projects = scopeClient.migration_projects
+    for project in migration_projects:
+        project_id = project['sourceProjectId']
+        print(f"ID: {project['sourceProjectId']}, Target Project: {project['targetProjectKey']}")
+        project = client.get_project(project_id)
+        suite_mode = project['suite_mode']
+
+        print(f"\nTestRail Project:")
+        print(json.dumps(project, indent=4))
+        print(f"Project suite mode: {suite_mode}")
         
-    project = client.get_project(project_id)
-    suite_mode = project['suite_mode']
+        # # Determine suite_id based on suite_mode
+        if suite_mode == 1:
+            suites_list.extend([{"project_id": project_id}])
+            print("Project is in Single Suite Mode.")
+        elif suite_mode == 2 or suite_mode == 3:
+            suites_list.extend(client.get_suites(project_id))
+            print("Project is in Multiple Suites")
+        else:
+            print("Unknown suite mode.")
+            return
 
-    # Determine suite_id based on suite_mode
-    if suite_mode == 1:
-        suite_id = None
-        print("Project is in Single Suite Mode.")
-    elif suite_mode == 2:
-        suite_id = client.get_suites(project_id)[0]['id']
-        print("Project is in Single Suite + Baselines Mode.")
-    elif suite_mode == 3:
-        print("Project is in Multiple Suites Mode.")
-        suite_id = select_suite(client, project_id)
-    else:
-        print("Unknown suite mode.")
-        return
+        # # Fetch and save sections
+        print("\nFetching sections...")
+        sections = []
+        
+        if suites_list:
+            for suite in suites_list:
+                print(f"Fetching sections for suite {suite}...")
+                suite_id = suite.get('id') if 'id' in suite else None
+                response = client.get_sections(suite['project_id'], suite_id) # client.get_sections returns a list in v5.4
+                sections_data = response.get('sections', [])
+                print(f"Response for suite {suite}: {response}")
+                sections.extend(sections_data) # client.get_sections returns a list in v5.4
+            
+        file_name = f'sections_project_{project_id}.json'
+        if sections:
+            client.save_data(sections, file_name)
+            num_sections = len(sections)
+            print(f"Saved {num_sections} sections to data/output/{file_name}")
+        else:
+            print(f"No sections were fetched for project {project_id}. Please check your project configuration and permissions.")
 
-    # Fetch and save test cases
+    # # Fetch and save test cases
     print("\nFetching test cases...")
-    all_test_cases = client.get_all_test_cases(project_id, suite_id)
+    all_test_cases = client.get_all_test_cases(suites_list)
 
     if all_test_cases:
         client.save_data(all_test_cases, 'test_cases.json')
         print(f"Saved {len(all_test_cases)} test cases to data/output/test_cases.json")
 
-        # Deprecated fetching attachments for test cases
-        # print("\nFetching attachments for test cases...")
-        client.get_attachments_for_test_cases(all_test_cases)
+    #     # print("\nFetching attachments for test cases...")
+    #     client.get_attachments_for_test_cases(all_test_cases)
     else:
         print("No test cases were fetched. Please check your project configuration and permissions.")
 
-    # Fetch and save sections
-    print("\nFetching sections...")
-    sections = []
-    if isinstance(suite_id, list):
-        for suite in suite_id:
-            print(f"Fetching sections for suite {suite}...")
-            
-
-            if not isinstance(suite, int):
-                print(f"Invalid suite_id {suite}. Skipping...")
-                continue
-            response = client.get_sections(project_id, suite) # client.get_sections returns a list in v5.4
-            sections_data = response.get('sections', [])
-            print(f"Response for suite {suite}: {response}")
-            sections.extend(sections_data) # client.get_sections returns a list in v5.4
-            # sections.extend(response)
-    else:
-        sections = client.get_sections(project_id, suite_id) # client.get_sections returns a list in v5.4
-    client.save_data(sections, 'sections.json')
-    num_sections = len(sections)
-    # num_sections = len(sections.get('sections', []))
-    print(f"Saved {num_sections} sections to data/output/sections.json")
     
-    # Deprecated user extraction
-    # # Save users list for the specific project
-    # print("\nFetching users list...")
-    # users = client.get_users(project_id)
-    # if users:
-    #     print(f"Found {len(users)} users")
-    #     client.save_data(users, 'users_list.json')
-    #     print(f"Saved users list to data/output/users_list.json")
-    
-    # # Save detailed user information
-    # print("\nFetching detailed user information...")
-    # detailed_users = client.get_all_user_details(project_id)
-    # if detailed_users:
-    #     print(f"Retrieved details for {len(detailed_users)} users")
-    #     client.save_data(detailed_users, 'users_detailed.json')
-    #     print(f"Saved detailed user information to data/output/users_detailed.json")
-    
-    # # Create email mapping
-    # print("\nCreating user email mapping...")
-    # email_mapping = client.get_user_email_mapping(project_id)
-    # if email_mapping:
-    #     print(f"Created email mapping for {len(email_mapping)} users")
-    #     client.save_data(email_mapping, 'user_email_mapping.json')
-    #     print(f"Saved user email mapping to data/output/user_email_mapping.json")
-
 
 if __name__ == "__main__":
     main()
