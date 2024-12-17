@@ -455,7 +455,7 @@ class TestRailClient:
             self.logger.error(f"Error extracting attachments (attachment_lookup) for test case {test_case.get('id')}: {e}")
             return None
 
-    def get_attachments_for_test_cases(self, test_cases):
+    def get_attachments_for_test_cases(self, test_cases, project_id):
         """Get and download attachments for multiple test cases"""
         if not test_cases:
             raise ValueError('test_cases is required')
@@ -516,130 +516,25 @@ class TestRailClient:
             self.logger.info(f"No attachments found for any test cases")
             return None
         
-        self.save_data(attachment_metadata, 'test_cases_attachment_files.json')
-        self.logger.info(f"\nSaved attachment metadata to {os.path.join(self.output_dir, 'test_cases_attachment_files.json')}")
+        self.save_data(attachment_metadata, 'test_cases_attachment_files.json', f"project_{project_id}")
+        self.logger.info(f"\nSaved attachment metadata to {os.path.join(self.output_dir, 'project_{project_id}/test_cases_attachment_files.json')}")
         
         return attachment_metadata
-
-    # Deprecated method - Only for TR version 5.7 and above
-    # def get_attachments_for_test_cases(self, test_cases):
-    #     """Get and download attachments for multiple test cases"""
-    #     if not test_cases:
-    #         raise ValueError('test_cases is required')
-            
-    #     attachment_metadata = []
-        
-    #     for test_case in test_cases:
-    #         case_id = test_case.get('id')
-    #         if case_id is None:
-    #             self.logger.info(f"Skipping test case {test_case} as it doesn't have an ID")
-    #             continue
-            
-    #         self.logger.info(f"\nProcessing test case ID: {case_id}")
-            
-    #         try:
-    #             attachments = self.send_get(f'get_attachments_for_case/{case_id}').get('attachments', [])
-                
-    #             if not attachments:
-    #                 self.logger.info(f"No attachments found for case ID: {case_id}")
-    #                 continue
-                
-    #             for attachment in attachments:
-    #                 attachment_id = attachment['id']
-    #                 filename = attachment['filename']
-                    
-    #                 # Download attachment
-    #                 file_path = os.path.join(self.attachment_dir, filename)
-    #                 self.logger.info(f"\nDownloading: {filename}")
-                    
-    #                 self.send_get(f'get_attachment/{attachment_id}', file_path)
-    #                 self.logger.info(f"Saved to: {file_path}")
-                    
-    #                 attachment_metadata.append({
-    #                     'case_id': case_id,
-    #                     'attachment_id': attachment_id,
-    #                     'file_name': filename,
-    #                     'file_path': file_path
-    #                 })
-                
-    #         except Exception as e:
-    #             self.logger.error(f"Error processing case {case_id}: {str(e)}")
-    #             continue
-        
-    #     if not attachment_metadata:
-    #         self.logger.info(f"No attachments found for any test cases")
-    #         return None
-        
-    #     self.save_data(attachment_metadata, 'test_cases_attachment_files.json')
-    #     self.logger.info(f"\nSaved attachment metadata to {os.path.join(self.output_dir, 'test_cases_attachment_files.json')}")
-        
-    #     return attachment_metadata
-
-    def save_data(self, data, filename):
+ 
+    def save_data(self, data, filename, parent_folder=None):
         """Save data to JSON file"""
-        file_path = os.path.join(self.output_dir, filename)
+
+        folder_path = os.path.join(self.output_dir)
+        if parent_folder:
+            folder_path = os.path.join(self.output_dir, parent_folder)
+
+        file_path = os.path.join(folder_path, filename)
+
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+
         with open(file_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
-
-# Deprecated - Getting all projects from scopeClient
-# def select_project(client):
-#     """Interactive project selection"""
-#     projects = client.get_projects()
-    
-#     if not projects:
-#         print("No projects available.")
-#         return None
-
-#     print("\nAvailable Projects:")
-#     for project in projects:
-#         status = 'Completed' if project['is_completed'] else 'Active'
-#         print(f"ID: {project['id']}, Name: {project['name']}, Status: {status}")
-    
-#     while True:
-#         project_id_input = input("\nEnter the Project ID you want to select (or 'q' to quit): ").strip().lower()
-#         if project_id_input == 'q':
-#             return None
-#         if project_id_input.isdigit():
-#             project_id = int(project_id_input)
-#             if any(project['id'] == project_id for project in projects):
-#                 return project_id
-#             else:
-#                 print("Invalid Project ID. Please try again.")
-#         else:
-#             print("Please enter a numeric Project ID or 'q' to quit.")
-
-
-def select_suite(client, project_id):
-    """Interactive suite selection"""
-    suites = client.get_suites(project_id)
-    if not suites:
-        print("No test suites found for this project.")
-        return None
-    
-    # Save suites data to JSON
-    client.save_data(suites, 'suites.json')
-    print(f"\nSaved {len(suites)} suites to data/output/suites.json")
-        
-    print("\nAvailable Test Suites:")
-    for suite in suites:
-        print(f"ID: {suite['id']}, Name: {suite['name']}")
-        
-    while True:
-        suite_id_input = input("\nEnter the Suite ID you want to select (or 'get_all' for all suites): ").strip()
-        if suite_id_input.isdigit():
-            suite_id = int(suite_id_input)
-            if any(suite['id'] == suite_id for suite in suites):
-                return suite_id
-            else:
-                print("Invalid Suite ID. Please try again.")
-        elif suite_id_input.lower() == "get_all":
-            print("\nSelecting all suites...")
-            suite_ids = [suite['id'] for suite in suites]
-            client.logger.info(f"Selected all suite IDs: {suite_ids}")
-            return suite_ids
-        else:
-            print("Please enter a numeric Suite ID or 'get_all' for all suites.")
-
 
 def main():
     # Initialize TestRail client
@@ -647,9 +542,10 @@ def main():
     scopeClient = ScopeClient()
     
     print("\nProjects from scopeClient:")
-    suites_list = []
+    all_suites = []
     migration_projects = scopeClient.migration_projects
     for project in migration_projects:
+        suites_list = []
         project_id = project['sourceProjectId']
         print(f"ID: {project['sourceProjectId']}, Target Project: {project['targetProjectKey']}")
         project = client.get_project(project_id)
@@ -683,28 +579,29 @@ def main():
                 print(f"Response for suite {suite}: {response}")
                 sections.extend(sections_data) # client.get_sections returns a list in v5.4
             
-        file_name = f'sections_project_{project_id}.json'
-        if sections:
-            client.save_data(sections, file_name)
-            num_sections = len(sections)
-            print(f"Saved {num_sections} sections to data/output/{file_name}")
-        else:
-            print(f"No sections were fetched for project {project_id}. Please check your project configuration and permissions.")
+                if sections:
+                    client.save_data(sections, 'sections.json', f"project_{project_id}")
+                    num_sections = len(sections)
+                    print(f"Saved {num_sections} sections to data/output/project_{project_id}/sections.json")
+                else:
+                    print(f"No sections were fetched for project {project_id}. Please check your project configuration and permissions.")
 
-    # # Fetch and save test cases
-    print("\nFetching test cases...")
-    all_test_cases = client.get_all_test_cases(suites_list)
+            # Fetch and save test cases
+            print("\nFetching test cases for suite...")
+            all_test_cases = client.get_all_test_cases(suites_list)
 
-    if all_test_cases:
-        client.save_data(all_test_cases, 'test_cases.json')
-        print(f"Saved {len(all_test_cases)} test cases to data/output/test_cases.json")
+            if all_test_cases:
+                client.save_data(all_test_cases, 'test_cases.json', f"project_{project_id}")
+                print(f"Saved {len(all_test_cases)} test cases to data/output/project_{project_id}/test_cases.json")
 
-    #     # print("\nFetching attachments for test cases...")
-    #     client.get_attachments_for_test_cases(all_test_cases)
-    else:
-        print("No test cases were fetched. Please check your project configuration and permissions.")
+                # print("\nFetching attachments for test cases...")
+                client.get_attachments_for_test_cases(all_test_cases, project_id)
+            else:
+                print("No test cases were fetched. Please check your project configuration and permissions.")
 
-    
+        all_suites.extend(suites_list)
+        client.save_data(all_suites, 'suites.json')    
+        print(f"Saved {len(all_suites)} suites to data/output/suites.json")
 
 if __name__ == "__main__":
     main()

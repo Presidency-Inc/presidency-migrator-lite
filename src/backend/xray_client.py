@@ -9,6 +9,7 @@ from logging.handlers import RotatingFileHandler
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 from jira_client import JiraClient
+from scope_client import ScopeClient
 import re
 
 class XrayAPIError(Exception):
@@ -446,54 +447,6 @@ class XrayClient:
             logger.error(f"Error building folder path for section {section_id}: {str(e)}")
             return None
 
-    def create_precondition_graphql(self, precondition_data):
-        """Create a precondition in Xray using GraphQL"""
-        try:
-            client = self._get_gql_client()
-            create_precondition_mutation = gql("""
-                mutation createPrecondition(
-                    $preconditionType: UpdatePreconditionTypeInput!,
-                    $definition: String!,
-                    $jira: JSON!
-                ) {
-                    createPrecondition(
-                        preconditionType: $preconditionType,
-                        definition: $definition,
-                        jira: $jira
-                    ) {
-                        precondition {
-                            issueId
-                            preconditionType {
-                                name
-                            }
-                            definition
-                            jira(fields: ["key"])
-                        }
-                        warnings
-                    }
-                }
-            """)
-
-            precondition_type = precondition_data.get('precondition_type', 'Generic')
-
-            variables = {
-                "preconditionType": {"name": precondition_type},
-                "definition": precondition_data.get('custom_preconds', ''),
-                "jira": {
-                    "fields": {
-                        "summary": precondition_data.get('title', ''),
-                        "project": {"key": os.getenv('JIRA_PROJECT_KEY')}
-                    }
-                }
-            }
-            logger.debug(f"Creating precondition for test: {precondition_data.get('title')}")
-            result = client.execute(create_precondition_mutation, variable_values=variables)
-            logger.debug(f"Precondition creation result: {json.dumps(result, indent=2)}")
-            return result
-        except Exception as e:
-            logger.error(f"Error creating precondition: {str(e)}")
-            return None
-
     def get_suite_name(self, suite_id):
         """Retrieve the suite name given a suite ID"""
         try:
@@ -502,7 +455,7 @@ class XrayClient:
                 suites_data = json.load(f)
             
             # Find the suite in the data
-            suite = next((suite for suite in suites_data if suite['id'] == suite_id), None)
+            suite = next((suite for suite in suites_data if suite.get('id') == suite_id), None)
             
             if suite:
                 logger.debug(f"Found suite: {suite}")
@@ -513,6 +466,7 @@ class XrayClient:
                 
         except Exception as e:
             logger.error(f"Error getting suite name for suite_id {suite_id}: {str(e)}")
+            logger.exception("Exception details:")
             return None
 
 def parse_steps(steps_separated):
@@ -622,7 +576,7 @@ def format_bdd_scenarios(scenarios_data):
         logger.error(f"Error formatting BDD scenarios: {str(e)}")
         return None
 
-def map_test_case(test_case, field_mapping, sections_data):
+def map_test_case(test_case, field_mapping, sections_data, project_key):
     """Map a TestRail test case to Xray format"""
     # Create an instance of XrayClient for folder path building
     client = XrayClient()
@@ -630,7 +584,7 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     mapped_test = {
         "fields": {
-            "project": {"key": os.getenv('JIRA_PROJECT_KEY')},
+            "project": {"key": project_key},
             "issuetype": {"name": "Test"}
         }
     }
@@ -884,71 +838,92 @@ def main():
         
         # Initialize Xray client
         client = XrayClient()
-        
-        # Load field mapping configuration
-        config_path = os.path.join(os.path.dirname(__file__), 'config', 'field_mapping.json')
-        with open(config_path, 'r', encoding='utf-8') as f:
-            field_mapping = json.load(f)
-            logger.info("Loaded field mapping configuration")
-            logger.debug("Field mapping: %s", json.dumps(field_mapping, indent=2))
+        scope_client = ScopeClient()
 
-        # Load sections data - keep as array
-        sections_file = os.path.join(os.path.dirname(__file__), '../../data/output/sections.json')
-        with open(sections_file, 'r', encoding='utf-8') as f:
-            sections_data = json.load(f)  # Keep as array, don't convert to dict
-            logger.info("Loaded sections data")
-            
-        # Load test cases
-        input_file = os.path.join(os.path.dirname(__file__), '../../data/output/test_cases.json')
-        with open(input_file, 'r', encoding='utf-8') as f:
-            test_cases = json.load(f)
-            logger.info(f"Loaded {len(test_cases)} test cases")
+        migration_projects = scope_client.migration_projects
+        logger.info(f"Loaded {scope_client.projects_counter()} projects to migrate")
 
-        # Map test cases to Xray format
-        mapped_tests = []
-        for idx, test_case in enumerate(test_cases, 1):
+        for project in migration_projects:
+            source_project_id = project['sourceProjectId']
+            target_project_key = project['targetProjectKey']
+            target_project_id = project['targetProjectId']
+            root_folder_path = project['rootFolderPath']
+
+            # Load field mapping configuration
+            config_path = os.path.join(os.path.dirname(__file__), 'config', 'field_mapping.json')
+            with open(config_path, 'r', encoding='utf-8') as f:
+                field_mapping = json.load(f)
+                logger.info("Loaded field mapping configuration")
+                logger.debug("Field mapping: %s", json.dumps(field_mapping, indent=2))
+
+            # Load sections data - keep as array
+            sections_file = os.path.join(os.path.dirname(__file__), f'../../data/output/project_{source_project_id}/sections.json')
+            with open(sections_file, 'r', encoding='utf-8') as f:
+                sections_data = json.load(f)  # Keep as array, don't convert to dict
+                logger.info("Loaded sections data")
+                
+            # Load test cases
+            input_file = os.path.join(os.path.dirname(__file__), f'../../data/output/project_{source_project_id}/test_cases.json')
+            with open(input_file, 'r', encoding='utf-8') as f:
+                test_cases = json.load(f)
+                logger.info(f"Loaded {len(test_cases)} test cases")
+
+            # Map test cases to Xray format
+            mapped_tests = []
+            for idx, test_case in enumerate(test_cases, 1):
+                try:
+                    # Map the test case
+                    mapped_test = map_test_case(test_case, field_mapping, sections_data, target_project_key)
+                    
+                    # Add repository path using class method
+                    if test_case.get('section_id'):
+                        folder_path = client.build_folder_path(test_case['section_id'], sections_data)
+                        if folder_path:
+                            mapped_test['xray_test_repository_folder'] = folder_path
+                    
+                    # Validate required fields
+                    validate_test_case(mapped_test)
+                    
+                    mapped_tests.append(mapped_test)
+                    
+                except Exception as e:
+                    logger.error(f"Error mapping test case {idx}: {str(e)}")
+                    continue
+
+            # Get project key from environment
+            project_key = os.getenv('JIRA_PROJECT_KEY')
+            logger.info(f"Using JIRA project key: {project_key}")
+
+            if not mapped_tests:
+                logger.error("No test cases were successfully mapped")
+                return
+
+            # Create folder structure before import
             try:
-                # Map the test case
-                mapped_test = map_test_case(test_case, field_mapping, sections_data)
-                
-                # Add repository path using class method
-                if test_case.get('section_id'):
-                    folder_path = client.build_folder_path(test_case['section_id'], sections_data)
-                    if folder_path:
-                        mapped_test['xray_test_repository_folder'] = folder_path
-                
-                # Validate required fields
-                validate_test_case(mapped_test)
-                
-                mapped_tests.append(mapped_test)
-                
+                logger.info("Creating folder structure in Xray")
+                client.create_folder_structure(sections_data, target_project_id)  # Pass array directly
             except Exception as e:
-                logger.error(f"Error mapping test case {idx}: {str(e)}")
-                continue
+                logger.warning(f"Failed to create folder structure: {str(e)}")
+                # Continue with import even if folder creation fails
+            
+            # Import tests
+            # Write mapped tests to JSON file for import
+            folder_path = os.path.join(os.path.dirname(__file__), 'importFiles')
 
-        # Get project key from environment
-        project_key = os.getenv('JIRA_PROJECT_KEY')
-        logger.info(f"Using JIRA project key: {project_key}")
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
 
-        if not mapped_tests:
-            logger.error("No test cases were successfully mapped")
-            return
+            import_file_path = os.path.join(folder_path, f'test_cases_{target_project_key}.json')
 
-        # Create folder structure before import
-        try:
-            logger.info("Creating folder structure in Xray")
-            client.create_folder_structure(sections_data, client.project_id)  # Pass array directly
-        except Exception as e:
-            logger.warning(f"Failed to create folder structure: {str(e)}")
-            # Continue with import even if folder creation fails
-        
-        # Import tests
-        job_id = client.import_tests(mapped_tests, project_key)
+
+            with open(import_file_path, 'w', encoding='utf-8') as f:
+                json.dump(mapped_tests, f, indent=2, ensure_ascii=False)
+            logger.info(f"Wrote {len(mapped_tests)} mapped test cases to {import_file_path}")
         # logger.info(f"Import job created with ID: {job_id}")
 
         # Monitor import status
-        final_status = client.check_import_status(job_id)
-        logger.info(f"Import completed with status: {final_status.get('status')}")
+        # final_status = client.check_import_status(job_id)
+        # logger.info(f"Import completed with status: {final_status.get('status')}")
         
     except Exception as e:
         logger.error(f"Import process failed: {str(e)}", exc_info=True)
