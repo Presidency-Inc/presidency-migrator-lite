@@ -1,6 +1,7 @@
 [
     {
         "sourceProjectId": "4",
+        "suites": [],
         "targetProjectKey": "SFSTARS",
         "targetProjectId": "10001",
         "rootFolderPath": "Testing/MainFolder/Third Level",
