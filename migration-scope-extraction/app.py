@@ -103,7 +103,9 @@ def main():
 
     extracted_data = []
     for url in extraction_list:
-        print(url)
+        print("-" * 50)
+        print("URL:", url)
+
         htmlContent = get_web_content(url)
         extracted_data.append(htmlContent)
 
