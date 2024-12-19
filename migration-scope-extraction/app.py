@@ -59,7 +59,8 @@ def get_web_content(url):
         soup = BeautifulSoup(html_content, 'html.parser')
         # print(f"Soup content: {soup}")
         # Find the <a> tag with the specific id
-        link_tag = soup.find('a', id='navigation-project')
+        # link_tag = soup.find('a', id='navigation-project')
+        link_tag = soup.find('div', class_='top-section').find('a', class_='link-noline')
 
         if extraction_mode == "suite":
             # Extract the href attribute and the text content
