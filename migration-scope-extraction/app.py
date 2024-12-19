@@ -74,13 +74,19 @@ def get_web_content(url):
                     "url": url
                 }
             else:
-                print("Tag with id 'navigation-project' not found.")
+                return {
+                    "details": "Unsopported URL - Tag with id 'navigation-project' not found.",
+                    "url": url
+                }
         else:
             if link_tag:
                 href_value = link_tag['href']
                 text_value = link_tag.get_text()  # or link_tag.string
             else:
-                print("Tag with id 'navigation-project' not found.")
+                return {
+                    "details": "Unsopported URL - Tag with id 'navigation-project' not found.",
+                    "url": url
+                }
     
             return {
                 "project_id": extract_number(url),
