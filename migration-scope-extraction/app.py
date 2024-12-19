@@ -50,7 +50,7 @@ def get_web_content(url):
                 "url": url
             }
 
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, verify=False)
         response.raise_for_status()  # Raise an exception for bad status codes
 
         html_content = response.content
@@ -101,8 +101,6 @@ def main():
         extraction_list = data
 
     print(f"Length of extraction_list: {len(extraction_list)}")
-    print(f"extraction_list: {extraction_list}")
-
 
     extracted_data = []
     for url in extraction_list:
