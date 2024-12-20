@@ -57,9 +57,10 @@ def get_web_content(url):
         # print(f"Response content: {html_content}")
 
         soup = BeautifulSoup(html_content, 'html.parser')
-        # print(f"Soup content: {soup}")
+
         # Find the <a> tag with the specific id
-        link_tag = soup.select_one('div.top-section a.link-noline')
+        # link_tag = soup.find('a', id='navigation-project') # Only for version 8.0
+        link_tag = soup.select_one('div.top-section a.link-noline') # Only for version 5.4
 
         if extraction_mode == "suite":
             # Extract the href attribute and the text content
@@ -67,17 +68,34 @@ def get_web_content(url):
                 href_value = link_tag['href']
                 text_value = link_tag.get_text()  # or link_tag.string
 
+                suit_name_div = soup.select_one('div.content-header-title')
+
+                if not suit_name_div:
+                    print("Tag with id 'content-header-title' not found.")
+                    return {
+                        "details": "Unsopported URL - Tag with id 'content-header-title' not found.",
+                        "url": url
+                    }
+
+                span = suit_name_div.find('span')
+                content = None
+                if span:
+                    # If a <span> exists, get its text
+                    content = span.get_text(strip=True)
+                else:
+                    # If no <span> exists, get the text of the div itself
+                    content = suit_name_div.get_text(strip=True)
+
                 return {
                     "project_id": extract_number(href_value),
                     "project_name": text_value,
                     "suite_id": extract_suite_number(url),
+                    "suite_name": content,
+                    "extraction_mode": extraction_mode,
                     "url": url
                 }
             else:
-                return {
-                    "details": "Unsopported URL - Tag with id 'navigation-project' not found.",
-                    "url": url
-                }
+                print("Tag with id 'navigation-project' not found.")
         else:
             if link_tag:
                 href_value = link_tag['href']
@@ -92,6 +110,7 @@ def get_web_content(url):
                 "project_id": extract_number(url),
                 "project_name": text_value,
                 "suite_id": "all_suites",
+                "extraction_mode": extraction_mode,
                 "url": url
             }
     except requests.RequestException as e:
@@ -111,7 +130,6 @@ def main():
     for url in extraction_list:
         print("-" * 50)
         print("URL:", url)
-
         htmlContent = get_web_content(url)
         extracted_data.append(htmlContent)
 
