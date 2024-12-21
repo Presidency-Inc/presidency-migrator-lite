@@ -57,6 +57,9 @@ def setup_logging():
 logger = setup_logging()
 
 class XrayClient:
+    # Define root folder as a class variable
+    ROOT_FOLDER = 'TestRail'
+    
     def __init__(self):
         load_dotenv()
         self.client_id = os.getenv('XRAY_CLIENT_ID')
@@ -334,8 +337,8 @@ class XrayClient:
         logger.info("Creating folder structure in Xray")
         created_folders = set()
         
-        # First, create the project root folder
-        root_folder = 'TestRail'
+        # Use the root folder defined in the class
+        root_folder = self.ROOT_FOLDER
         self.create_test_repository_folder(root_folder, project_key)
         created_folders.add(root_folder)
         
@@ -382,7 +385,8 @@ class XrayClient:
         if not section_id:
             return None
         
-        path_parts = ['TestRail']
+        # User the root folder defined in the class
+        path_parts = [self.ROOT_FOLDER]
 
         if isinstance(sections_data, dict):
             sections_data = sections_data.get('sections', [])
@@ -812,25 +816,6 @@ def validate_test_case(mapped_test):
     
     if missing_fields:
         raise ValueError(f"Missing required fields: {', '.join(missing_fields)}")
-
-def build_repository_path(test_case, sections_data):
-    """Build Xray test repository folder path from TestRail section"""
-    section_id = test_case.get('section_id')
-    if not section_id:
-        return None
-        
-    # Collect sections from leaf to root
-    sections = []
-    current_section = sections_data.get(str(section_id))
-    
-    while current_section:
-        sections.append(current_section['name'])
-        parent_id = current_section.get('parent_id')
-        current_section = sections_data.get(str(parent_id)) if parent_id else None
-    
-    # Build path from root to leaf
-    path_parts = ['TestRail'] + sections[::-1]  # Reverse the sections list
-    return '/'.join(path_parts) if path_parts else None
 
 def main():
     try:

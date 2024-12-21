@@ -1,0 +1,28 @@
+[
+    {
+        "case_id": 2065,
+        "case_title": "Test case number one",
+        "stored_data": [
+            {
+                "file_path": "index.php?/attachments/get/ab22270a-26f6-42b5-8384-f74193c80f3f",
+                "field": "custom_preconds",
+                "stored_file_name": "custom_preconds_tr_1734743078027.png"
+            },
+            {
+                "file_path": "index.php?/attachments/get/68b9ae26-5b4c-4865-ba18-8443296004ac",
+                "field": "custom_steps",
+                "stored_file_name": "custom_steps_tr_1734743078460.png"
+            },
+            {
+                "file_path": "index.php?/attachments/get/118752de-1c80-4b24-8eb9-8832110ee87a",
+                "field": "custom_steps",
+                "stored_file_name": "custom_steps_tr_1734743078916.png"
+            },
+            {
+                "file_path": "index.php?/attachments/get/abe0b699-ee70-4a0f-b89b-bdf1a8737c7e",
+                "field": "custom_expected",
+                "stored_file_name": "custom_expected_tr_1734743079520.png"
+            }
+        ]
+    }
+]

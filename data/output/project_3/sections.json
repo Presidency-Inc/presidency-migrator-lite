@@ -1,0 +1,38 @@
+[
+    {
+        "id": 185,
+        "suite_id": 10,
+        "name": "Section one",
+        "description": "First section",
+        "parent_id": null,
+        "display_order": 1,
+        "depth": 0
+    },
+    {
+        "id": 186,
+        "suite_id": 10,
+        "name": "Subsection one",
+        "description": null,
+        "parent_id": 185,
+        "display_order": 2,
+        "depth": 1
+    },
+    {
+        "id": 187,
+        "suite_id": 11,
+        "name": "Suite2 section one",
+        "description": null,
+        "parent_id": null,
+        "display_order": 1,
+        "depth": 0
+    },
+    {
+        "id": 188,
+        "suite_id": 11,
+        "name": "Suite2 Sub section one",
+        "description": null,
+        "parent_id": 187,
+        "display_order": 2,
+        "depth": 1
+    }
+]
