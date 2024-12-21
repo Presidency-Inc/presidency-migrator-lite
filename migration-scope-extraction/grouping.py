@@ -1,3 +1,5 @@
+from hmac import new
+from math import log
 import os
 import requests
 from flask import Flask, jsonify
@@ -20,6 +22,10 @@ def group_results(input_data):
 
         for item in input_data.get("content"):
             # Handle unsupported URL items directly
+            if item is None:
+                print("Item is None, ignoring...")
+                continue
+
             if "project_id" not in item:
                 grouped_content.append(item)
                 continue
@@ -36,19 +42,28 @@ def group_results(input_data):
                 if suite_id == "all_suites":
                     processed_projects[project_id] = item
                 else:
+                    suite_name = item["suite_name"]
+                    suite_url = item["url"]
                     # Otherwise, append suite to the list
                     if isinstance(processed_projects[project_id]["suite_id"], list):
-                        processed_projects[project_id]["suite_id"].append(suite_id)
+                        processed_projects[project_id]["suite_id"].append({"id": suite_id, "name": suite_name, "url": suite_url})
                     else:
-                        processed_projects[project_id]["suite_id"] = [processed_projects[project_id]["suite_id"], suite_id]
+                        processed_projects[project_id]["suite_id"] = [{"id": processed_projects[project_id]["suite_id"], "name": suite_name, "url": suite_url}, {"id": suite_id, "name": suite_name, "url": suite_url}]
+
             else:
                 # Add new project
                 if suite_id == "all_suites":
                     processed_projects[project_id] = item
                 else:
+                    suite_name = item["suite_name"]
+                    suite_url = item["url"]
                     new_item = item.copy()
-                    new_item["suite_id"] = [suite_id]
+                    del new_item["suite_name"]
+                    del new_item["url"]
+                    
+                    new_item["suite_id"] = [{"id": suite_id, "name": suite_name, "url": suite_url}]
                     processed_projects[project_id] = new_item
+
 
         # Add processed projects to grouped content
         grouped_content.extend(processed_projects.values())
