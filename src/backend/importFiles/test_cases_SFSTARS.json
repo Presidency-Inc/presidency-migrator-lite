@@ -1,0 +1,27 @@
+[
+  {
+    "fields": {
+      "project": {
+        "key": "SFSTARS"
+      },
+      "issuetype": {
+        "name": "Test"
+      },
+      "summary": "Testcase inside suite",
+      "assignee": {
+        "name": "Alonso Martinez"
+      },
+      "components": [
+        {
+          "name": "Other"
+        }
+      ],
+      "description": "\n*TestRail URL Reference:* https://a1neashore.testrail.io/index.php?/cases/view/2070\n-----------------\n",
+      "priority": {
+        "name": "Low"
+      }
+    },
+    "testtype": "Generic",
+    "xray_test_repository_folder": "TestRail/Master/Test Cases"
+  }
+]
