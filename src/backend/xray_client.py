@@ -643,7 +643,7 @@ def map_test_case(test_case, field_mapping, sections_data):
     mapped_test['fields']['summary'] = test_case.get('title', '')
 
     mapped_test['fields']['assignee'] = { "name": os.getenv('JIRA_ASSIGNEE_NAME') }
-    mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
+    # mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
 
     # -------- TestRail URL Reference --------
     tr_url_reference = f"{os.getenv('TESTRAIL_URL')}index.php?/cases/view/{test_case['id']}"
@@ -654,7 +654,7 @@ def map_test_case(test_case, field_mapping, sections_data):
 
     # ------- Attachments -------
     test_cases_attachment_files_data = []
-    with open('data/output/test_cases_attachment_files.json', 'r') as f:
+    with open('data/output/test_cases_attachment_files.json', 'r', encoding='utf-8') as f:
         test_cases_attachment_files = json.load(f)
         test_cases_attachment_files_data = test_cases_attachment_files.copy()
     for item in test_cases_attachment_files:
