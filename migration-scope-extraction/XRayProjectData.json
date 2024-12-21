@@ -1,0 +1,202 @@
+[
+    {
+       "projectName":"Investment Data Enhancement & Automation",
+       "projectKey":"IDEA",
+       "projectId":"1901"
+    },
+    {
+       "projectName":"Alternatives Projects",
+       "projectKey":"ALT",
+       "projectId":"13500"
+    },
+    {
+       "projectName":"Fact Sheet Automation Project",
+       "projectKey":"FSAP",
+       "projectId":"16100"
+    },
+    {
+       "projectName":"Investments Program",
+       "projectKey":"INVPRG",
+       "projectId":"11000"
+    },
+    {
+       "projectName":"Mass - Product Event",
+       "projectKey":"MPL",
+       "projectId":"11002"
+    },
+    {
+       "projectName":"PMA DATA Enhancements",
+       "projectKey":"PMADATA",
+       "projectId":"20051"
+    },
+    {
+       "projectName":"SBLOC",
+       "projectKey":"SBLOC",
+       "projectId":"14000"
+    },
+    {
+       "projectName":"Tax Loss Harvesting",
+       "projectKey":"TLH",
+       "projectId":"17100"
+    },
+    {
+       "projectName":"Tax Management Services",
+       "projectKey":"TMS",
+       "projectId":"18700"
+    },
+    {
+       "projectName":"Electronic Letters Automation",
+       "projectKey":"OPSELA",
+       "projectId":"17300"
+    },
+    {
+       "projectName":"Advisor-Investor Engagement",
+       "projectKey":"AIE",
+       "projectId":"20073"
+    },
+    {
+       "projectName":"AMRS Scale & Growth Initiative",
+       "projectKey":"AMRS",
+       "projectId":"20042"
+    },
+    {
+       "projectName":"Cheetah",
+       "projectKey":"CHEET",
+       "projectId":"20039"
+    },
+    {
+       "projectName":"Client Reporting squad 2",
+       "projectKey":"CRS2",
+       "projectId":"20212"
+    },
+    {
+       "projectName":"Digital Business Consulting",
+       "projectKey":"DBC",
+       "projectId":"20068"
+    },
+    {
+       "projectName":"Digital Management Squad 1",
+       "projectKey":"DM",
+       "projectId":"16401"
+    },
+    {
+       "projectName":"Digital Management Squad 2",
+       "projectKey":"DM2",
+       "projectId":"20037"
+    },
+    {
+       "projectName":"Digital Management Squad 3",
+       "projectKey":"DM3",
+       "projectId":"20060"
+    },
+    {
+       "projectName":"Digital Management Squad 4",
+       "projectKey":"DM4",
+       "projectId":"20061"
+    },
+    {
+       "projectName":"Donor Advised Funds",
+       "projectKey":"DAF",
+       "projectId":"20048"
+    },
+    {
+       "projectName":"Digital Portfolio Construction",
+       "projectKey":"DPC",
+       "projectId":"20069"
+    },
+    {
+       "projectName":"eDelivery Initiative",
+       "projectKey":"EDINIT",
+       "projectId":"18105"
+    },
+    {
+       "projectName":"eWM 3.0 Client Section",
+       "projectKey":"EWM30CS",
+       "projectId":"20041"
+    },
+    {
+       "projectName":"EWM30 Bulk Investment Change",
+       "projectKey":"EWMBIC",
+       "projectId":"20052"
+    },
+    {
+       "projectName":"EWM3.0 Advisor Insights",
+       "projectKey":"EWMINS",
+       "projectId":"20054"
+    },
+    {
+       "projectName":"eWM 3.0 Investor Portal",
+       "projectKey":"EWMINVPORT",
+       "projectId":"20071"
+    },
+    {
+       "projectName":"eWM 3.0 Program Management",
+       "projectKey":"EWMPM",
+       "projectId":"18104"
+    },
+    {
+       "projectName":"Investor Mobile App",
+       "projectKey":"IMA",
+       "projectId":"20023"
+    },
+    {
+       "projectName":"New Account Funding",
+       "projectKey":"NAF",
+       "projectId":"20027"
+    },
+    {
+       "projectName":"OP - OPBR Tactical",
+       "projectKey":"OPOPBRTACT",
+       "projectId":"10603"
+    },
+    {
+       "projectName":"Okta Services Expansion",
+       "projectKey":"OSE",
+       "projectId":"17302"
+    },
+    {
+       "projectName":"Phased Tax Mailing",
+       "projectKey":"PTM",
+       "projectId":"19007"
+    },
+    {
+       "projectName":"Recon Tool",
+       "projectKey":"RT",
+       "projectId":"18107"
+    },
+    {
+       "projectName":"Salesforce STARS",
+       "projectKey":"SFSTARS",
+       "projectId":"20030"
+    },
+    {
+       "projectName":"TOBI - Ops Platforms Integrations & Enhancements",
+       "projectKey":"TOBIOPIE",
+       "projectId":"15401"
+    },
+    {
+       "projectName":"Trading Solutions Squad 1",
+       "projectKey":"TSS1",
+       "projectId":"20077"
+    },
+    {
+       "projectName":"Trading Solutions Squad 2",
+       "projectKey":"TSS2",
+       "projectId":"20078"
+    },
+    {
+       "projectName":"TDA Schwab Integration",
+       "projectKey":"TSI",
+       "projectId":"19009"
+    },
+    {
+       "projectName":"Workflow & Imaging",
+       "projectKey":"WFI",
+       "projectId":"10701"
+    },
+    {
+        "projectName": "Billing System Replacement", 
+        "projectKey": "BSR",
+        "projectId": "18402"
+    }
+]
