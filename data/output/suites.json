@@ -1,14 +1,6 @@
 [
     {
-        "id": 12,
-        "name": "Master",
-        "description": null,
-        "project_id": 4,
-        "is_master": true,
-        "is_baseline": false,
-        "is_completed": false,
-        "completed_on": null,
-        "url": "https://a1neashore.testrail.io/index.php?/suites/view/12"
+        "project_id": "1"
     },
     {
         "id": 10,
@@ -31,5 +23,16 @@
         "is_completed": false,
         "completed_on": null,
         "url": "https://a1neashore.testrail.io/index.php?/suites/view/11"
+    },
+    {
+        "id": 12,
+        "name": "Master",
+        "description": null,
+        "project_id": 4,
+        "is_master": true,
+        "is_baseline": false,
+        "is_completed": false,
+        "completed_on": null,
+        "url": "https://a1neashore.testrail.io/index.php?/suites/view/12"
     }
 ]

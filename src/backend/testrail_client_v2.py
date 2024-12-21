@@ -546,8 +546,8 @@ def main():
     migration_projects = scopeClient.migration_projects
     for project in migration_projects:
         suites_list = []
-        project_id = project['sourceProjectId']
-        print(f"ID: {project['sourceProjectId']}, Target Project: {project['targetProjectKey']}")
+        project_id = project['source_project_id']
+        # print(f"ID: {project['source_project_id']}, Target Project: {project['project_target_key']}")
         project = client.get_project(project_id)
         suite_mode = project['suite_mode']
 

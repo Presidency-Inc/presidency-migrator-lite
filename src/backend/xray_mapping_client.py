@@ -332,13 +332,13 @@ class XrayClient:
             logger.error(f"Error verifying folder structure: {str(e)}")
             return False
 
-    def create_folder_structure(self, sections_data, project_key):
+    def create_folder_structure(self, sections_data, project_key, folder_path):
         """Create the complete folder structure from sections data"""
         logger.info("Creating folder structure in Xray")
         created_folders = set()
         
         # Use the root folder defined in the class
-        root_folder = self.ROOT_FOLDER
+        root_folder = folder_path
         self.create_test_repository_folder(root_folder, project_key)
         created_folders.add(root_folder)
         
@@ -380,13 +380,13 @@ class XrayClient:
             logger.error(f"Error creating folder structure: {str(e)}")
             return False
 
-    def build_folder_path(self, section_id, sections_data):
+    def build_folder_path(self, section_id, sections_data, folder_path=None):
         """Build the full folder path from section hierarchy"""
         if not section_id:
             return None
         
         # User the root folder defined in the class
-        path_parts = [self.ROOT_FOLDER]
+        path_parts = [folder_path] if folder_path else [""]
 
         if isinstance(sections_data, dict):
             sections_data = sections_data.get('sections', [])
@@ -580,200 +580,213 @@ def format_bdd_scenarios(scenarios_data):
         logger.error(f"Error formatting BDD scenarios: {str(e)}")
         return None
 
-def map_test_case(test_case, field_mapping, sections_data, project_key):
+def map_test_case(test_case, field_mapping, sections_data, project_key, target_info):
     """Map a TestRail test case to Xray format"""
-    # Create an instance of XrayClient for folder path building
-    client = XrayClient()
-    jiraClient = JiraClient()
+    try:
+        logger.debug(f"Starting mapping for test case {test_case.get('id')}")
+        
+        client = XrayClient()
+        jiraClient = JiraClient()
 
-    mapped_test = {
-        "fields": {
-            "project": {"key": project_key},
-            "issuetype": {"name": "Test"}
+        mapped_test = {
+            "fields": {
+                "project": {"key": project_key},
+                "issuetype": {"name": "Test"}
+            }
         }
-    }
-    
-    # Map test type
-    test_type = field_mapping['test_case_type_mapping'].get(str(test_case.get('template_id')), 'Manual')
-    mapped_test['testtype'] = test_type
+        
+        # Log initial mapping details
+        logger.debug(f"Initial mapping created with project key: {project_key}")
+        
+        # Map test type
+        test_type = field_mapping['test_case_type_mapping'].get(str(test_case.get('template_id')), 'Manual')
+        mapped_test['testtype'] = test_type
+        logger.debug(f"Mapped test type: {test_type}")
 
-    # Map basic fields
-    mapped_test['fields']['summary'] = test_case.get('title', '')
+        # Map basic fields
+        mapped_test['fields']['summary'] = test_case.get('title', '')
 
-    mapped_test['fields']['assignee'] = { "name": os.getenv('JIRA_ASSIGNEE_NAME') }
-    mapped_test['fields']['components'] = [{"name": field_mapping['automation_type_mapping'].get(str(test_case.get('type_id')), 'Unknown')}]
+        # Get assignee from target_info instead of env
+        mapped_test['fields']['assignee'] = { "name": target_info['assignee'] }
 
-    # -------- TestRail URL Reference --------
-    tr_url_reference = f"{os.getenv('TESTRAIL_URL')}index.php?/cases/view/{test_case['id']}"
-    description = mapped_test['fields'].get('description', '')
-    mapped_test['fields']['description'] = description + f"\n*TestRail URL Reference:* {tr_url_reference}\n-----------------\n"
-    # -------- TestRail URL Reference --------  
-
-
-    # ------- Attachments -------
-    test_cases_attachment_files_data = []
-    with open('data/output/test_cases_attachment_files.json', 'r') as f:
-        test_cases_attachment_files = json.load(f)
-        test_cases_attachment_files_data = test_cases_attachment_files.copy()
-    for item in test_cases_attachment_files:
-        if test_case.get('id') == item['case_id']:
-            stored_data = item["stored_data"]
-
-            self_link = None
-            
-            # creating confluence page to attach file and get the link
-            page_data = jiraClient.create_page(
-                space_key=os.getenv('JIRA_SPACE_KEY'),
-                title=f"{test_case.get('id')} - {test_case.get('title')}",
-                content="<p>This is a test page created via API</p>"
-            )
-
-            download_dir = os.path.join(os.path.dirname(__file__), 'attachmentFiles')            
-
-            if page_data:
-                for data_item in stored_data:
-                    full_file_path = os.path.join(download_dir, data_item['stored_file_name'])
-                    if not os.path.exists(full_file_path):
-                        logger.warning(f"File not found: {full_file_path}")
-                        continue
-
-                    attachment_data = jiraClient.attach_file(
-                        content_id=page_data['id'],
-                        file_path=full_file_path,
-                        comment=f"Attachment in {data_item.get('field')}"
-                    )
-                # self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
-                self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_data['id']}"
-
-            description = mapped_test['fields'].get('description', '')
-            mapped_test['fields']['description'] = description + f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
-            test_cases_attachment_files_data.remove(item)
-            break
-    
-
-    # Add time tracking directly in fields object according to Xray support's structure
-    if test_case.get('estimate'):
-        mapped_test['fields']['timetracking'] = {
-            "originalEstimate": test_case['estimate'],
-            "remainingEstimate": test_case['estimate']
-        }
-        logger.info(f"Setting time estimate for test case {test_case.get('id')}: {test_case['estimate']}")
-    
-
-    precond_data = {}
-
-    # -------- PRECONDITIONS --------
-    if 'custom_preconds' in test_case and test_case['custom_preconds'] is not None:
+        # -------- TestRail URL Reference --------
+        tr_url_reference = f"{os.getenv('TESTRAIL_URL')}index.php?/cases/view/{test_case['id']}"
         description = mapped_test['fields'].get('description', '')
-        preconditions = test_case.get('custom_preconds', '')
-        if preconditions.strip():  # Check if custom_preconds is not just whitespace
-            uPrecondsDefinition = '*Preconditions:* \n' + preconditions
-            mapped_test['fields']['description'] = description + uPrecondsDefinition + '\n-----------------\n'
-    # -------- PRECONDITIONS --------
+        mapped_test['fields']['description'] = description + f"\n*TestRail URL Reference:* {tr_url_reference}\n-----------------\n"
+        # -------- TestRail URL Reference --------  
 
-    
-    # Map priority with enhanced debug logging
-    priority_id = str(test_case.get('priority_id', '3'))
-    original_priority = test_case.get('priority', 'Unknown')
-    mapped_priority = field_mapping['priority_mapping'].get(priority_id, 'Low')
-    
-    logger.info(f"""Priority Mapping for Test Case {test_case.get('id')} - "{test_case.get('title')}":
-        TestRail Priority ID: {priority_id}
-        TestRail Priority Name: {original_priority}
-        Mapped to Xray Priority: {mapped_priority}
-    """)
-    
-    mapped_test['fields']['priority'] = {
-        "name": mapped_priority
-    }
-    
-    # Build folder path for test repository
-    if test_case.get('section_id'):
-        try:
-            # Convert section_id to int if it's a string
-            section_id = int(test_case['section_id']) if isinstance(test_case['section_id'], str) else test_case['section_id']
-            folder_path = client.build_folder_path(section_id, sections_data)
-            if folder_path:
-                mapped_test['xray_test_repository_folder'] = folder_path
-                logger.debug(f"Set folder path for test case {test_case.get('id')}: {folder_path}")
+
+        # # ------- Attachments -------
+        # test_cases_attachment_files_data = []
+        # with open('data/output/test_cases_attachment_files.json', 'r') as f:
+        #     test_cases_attachment_files = json.load(f)
+        #     test_cases_attachment_files_data = test_cases_attachment_files.copy()
+        # for item in test_cases_attachment_files:
+        #     if test_case.get('id') == item['case_id']:
+        #         stored_data = item["stored_data"]
+
+        #         self_link = None
+            
+        #         # creating confluence page to attach file and get the link
+        #         page_data = jiraClient.create_page(
+        #             space_key=os.getenv('JIRA_SPACE_KEY'),
+        #             title=f"{test_case.get('id')} - {test_case.get('title')}",
+        #             content="<p>This is a test page created via API</p>"
+        #         )
+
+        #         download_dir = os.path.join(os.path.dirname(__file__), 'attachmentFiles')            
+
+        #         if page_data:
+        #             for data_item in stored_data:
+        #                 full_file_path = os.path.join(download_dir, data_item['stored_file_name'])
+        #                 if not os.path.exists(full_file_path):
+        #                     logger.warning(f"File not found: {full_file_path}")
+        #                     continue
+
+        #                 attachment_data = jiraClient.attach_file(
+        #                     content_id=page_data['id'],
+        #                     file_path=full_file_path,
+        #                     comment=f"Attachment in {data_item.get('field')}"
+        #                 )
+        #             # self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
+        #             self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_data['id']}"
+
+        #         description = mapped_test['fields'].get('description', '')
+        #         mapped_test['fields']['description'] = description + f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
+        #         test_cases_attachment_files_data.remove(item)
+        #         break
+        
+
+        # Add time tracking directly in fields object according to Xray support's structure
+        if test_case.get('estimate'):
+            mapped_test['fields']['timetracking'] = {
+                "originalEstimate": test_case['estimate'],
+                "remainingEstimate": test_case['estimate']
+            }
+            logger.info(f"Setting time estimate for test case {test_case.get('id')}: {test_case['estimate']}")
+        
+
+        precond_data = {}
+
+        # -------- PRECONDITIONS --------
+        if 'custom_preconds' in test_case and test_case['custom_preconds'] is not None:
+            description = mapped_test['fields'].get('description', '')
+            preconditions = test_case.get('custom_preconds', '')
+            if preconditions.strip():  # Check if custom_preconds is not just whitespace
+                uPrecondsDefinition = '*Preconditions:* \n' + preconditions
+                mapped_test['fields']['description'] = description + uPrecondsDefinition + '\n-----------------\n'
+        # -------- PRECONDITIONS --------
+
+        
+        # Map priority with enhanced debug logging
+        priority_id = str(test_case.get('priority_id', '3'))
+        original_priority = test_case.get('priority', 'Unknown')
+        mapped_priority = field_mapping['priority_mapping'].get(priority_id, 'Low')
+        
+        logger.info(f"""Priority Mapping for Test Case {test_case.get('id')} - "{test_case.get('title')}":
+            TestRail Priority ID: {priority_id}
+            TestRail Priority Name: {original_priority}
+            Mapped to Xray Priority: {mapped_priority}
+        """)
+        
+        mapped_test['fields']['priority'] = {
+            "name": mapped_priority
+        }
+        
+        # Build folder path for test repository
+        if test_case.get('section_id'):
+            try:
+                # Convert section_id to int if it's a string
+                section_id = int(test_case['section_id']) if isinstance(test_case['section_id'], str) else test_case['section_id']
+                folder_path = client.build_folder_path(section_id, sections_data, target_info['folder_path'])
+                if folder_path:
+                    # Concatenate target folder path with built folder path
+                    mapped_test['xray_test_repository_folder'] = folder_path
+                    logger.debug(f"Set folder path for test case {test_case.get('id')}: {folder_path}")
+                else:
+                    logger.warning(f"Could not build folder path for test case {test_case.get('id')} with section_id {section_id}")
+            except Exception as e:
+                logger.error(f"Error building folder path for test case {test_case.get('id')}: {str(e)}")
+                logger.debug(f"Section ID: {test_case.get('section_id')}, Type: {type(test_case.get('section_id'))}")
+                logger.debug(f"Sections data sample: {str(sections_data[:1])}")
+        
+        # Map test steps based on type
+        if test_type == 'Manual':
+            steps = []
+            if test_case.get('custom_steps_separated'):
+                steps.extend(parse_steps(test_case['custom_steps_separated']))
+            
+            if steps:
+                mapped_test['steps'] = steps
+        elif test_type == 'Generic':
+            stepsString = test_case.get('custom_steps') or ''
+            uStepsDefinition = '*Steps:* \n'+stepsString if stepsString else ''
+            expectedResultsString = test_case.get('custom_expected', '') or ''
+            uExpectedResultsDefinition = '*Expected Results:* \n'+expectedResultsString if expectedResultsString else ''
+            
+            description = mapped_test['fields'].get('description', '') or ''
+            if uStepsDefinition:
+                description += uStepsDefinition + '\n-----------------\n'
+            if uExpectedResultsDefinition:
+                description += uExpectedResultsDefinition + '\n-----------------\n'
+
+            mapped_test['fields']['description'] = description
+        
+        elif test_type == 'Cucumber':
+            # Handle BDD/Cucumber scenarios
+            logger.info(f"Processing Cucumber test case: {test_case.get('id')} - {test_case.get('title')}")
+            
+            bdd_scenario = json.loads(test_case.get('custom_testrail_bdd_scenario')) if test_case.get('custom_testrail_bdd_scenario') else None
+            if bdd_scenario:
+                logger.debug(f"Found BDD scenario content:\n{bdd_scenario}")
+                formatted_scenarios = format_bdd_scenarios(bdd_scenario)
+                
+                if formatted_scenarios:
+                    mapped_test['gherkin_def'] = formatted_scenarios
+                    logger.info(f"Successfully mapped BDD scenarios for test case {test_case.get('id')}")
+                    logger.debug(f"Mapped scenarios:\n{formatted_scenarios}")
+                else:
+                    logger.warning(f"No formatted scenarios generated for test case {test_case.get('id')}")
             else:
-                logger.warning(f"Could not build folder path for test case {test_case.get('id')} with section_id {section_id}")
-        except Exception as e:
-            logger.error(f"Error building folder path for test case {test_case.get('id')}: {str(e)}")
-            logger.debug(f"Section ID: {test_case.get('section_id')}, Type: {type(test_case.get('section_id'))}")
-            logger.debug(f"Sections data sample: {str(sections_data[:1])}")
-    
-    # Map test steps based on type
-    if test_type == 'Manual':
-        steps = []
-        if test_case.get('custom_steps_separated'):
-            steps.extend(parse_steps(test_case['custom_steps_separated']))
+                logger.warning(f"No BDD scenario content found for Cucumber test case {test_case.get('id')}")
+            
+            # Log the complete mapped test case
+            logger.debug(f"Complete mapped test case with BDD scenario:\n{json.dumps(mapped_test, indent=2)}")
         
-        if steps:
-            mapped_test['steps'] = steps
-    elif test_type == 'Generic':
-        stepsString = test_case.get('custom_steps') or ''
-        uStepsDefinition = '*Steps:* \n'+stepsString if stepsString else ''
-        expectedResultsString = test_case.get('custom_expected', '') or ''
-        uExpectedResultsDefinition = '*Expected Results:* \n'+expectedResultsString if expectedResultsString else ''
-        
-        description = mapped_test['fields'].get('description', '') or ''
-        if uStepsDefinition:
-            description += uStepsDefinition + '\n-----------------\n'
-        if uExpectedResultsDefinition:
-            description += uExpectedResultsDefinition + '\n-----------------\n'
+        elif test_type == 'Exploratory':
+            # Handle Exploratory test cases
+            logger.info(f"Processing Exploratory test case: {test_case.get('id')} - {test_case.get('title')}")
+
+            missionString = test_case.get('custom_mission') or ''
+            goalsString = test_case.get('custom_goals') or ''
+            
+            uMissionDefinition = '*Mission:* '+missionString+'\n' if missionString else ''
+            uGoalsDefinition = '*Goals:* '+goalsString+'\n' if goalsString else ''
+            
+            mapped_test['unstructured_def'] = uMissionDefinition + uGoalsDefinition
+
+        pattern = r'!\[\]\(.*?\)'
+        description = re.sub(pattern, '', mapped_test['fields']['description'])
 
         mapped_test['fields']['description'] = description
-    
-    elif test_type == 'Cucumber':
-        # Handle BDD/Cucumber scenarios
-        logger.info(f"Processing Cucumber test case: {test_case.get('id')} - {test_case.get('title')}")
+
+        references = test_case.get('refs') or ''
+        if references:
+            references_list = references.split(',')
+            references_list = [f"({jiraClient.base_reference_url}/{ref})" for ref in references_list]
+            uReferences = '*References:* \n' + ', '.join(references_list) + '\n' if references else ''
+            mapped_test['fields']['description'] = description + uReferences + '\n-----------------\n'
+
+        # Log the mapped test case for debugging
+        logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
         
-        bdd_scenario = json.loads(test_case.get('custom_testrail_bdd_scenario')) if test_case.get('custom_testrail_bdd_scenario') else None
-        if bdd_scenario:
-            logger.debug(f"Found BDD scenario content:\n{bdd_scenario}")
-            formatted_scenarios = format_bdd_scenarios(bdd_scenario)
-            
-            if formatted_scenarios:
-                mapped_test['gherkin_def'] = formatted_scenarios
-                logger.info(f"Successfully mapped BDD scenarios for test case {test_case.get('id')}")
-                logger.debug(f"Mapped scenarios:\n{formatted_scenarios}")
-            else:
-                logger.warning(f"No formatted scenarios generated for test case {test_case.get('id')}")
-        else:
-            logger.warning(f"No BDD scenario content found for Cucumber test case {test_case.get('id')}")
+        logger.debug(f"Successfully mapped test case {test_case.get('id')}")
+        logger.debug(f"Mapped test structure: {json.dumps(mapped_test, indent=2)}")
+        return mapped_test
         
-        # Log the complete mapped test case
-        logger.debug(f"Complete mapped test case with BDD scenario:\n{json.dumps(mapped_test, indent=2)}")
-    
-    elif test_type == 'Exploratory':
-        # Handle Exploratory test cases
-        logger.info(f"Processing Exploratory test case: {test_case.get('id')} - {test_case.get('title')}")
-
-        missionString = test_case.get('custom_mission') or ''
-        goalsString = test_case.get('custom_goals') or ''
-        
-        uMissionDefinition = '*Mission:* '+missionString+'\n' if missionString else ''
-        uGoalsDefinition = '*Goals:* '+goalsString+'\n' if goalsString else ''
-        
-        mapped_test['unstructured_def'] = uMissionDefinition + uGoalsDefinition
-
-    pattern = r'!\[\]\(.*?\)'
-    description = re.sub(pattern, '', mapped_test['fields']['description'])
-
-    mapped_test['fields']['description'] = description
-
-    references = test_case.get('refs') or ''
-    if references:
-        references_list = references.split(',')
-        references_list = [f"({jiraClient.base_reference_url}/{ref})" for ref in references_list]
-        uReferences = '*References:* \n' + ', '.join(references_list) + '\n' if references else ''
-        mapped_test['fields']['description'] = description + uReferences + '\n-----------------\n'
-
-    # Log the mapped test case for debugging
-    logger.debug(f"Mapped test case {test_case.get('id')} with time tracking: {json.dumps(mapped_test, indent=2)}")
-    
-    return mapped_test
+    except Exception as e:
+        logger.error(f"Error mapping test case {test_case.get('id')}: {str(e)}", exc_info=True)
+        raise
 
 def get_xray_issue_type(test_case):
     """Determine Xray issue type based on test case attributes"""
@@ -820,96 +833,140 @@ def validate_test_case(mapped_test):
 def main():
     try:
         logger.info("Starting Xray test import process")
-        
-        # Initialize Xray client
         client = XrayClient()
         scope_client = ScopeClient()
+        processed_projects = set()
 
-        migration_projects = scope_client.migration_projects
         logger.info(f"Loaded {scope_client.projects_counter()} projects to migrate")
 
-        for project in migration_projects:
-            source_project_id = project['sourceProjectId']
-            target_project_key = project['targetProjectKey']
-            target_project_id = project['targetProjectId']
-            root_folder_path = project['rootFolderPath']
-
-            # Load field mapping configuration
-            config_path = os.path.join(os.path.dirname(__file__), 'config', 'field_mapping.json')
-            with open(config_path, 'r', encoding='utf-8') as f:
-                field_mapping = json.load(f)
-                logger.info("Loaded field mapping configuration")
-                logger.debug("Field mapping: %s", json.dumps(field_mapping, indent=2))
-
-            # Load sections data - keep as array
-            sections_file = os.path.join(os.path.dirname(__file__), f'../../data/output/project_{source_project_id}/sections.json')
-            with open(sections_file, 'r', encoding='utf-8') as f:
-                sections_data = json.load(f)  # Keep as array, don't convert to dict
-                logger.info("Loaded sections data")
-                
-            # Load test cases
-            input_file = os.path.join(os.path.dirname(__file__), f'../../data/output/project_{source_project_id}/test_cases.json')
-            with open(input_file, 'r', encoding='utf-8') as f:
-                test_cases = json.load(f)
-                logger.info(f"Loaded {len(test_cases)} test cases")
-
-            # Map test cases to Xray format
-            mapped_tests = []
-            for idx, test_case in enumerate(test_cases, 1):
-                try:
-                    # Map the test case
-                    mapped_test = map_test_case(test_case, field_mapping, sections_data, target_project_key)
-                    
-                    # Add repository path using class method
-                    if test_case.get('section_id'):
-                        folder_path = client.build_folder_path(test_case['section_id'], sections_data)
-                        if folder_path:
-                            mapped_test['xray_test_repository_folder'] = folder_path
-                    
-                    # Validate required fields
-                    validate_test_case(mapped_test)
-                    
-                    mapped_tests.append(mapped_test)
-                    
-                except Exception as e:
-                    logger.error(f"Error mapping test case {idx}: {str(e)}")
-                    continue
-
-            # Get project key from environment
-            project_key = os.getenv('JIRA_PROJECT_KEY')
-            logger.info(f"Using JIRA project key: {project_key}")
-
-            if not mapped_tests:
-                logger.error("No test cases were successfully mapped")
-                return
-
-            # Create folder structure before import
-            try:
-                logger.info("Creating folder structure in Xray")
-                client.create_folder_structure(sections_data, target_project_id)  # Pass array directly
-            except Exception as e:
-                logger.warning(f"Failed to create folder structure: {str(e)}")
-                # Continue with import even if folder creation fails
+        for project in scope_client.migration_projects:
+            source_project_id = project['source_project_id']
+            logger.info(f"Processing project {source_project_id}")
             
-            # Import tests
-            # Write mapped tests to JSON file for import
-            folder_path = os.path.join(os.path.dirname(__file__), 'importFiles')
+            if source_project_id in processed_projects:
+                logger.info(f"Skipping already processed project {source_project_id}")
+                continue
 
-            if not os.path.exists(folder_path):
-                os.makedirs(folder_path)
+            try:
+                # Load field mapping configuration
+                config_path = os.path.join(os.path.dirname(__file__), 'config', 'field_mapping.json')
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    field_mapping = json.load(f)
+                    logger.debug(f"Field mapping loaded: {json.dumps(field_mapping, indent=2)}")
 
-            import_file_path = os.path.join(folder_path, f'test_cases_{target_project_key}.json')
+                # Load sections data
+                sections_file = os.path.join(os.path.dirname(__file__), 
+                    f'../../data/output/project_{source_project_id}/sections.json')
+                with open(sections_file, 'r', encoding='utf-8') as f:
+                    sections_data = json.load(f)
+                    logger.debug(f"Loaded {len(sections_data)} sections")
 
+                if project['extraction_mode'] == 'project':
+                    logger.info(f"Processing project mode for project {source_project_id}")
+                    scope_client.update_current_scope(source_project_id)
+                    target_info = scope_client.get_current_target_info()
+                    logger.debug(f"Target info for project mode: {json.dumps(target_info, indent=2)}")
+                    
+                    input_file = os.path.join(os.path.dirname(__file__), 
+                        f'../../data/output/project_{source_project_id}/test_cases.json')
+                    with open(input_file, 'r', encoding='utf-8') as f:
+                        test_cases = json.load(f)
+                        logger.info(f"Loaded {len(test_cases)} test cases for project {source_project_id}")
 
-            with open(import_file_path, 'w', encoding='utf-8') as f:
-                json.dump(mapped_tests, f, indent=2, ensure_ascii=False)
-            logger.info(f"Wrote {len(mapped_tests)} mapped test cases to {import_file_path}")
-        # logger.info(f"Import job created with ID: {job_id}")
+                    mapped_tests = []
+                    for test_case in test_cases:
+                        try:
+                            logger.debug(f"Mapping test case {test_case.get('id')}")
+                            mapped_test = map_test_case(test_case, field_mapping, sections_data, 
+                                target_info['project_target_key'], target_info)
+                            logger.debug(f"Successfully mapped test case {test_case.get('id')}")
+                            
+                            if test_case.get('section_id'):
+                                folder_path = client.build_folder_path(test_case['section_id'], sections_data)
+                                if folder_path:
+                                    mapped_test['xray_test_repository_folder'] = folder_path
+                                    logger.debug(f"Added folder path: {folder_path}")
+                            
+                            validate_test_case(mapped_test)
+                            mapped_tests.append(mapped_test)
+                            logger.debug(f"Test case {test_case.get('id')} added to mapped tests")
+                            
+                        except Exception as e:
+                            logger.error(f"Error mapping test case {test_case.get('id')}: {str(e)}", exc_info=True)
+                            continue
 
-        # Monitor import status
-        # final_status = client.check_import_status(job_id)
-        # logger.info(f"Import completed with status: {final_status.get('status')}")
-        
+                    logger.info(f"Successfully mapped {len(mapped_tests)} test cases for project {source_project_id}")
+                    client.create_folder_structure(sections_data, target_info['project_target_id'], target_info['folder_path'])
+                    
+                else:  # suite mode
+                    logger.info(f"Processing suite mode for project {source_project_id}")
+                    mapped_tests = []
+                    for suite in project['suites']:
+                        try:
+                            suite_id = suite['suite_id']
+                            logger.info(f"Processing suite {suite_id}")
+                            
+                            scope_client.update_current_scope(source_project_id, suite_id)
+                            target_info = scope_client.get_current_target_info()
+                            logger.debug(f"Target info for suite {suite_id}: {json.dumps(target_info, indent=2)}")
+
+                            input_file = os.path.join(os.path.dirname(__file__), 
+                                f'../../data/output/project_{source_project_id}/test_cases.json')
+                            with open(input_file, 'r', encoding='utf-8') as f:
+                                all_test_cases = json.load(f)
+                                test_cases = [tc for tc in all_test_cases 
+                                            if tc.get('suite_id') == int(suite_id)]
+                                logger.info(f"Found {len(test_cases)} test cases for suite {suite_id}")
+
+                            for test_case in test_cases:
+                                try:
+                                    logger.debug(f"Mapping test case {test_case.get('id')} for suite {suite_id}")
+                                    mapped_test = map_test_case(test_case, field_mapping, sections_data,
+                                        target_info['project_target_key'], target_info)
+                                    
+                                    if test_case.get('section_id'):
+                                        folder_path = client.build_folder_path(test_case['section_id'], sections_data, target_info['folder_path'])
+                                        if folder_path:
+                                            mapped_test['xray_test_repository_folder'] = folder_path
+                                            logger.debug(f"Set folder path for test case {test_case.get('id')}: {folder_path}")
+                                    
+                                    logger.debug(f"Mapping test case v2 {test_case.get('id')}")
+                                    validate_test_case(mapped_test)
+                                    mapped_tests.append(mapped_test)
+                                    logger.debug(f"Test case {test_case.get('id')} added to mapped tests")
+                                    
+                                except Exception as e:
+                                    logger.error(f"Error mapping test case {test_case.get('id')} in suite {suite_id}: {str(e)}", 
+                                        exc_info=True)
+                                    continue
+
+                            logger.info(f"Successfully mapped {len(mapped_tests)} test cases for suite {suite_id}")
+                            client.create_folder_structure(sections_data, target_info['project_target_id'], target_info['folder_path'])
+
+                        except Exception as e:
+                            logger.error(f"Error processing suite {suite.get('suite_id')}: {str(e)}", exc_info=True)
+                            continue
+
+                # Save mapped tests to file
+                if mapped_tests:
+                    logger.info(f"Saving {len(mapped_tests)} mapped tests to file")
+                    folder_path = os.path.join(os.path.dirname(__file__), 'importFiles')
+                    os.makedirs(folder_path, exist_ok=True)
+                    
+                    output_file = os.path.join(folder_path, f'test_cases_{source_project_id}.json')
+                    with open(output_file, 'w', encoding='utf-8') as f:
+                        json.dump(mapped_tests, f, indent=2, ensure_ascii=False)
+                    logger.info(f"Successfully wrote mapped tests to {output_file}")
+                else:
+                    logger.warning(f"No test cases were mapped for project {source_project_id}")
+
+                processed_projects.add(source_project_id)
+                logger.info(f"Successfully processed project {source_project_id}")
+                
+            except Exception as e:
+                logger.error(f"Error processing project {source_project_id}: {str(e)}", exc_info=True)
+                continue
+                
     except Exception as e:
         logger.error(f"Import process failed: {str(e)}", exc_info=True)
         raise
