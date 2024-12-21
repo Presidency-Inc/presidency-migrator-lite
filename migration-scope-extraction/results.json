@@ -1,0 +1,33 @@
+{
+    "message": "Extraction done successfully",
+    "content": [
+        {
+            "project_id": "3",
+            "project_name": "MultiSuitesProject",
+            "suite_id": "11",
+            "url": "https://a1neashore.testrail.io/index.php?/suites/view/11&group_by=cases:section_id&group_order=asc"
+        },
+        {
+            "project_id": "3",
+            "project_name": "MultiSuitesProject",
+            "suite_id": "all_suites",
+            "url": "https://a1neashore.testrail.io/index.php?/suites/overview/3"
+        },
+        {
+            "project_id": "4",
+            "project_name": "Project suite mode = 2",
+            "suite_id": "all_suites",
+            "url": "https://a1neashore.testrail.io/index.php?/suites/overview/4"
+        },
+        {
+            "project_id": "4",
+            "project_name": "Project suite mode = 2",
+            "suite_id": "12",
+            "url": "https://a1neashore.testrail.io/index.php?/suites/view/12&group_by=cases:section_id&group_order=asc"
+        },
+        {
+            "details": "Unsopported URL",
+            "url": "https://google.com"
+        }
+    ]
+}
