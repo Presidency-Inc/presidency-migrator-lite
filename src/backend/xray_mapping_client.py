@@ -956,16 +956,10 @@ def main():
                     folder_path = os.path.join(os.path.dirname(__file__), 'importFiles')
                     os.makedirs(folder_path, exist_ok=True)
                     
-                    # Split into chunks of 500 tests
-                    chunk_size = 500
-                    for i in range(0, len(mapped_tests), chunk_size):
-                        chunk = mapped_tests[i:i + chunk_size]
-                        sequence_number = (i // chunk_size) + 1
-                        output_file = os.path.join(folder_path, f'test_cases_{source_project_id}_{sequence_number}.json')
-                        
-                        with open(output_file, 'w', encoding='utf-8') as f:
-                            json.dump(chunk, f, indent=2, ensure_ascii=False)
-                        logger.info(f"Successfully wrote {len(chunk)} tests to {output_file}")
+                    output_file = os.path.join(folder_path, f'test_cases_{source_project_id}.json')
+                    with open(output_file, 'w', encoding='utf-8') as f:
+                        json.dump(mapped_tests, f, indent=2, ensure_ascii=False)
+                    logger.info(f"Successfully wrote mapped tests to {output_file}")
                 else:
                     logger.warning(f"No test cases were mapped for project {source_project_id}")
 
