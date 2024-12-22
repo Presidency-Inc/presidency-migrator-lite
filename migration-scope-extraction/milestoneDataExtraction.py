@@ -24,7 +24,7 @@ def extract_id_from_url(url, pattern):
 def get_test_case_ids_from_json(json_path):
     """Read test case IDs from JSON file."""
     try:
-        with open(json_path, 'r') as f:
+        with open(json_path, 'r', encoding='utf-8') as f:
             test_cases = json.load(f)
             return [case['ID'] for case in test_cases]
     except Exception as e:
