@@ -583,14 +583,11 @@ def format_bdd_scenarios(scenarios_data):
         logger.error(f"Error formatting BDD scenarios: {str(e)}")
         return None
 
-def map_test_case(test_case, field_mapping, sections_data, project_key, target_info):
+def map_test_case(test_case, field_mapping, sections_data, project_key, target_info, jiraClient, xrayClient):
     """Map a TestRail test case to Xray format"""
     try:
         logger.debug(f"Starting mapping for test case {test_case.get('id')}")
         
-        client = XrayClient()
-        jiraClient = JiraClient()
-
         mapped_test = {
             "fields": {
                 "project": {"key": project_key},
@@ -701,7 +698,7 @@ def map_test_case(test_case, field_mapping, sections_data, project_key, target_i
             try:
                 # Convert section_id to int if it's a string
                 section_id = int(test_case['section_id']) if isinstance(test_case['section_id'], str) else test_case['section_id']
-                folder_path = client.build_folder_path(section_id, sections_data, target_info['folder_path'])
+                folder_path = xrayClient.build_folder_path(section_id, sections_data, target_info['folder_path'])
                 if folder_path:
                     # Concatenate target folder path with built folder path
                     mapped_test['xray_test_repository_folder'] = folder_path
@@ -838,6 +835,8 @@ def main():
         logger.info("Starting Xray test import process")
         client = XrayClient()
         scope_client = ScopeClient()
+        jiraClient = JiraClient()
+
         processed_projects = set()
 
         logger.info(f"Loaded {scope_client.projects_counter()} projects to migrate")
@@ -881,7 +880,7 @@ def main():
                         try:
                             logger.debug(f"Mapping test case {test_case.get('id')}")
                             mapped_test = map_test_case(test_case, field_mapping, sections_data, 
-                                target_info['project_target_key'], target_info)
+                                target_info['project_target_key'], target_info, jiraClient, client)
                             logger.debug(f"Successfully mapped test case {test_case.get('id')}")
                             
                             if test_case.get('section_id'):
@@ -925,7 +924,7 @@ def main():
                                 try:
                                     logger.debug(f"Mapping test case {test_case.get('id')} for suite {suite_id}")
                                     mapped_test = map_test_case(test_case, field_mapping, sections_data,
-                                        target_info['project_target_key'], target_info)
+                                        target_info['project_target_key'], target_info, jiraClient, client)
                                     
                                     if test_case.get('section_id'):
                                         folder_path = client.build_folder_path(test_case['section_id'], sections_data, target_info['folder_path'])
