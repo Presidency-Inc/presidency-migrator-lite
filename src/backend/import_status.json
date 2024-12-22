@@ -15,11 +15,11 @@
     "timestamp": "2024-12-21T19:15:42.244247"
   },
   "test_cases_1.json": {
-    "error": "Timeout waiting for import job 3c313f5671ef48be823ec4e8dc5f9b87 to complete",
-    "timestamp": "2024-12-21T19:52:08.482730"
+    "error": "Timeout waiting for import job e75b1cb32ad34a16ad612ad4a0ddde9d to complete",
+    "timestamp": "2024-12-21T19:58:02.075700"
   },
   "test_cases_SFDC.json": {
     "error": "Import job already in progress",
-    "timestamp": "2024-12-21T19:53:10.876849"
+    "timestamp": "2024-12-21T19:58:02.674116"
   }
 }
