@@ -1,0 +1,3686 @@
+[
+    {
+      "ID": "666451",
+      "Title": "TCN_Email Service Regression_ItemReceived",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205531"
+    },
+    {
+      "ID": "666452",
+      "Title": "TCN_Email Service Regression_ItemCompleted",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205532"
+    },
+    {
+      "ID": "666453",
+      "Title": "TCN_Email Service Regression_ItemRequireAttention(NIGO)",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205533"
+    },
+    {
+      "ID": "666454",
+      "Title": "TCN_Email Service Regression_ItemRequireAttentionReminder(NIGO)",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205534"
+    },
+    {
+      "ID": "666455",
+      "Title": "NBT_Email Service Regression_Approval notification",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205535"
+    },
+    {
+      "ID": "666456",
+      "Title": "NBT_Email Service Regression_Approval notification Bounce",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205536"
+    },
+    {
+      "ID": "666457",
+      "Title": "eSignature_Email Service Regression_SendEmailToAdvisor",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205537"
+    },
+    {
+      "ID": "666458",
+      "Title": "Maintenance eSignature_Email Service Regression_SendEmailToAdvisor",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205538"
+    },
+    {
+      "ID": "666459",
+      "Title": "BAW_Email Service Regression_Termination Notification",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "205539"
+    },
+    {
+      "ID": "666786",
+      "Title": "eSignature Regression_Additional documents_create a new client_Agent requires BD approval",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "136469"
+    },
+    {
+      "ID": "666787",
+      "Title": "eSignature Regression_create a new client_Agent requires BD approval",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "136470"
+    },
+    {
+      "ID": "666788",
+      "Title": "eSignature Regression_create a new client_Agent email signer",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "136471"
+    },
+    {
+      "ID": "666789",
+      "Title": "eSignature Regression_create a new client_Agent InPerson signer",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "136472"
+    },
+    {
+      "ID": "666790",
+      "Title": "eSignature Regression_create a new client_Mandatory BD routing",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "136473"
+    },
+    {
+      "ID": "666791",
+      "Title": "eSignature Regression_create a new client_BD reject",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "136474"
+    },
+    {
+      "ID": "666792",
+      "Title": "eSignature Regression_create a new client_Shared Access user",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "136475"
+    },
+    {
+      "ID": "666793",
+      "Title": "eSignature Regression_create a new D item_Office admin or Assetmark admin",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "136476"
+    },
+    {
+      "ID": "669182",
+      "Title": "Verify when agent is Set to Inactive Work Item Notifications Preferences are deleted",
+      "Assigned To": "",
+      "Case ID": "223803"
+    },
+    {
+      "ID": "669183",
+      "Title": "Verify default preferences will be added when Agent has no Preferences",
+      "Assigned To": "",
+      "Case ID": "223804"
+    },
+    {
+      "ID": "669184",
+      "Title": "Verify preferences displayed correctly in BAW",
+      "Assigned To": "",
+      "Case ID": "223805"
+    },
+    {
+      "ID": "669185",
+      "Title": "Verify emails are sent as per Preferences",
+      "Assigned To": "",
+      "Case ID": "223817"
+    },
+    {
+      "ID": "666413",
+      "Title": "eWM_DocuSign Service Regression_ICT_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224252"
+    },
+    {
+      "ID": "666414",
+      "Title": "eWM_DocuSign Service Regression_Financial Advisor Fee_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224253"
+    },
+    {
+      "ID": "666415",
+      "Title": "eWM_DocuSign Service Regression_OAM_Shell_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224254"
+    },
+    {
+      "ID": "666416",
+      "Title": "eWM_DocuSign Service Regression_OAM_Withdrawal_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224255"
+    },
+    {
+      "ID": "666417",
+      "Title": "eWM_DocuSign Service Regression_Send Reminder to Client_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224256"
+    },
+    {
+      "ID": "666418",
+      "Title": "eWM_DocuSign Service Regression_Cancel Request_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224257"
+    },
+    {
+      "ID": "666419",
+      "Title": "eWM_DocuSign Service Regression_Update Recipient Email Address_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224258"
+    },
+    {
+      "ID": "666420",
+      "Title": "eWM_DocuSign Service Regression_KBA Failure_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224259"
+    },
+    {
+      "ID": "666421",
+      "Title": "eWM_DocuSign Service Regression_Decline to Sign_Display",
+      "Assigned To": "Santiago, Juan (AssetMark, Contractor)",
+      "Case ID": "224260"
+    },
+    {
+      "ID": "666422",
+      "Title": "eWM_DocuSign Service Regression_DocuSign Email_Display",
+      "Assigned To": "",
+      "Case ID": "224261"
+    },
+    {
+      "ID": "666423",
+      "Title": "eWM_DocuSign Service Regression_Client Email_Display",
+      "Assigned To": "",
+      "Case ID": "224262"
+    },
+    {
+      "ID": "668164",
+      "Title": "eWM - TLH Request - Complete and Print - HNW account - Gains",
+      "Assigned To": "",
+      "Case ID": "224263"
+    },
+    {
+      "ID": "668165",
+      "Title": "eWM - TLH Request - Complete and Submit - HNW account - Losses",
+      "Assigned To": "",
+      "Case ID": "224264"
+    },
+    {
+      "ID": "668166",
+      "Title": "eWM - TLH Request - Complete and eSign - non HNW - Losses - max available - in market",
+      "Assigned To": "",
+      "Case ID": "224265"
+    },
+    {
+      "ID": "668167",
+      "Title": "eWM - TLH Request - Complete and eSign - non HNW - Losses- select trade list - all trade - out of market",
+      "Assigned To": "",
+      "Case ID": "224266"
+    },
+    {
+      "ID": "668168",
+      "Title": "BAW - TLH Request - Approve Harvest Request",
+      "Assigned To": "",
+      "Case ID": "224267"
+    },
+    {
+      "ID": "668169",
+      "Title": "Post BAW validation - TLH Request - by Investment team",
+      "Assigned To": "",
+      "Case ID": "224268"
+    },
+    {
+      "ID": "668170",
+      "Title": "Verify CreatedTime captured in Azure -Tax Harvest table",
+      "Assigned To": "",
+      "Case ID": "225010"
+    },
+    {
+      "ID": "669105",
+      "Title": "[BAW SHELL] Verify a new Output field displayed between \"Available Cash\" and \"Options Eligibility\" at the account level",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "223936"
+    },
+    {
+      "ID": "669106",
+      "Title": "[BAW SHELL] Verify \"STW4 on file\" output field will be displaying as N/A if Client AOR is except Michigan (MI), Connecticut (CT), Minnesota (MN), Iowa (IA)",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "223939"
+    },
+    {
+      "ID": "669107",
+      "Title": "[BAW SHELL] Verify \"STW4 on file\" output field will be displaying as No if Client AOR allows STW4 but it is not on file",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "223941"
+    },
+    {
+      "ID": "669108",
+      "Title": "[BAW SHELL] Verify \"STW4 on file\" output field will be displaying as Yes if Client AOR allows STW4 and is on file",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "223942"
+    },
+    {
+      "ID": "669109",
+      "Title": "[BAW SHELL] Verify if API call fails to display STW4 field",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "223944"
+    },
+    {
+      "ID": "669110",
+      "Title": "[BAW SHELL] Verify a new Output field displayed between \"Available Cash\" and \"Options Eligibility\" for the PC Accounts",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "223955"
+    },
+    {
+      "ID": "668212",
+      "Title": "[eWM][OAM] Add new withholding option - Account Termination - F512",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225099"
+    },
+    {
+      "ID": "666754",
+      "Title": "[eWM][OAM] Add new W4P withholding option - Move Assets Between Accounts Establish - F678",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224914"
+    },
+    {
+      "ID": "666753",
+      "Title": "[eWM][OAM] Add new W4P withholding option - Withdrawals Establish - F678",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224913"
+    },
+    {
+      "ID": "666755",
+      "Title": "[eWM][OAM] Add new W4P withholding option - Move Assets Between Accounts Modify- F680",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224915"
+    },
+    {
+      "ID": "666756",
+      "Title": "[eWM][OAM] Add new W4P withholding option - Withdrawals Modify- F680",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224916"
+    },
+    {
+      "ID": "666758",
+      "Title": "[eWM][OAM] W4P withholding option should not be present - Withdrawals Establish - F678",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224918"
+    },
+    {
+      "ID": "669101",
+      "Title": "BAW_Shell_ICT activation test - model change only_Complete and Submit_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225883"
+    },
+    {
+      "ID": "669102",
+      "Title": "BAW_Shell_ICT + Journal activation_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225884"
+    },
+    {
+      "ID": "669104",
+      "Title": "BAW_Shell_Add Investment change OA (model change) from BPM_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225886"
+    },
+    {
+      "ID": "669427",
+      "Title": "BAW_Shell_Add Investment change OA (model change) from BPM_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225959"
+    },
+    {
+      "ID": "669462",
+      "Title": "BAW_Shell_Add, edit, delete journal OA_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225961"
+    },
+    {
+      "ID": "670434",
+      "Title": "BAW_Shell_ICT activation test - model change only_Complete and Submit_WFI",
+      "Assigned To": "",
+      "Case ID": "226320"
+    },
+    {
+      "ID": "670435",
+      "Title": "BAW_Shell_ICT + Journal activation_WFI",
+      "Assigned To": "",
+      "Case ID": "226321"
+    },
+    {
+      "ID": "670437",
+      "Title": "BAW_Shell_Add Investment change OA (model change) from BPM_WFI",
+      "Assigned To": "",
+      "Case ID": "226323"
+    },
+    {
+      "ID": "670438",
+      "Title": "BAW_Shell_Add Investment change OA (model change) from BPM_WFI",
+      "Assigned To": "",
+      "Case ID": "226324"
+    },
+    {
+      "ID": "670439",
+      "Title": "BAW_Shell_Add, edit, delete journal OA_WFI",
+      "Assigned To": "",
+      "Case ID": "226325"
+    },
+    {
+      "ID": "669667",
+      "Title": "BAW_CreateNewClient_HRCSubmit_Disp_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226177"
+    },
+    {
+      "ID": "669669",
+      "Title": "BAW_Check access and beta activation_gnw registration_esign_manual submission_Traditional IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226179"
+    },
+    {
+      "ID": "669655",
+      "Title": "BAW - Withdrawal - Complete And Print - OCR Not Skipped - Reassign to Shell",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226165"
+    },
+    {
+      "ID": "669656",
+      "Title": "BAW - Withdrawal - Complete And Submit - OCR Skipped - Cancel WI in IWR",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226166"
+    },
+    {
+      "ID": "669657",
+      "Title": "BAW - Withdrawal - QC and NIGO - TrackPoints - Cancel Item in View Only screen",
+      "Assigned To": "",
+      "Case ID": "226167"
+    },
+    {
+      "ID": "669658",
+      "Title": "BAW - Withdrawal Submission - ACH Bank - IRA with Tax",
+      "Assigned To": "",
+      "Case ID": "226168"
+    },
+    {
+      "ID": "669659",
+      "Title": "BAW - Withdrawal Submission - Check Bank - IRA with No Tax",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226169"
+    },
+    {
+      "ID": "669660",
+      "Title": "BAW - Withdrawal Submission - Existing Bank - NON IRA",
+      "Assigned To": "",
+      "Case ID": "226170"
+    },
+    {
+      "ID": "669661",
+      "Title": "BAW - Withdrawal Submission - Wire Bank - NON IRA",
+      "Assigned To": "",
+      "Case ID": "226171"
+    },
+    {
+      "ID": "668986",
+      "Title": "eWM_DocuSign Service Regression_ICT_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225857"
+    },
+    {
+      "ID": "668987",
+      "Title": "eWM_DocuSign Service Regression_Financial Advisor Fee_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225858"
+    },
+    {
+      "ID": "668988",
+      "Title": "eWM_DocuSign Service Regression_OAM_Shell_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225859"
+    },
+    {
+      "ID": "668989",
+      "Title": "eWM_DocuSign Service Regression_OAM_Withdrawal_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225860"
+    },
+    {
+      "ID": "668990",
+      "Title": "eWM_DocuSign Service Regression_Send Reminder to Client_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225861"
+    },
+    {
+      "ID": "668991",
+      "Title": "eWM_DocuSign Service Regression_Cancel Request_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225862"
+    },
+    {
+      "ID": "668992",
+      "Title": "eWM_DocuSign Service Regression_Update Recipient Email Address_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225863"
+    },
+    {
+      "ID": "668993",
+      "Title": "eWM_DocuSign Service Regression_KBA Failure_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225864"
+    },
+    {
+      "ID": "668994",
+      "Title": "eWM_DocuSign Service Regression_Decline to Sign_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225865"
+    },
+    {
+      "ID": "668995",
+      "Title": "eWM_DocuSign Service Regression_DocuSign Email_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225866"
+    },
+    {
+      "ID": "668996",
+      "Title": "eWM_DocuSign Service Regression_Client Email_Display",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225867"
+    },
+    {
+      "ID": "668936",
+      "Title": "TCN_Email Service Regression_ItemReceived",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225792"
+    },
+    {
+      "ID": "668937",
+      "Title": "TCN_Email Service Regression_ItemCompleted",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225793"
+    },
+    {
+      "ID": "668938",
+      "Title": "TCN_Email Service Regression_ItemRequireAttention(NIGO)",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225794"
+    },
+    {
+      "ID": "668939",
+      "Title": "TCN_Email Service Regression_ItemRequireAttentionReminder(NIGO)",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225795"
+    },
+    {
+      "ID": "668940",
+      "Title": "NBT_Email Service Regression_Approval notification",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225796"
+    },
+    {
+      "ID": "668941",
+      "Title": "NBT_Email Service Regression_Approval notification Bounce",
+      "Assigned To": "",
+      "Case ID": "225797"
+    },
+    {
+      "ID": "668942",
+      "Title": "eSignature_Email Service Regression_SendEmailToAdvisor",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225798"
+    },
+    {
+      "ID": "668943",
+      "Title": "Maintenance eSignature_Email Service Regression_SendEmailToAdvisor",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225799"
+    },
+    {
+      "ID": "668944",
+      "Title": "BAW_Email Service Regression_Termination Notification",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225800"
+    },
+    {
+      "ID": "670440",
+      "Title": "TCN_Email Service Regression_ItemReceived",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226326"
+    },
+    {
+      "ID": "670441",
+      "Title": "TCN_Email Service Regression_ItemCompleted",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226327"
+    },
+    {
+      "ID": "670442",
+      "Title": "TCN_Email Service Regression_ItemRequireAttention(NIGO)",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226328"
+    },
+    {
+      "ID": "670443",
+      "Title": "TCN_Email Service Regression_ItemRequireAttentionReminder(NIGO)",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226329"
+    },
+    {
+      "ID": "670444",
+      "Title": "NBT_Email Service Regression_Approval notification",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226330"
+    },
+    {
+      "ID": "670445",
+      "Title": "NBT_Email Service Regression_Approval notification Bounce",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226331"
+    },
+    {
+      "ID": "670446",
+      "Title": "eSignature_Email Service Regression_SendEmailToAdvisor",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226332"
+    },
+    {
+      "ID": "670447",
+      "Title": "Maintenance eSignature_Email Service Regression_SendEmailToAdvisor",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226333"
+    },
+    {
+      "ID": "670448",
+      "Title": "BAW_Email Service Regression_Termination Notification",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226334"
+    },
+    {
+      "ID": "668978",
+      "Title": "eSignature Regression_Additional documents_create a new client_Agent requires BD approval",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225841"
+    },
+    {
+      "ID": "668980",
+      "Title": "eSignature Regression_create a new client_Agent email signer",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225843"
+    },
+    {
+      "ID": "668981",
+      "Title": "eSignature Regression_create a new client_Agent InPerson signer",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225844"
+    },
+    {
+      "ID": "668982",
+      "Title": "eSignature Regression_create a new client_Mandatory BD routing",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225845"
+    },
+    {
+      "ID": "668983",
+      "Title": "eSignature Regression_create a new client_BD reject",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225846"
+    },
+    {
+      "ID": "668984",
+      "Title": "eSignature Regression_create a new client_Shared Access user",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225847"
+    },
+    {
+      "ID": "668985",
+      "Title": "eSignature Regression_create a new D item_Office admin or Assetmark admin",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225848"
+    },
+    {
+      "ID": "670449",
+      "Title": "Docusign_Agent_OAM_Complete&Print_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226335"
+    },
+    {
+      "ID": "670450",
+      "Title": "Docusign_Agent_OAM_Complete&Submit_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226336"
+    },
+    {
+      "ID": "670454",
+      "Title": "NAW_Fee Flat fee",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226340"
+    },
+    {
+      "ID": "670455",
+      "Title": "NAW_Fee tiered fee",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226341"
+    },
+    {
+      "ID": "670456",
+      "Title": "Investment Solution Change_fee",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226342"
+    },
+    {
+      "ID": "669103",
+      "Title": "BAW_Shell_Fee Maintenance Activation_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225885"
+    },
+    {
+      "ID": "670570",
+      "Title": "New Account Activation with Flat Fee",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226456"
+    },
+    {
+      "ID": "670571",
+      "Title": "New Account Activation with Tiered fee",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226457"
+    },
+    {
+      "ID": "670663",
+      "Title": "New Account Activation with New Tiered fee",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226471"
+    },
+    {
+      "ID": "669663",
+      "Title": "BAW_Shell_UploadFromTrackingCenter_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226173"
+    },
+    {
+      "ID": "669664",
+      "Title": "BAW_Shell_Upload a document to BPM_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226174"
+    },
+    {
+      "ID": "669665",
+      "Title": "BAW_Shell_Open document in BPM_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226175"
+    },
+    {
+      "ID": "670573",
+      "Title": "BAW_Shell_Verify access note_WFI",
+      "Assigned To": "",
+      "Case ID": "226459"
+    },
+    {
+      "ID": "670664",
+      "Title": "BAW_Open document in WI in Access_WFI",
+      "Assigned To": "",
+      "Case ID": "226472"
+    },
+    {
+      "ID": "670665",
+      "Title": "BAW_Open document in WI in BAW_Filebond Doc viewer",
+      "Assigned To": "",
+      "Case ID": "226473"
+    },
+    {
+      "ID": "670574",
+      "Title": "BAW_Shell_FlipDtoBitem_WFI",
+      "Assigned To": "",
+      "Case ID": "226460"
+    },
+    {
+      "ID": "670575",
+      "Title": "BAW_ParentBundle_Ancora GNW_Disp_WFI",
+      "Assigned To": "",
+      "Case ID": "226461"
+    },
+    {
+      "ID": "670576",
+      "Title": "BAW_Shell_Autoclose_WFI",
+      "Assigned To": "",
+      "Case ID": "226462"
+    },
+    {
+      "ID": "670433",
+      "Title": "BAW - Withdrawal Submission - initiate distribution Auto close",
+      "Assigned To": "",
+      "Case ID": "226319"
+    },
+    {
+      "ID": "670577",
+      "Title": "BAW_Shell_verify the status of journal OA_Open",
+      "Assigned To": "",
+      "Case ID": "226463"
+    },
+    {
+      "ID": "670578",
+      "Title": "BAW_Shell_verify the status of journal OA_Cancelled",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226464"
+    },
+    {
+      "ID": "670579",
+      "Title": "BAW_Shell_verify the status of journal OA_Processed",
+      "Assigned To": "",
+      "Case ID": "226465"
+    },
+    {
+      "ID": "670580",
+      "Title": "BAW_Shell_verify the status of journal OA_InProcess",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226466"
+    },
+    {
+      "ID": "669670",
+      "Title": "Econ_eWM Tracking Center_When no Check Record linked to workitem",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226180"
+    },
+    {
+      "ID": "669671",
+      "Title": "Econ_BAW_Digital Check",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226181"
+    },
+    {
+      "ID": "670581",
+      "Title": "BAW_General_CheckAlerts_WFI",
+      "Assigned To": "",
+      "Case ID": "226467"
+    },
+    {
+      "ID": "670582",
+      "Title": "TCN_WI_Add note from TC",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226468"
+    },
+    {
+      "ID": "670583",
+      "Title": "OWB_Tracking Center",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226469"
+    },
+    {
+      "ID": "670584",
+      "Title": "OWB_Check Mnagement_Search",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226470"
+    },
+    {
+      "ID": "666759",
+      "Title": "[eWM][OAM] Add new Beneficiary Elections - Move Assets Between Accounts - Establish/Modify - F753",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224919"
+    },
+    {
+      "ID": "666760",
+      "Title": "[eWM][OAM] Add new Beneficiary Elections - Withdrawals - Establish/Modify - F753",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224920"
+    },
+    {
+      "ID": "666761",
+      "Title": "[eWM][OAM] Non IRA - Beneficiary Elections should not be present  - Withdrawals - Establish/Modify - F753",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224921"
+    },
+    {
+      "ID": "666782",
+      "Title": "[eWM][OAM] Add new Federal and State Tax Withholdings - Account Termination - F754",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224938"
+    },
+    {
+      "ID": "666783",
+      "Title": "[eWM][OAM] Add new Federal and State Tax Withholdings - Move Assets Between Accounts - F754",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224939"
+    },
+    {
+      "ID": "666784",
+      "Title": "[eWM][OAM] Add new Federal and State Tax Withholdings - Withdrawals - F754",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224944"
+    },
+    {
+      "ID": "666785",
+      "Title": "[eWM][OAM] NON IRA - Federal and State Tax Withholdings should not be present - Account Termination - F754",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "224945"
+    },
+    {
+      "ID": "669464",
+      "Title": "BAW_Shell_FlipDtoBitem_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225974"
+    },
+    {
+      "ID": "669465",
+      "Title": "BAW_Shell_UploadFromTrackingCenter_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225975"
+    },
+    {
+      "ID": "669466",
+      "Title": "BAW_Shell_Fax and upload to PRS a document_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225976"
+    },
+    {
+      "ID": "669467",
+      "Title": "BAW_Shell_Fax and email for TDA account_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225977"
+    },
+    {
+      "ID": "669468",
+      "Title": "BAW_Shell_Send to bancorp_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225978"
+    },
+    {
+      "ID": "669469",
+      "Title": "BAW_Shell_Upload a document to BPM_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225979"
+    },
+    {
+      "ID": "669470",
+      "Title": "BAW_Shell_Open document in BPM_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225980"
+    },
+    {
+      "ID": "669471",
+      "Title": "BAW_Shell_Complete a WI with notes_WFI",
+      "Assigned To": "",
+      "Case ID": "225981"
+    },
+    {
+      "ID": "669472",
+      "Title": "BAW_Shell_Add, edit, delete OA_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225982"
+    },
+    {
+      "ID": "669473",
+      "Title": "BAW_Shell_RunBitem_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225983"
+    },
+    {
+      "ID": "669474",
+      "Title": "BAW_Shell_Autoclose_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225984"
+    },
+    {
+      "ID": "669475",
+      "Title": "BAW_Shell_Create a Journal and change the status_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225985"
+    },
+    {
+      "ID": "669476",
+      "Title": "BAW_Shell_Edit Shell Item from IPG to ADG Channel_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225986"
+    },
+    {
+      "ID": "669477",
+      "Title": "BAW_Shell_Reassign B item with notes and changes_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225987"
+    },
+    {
+      "ID": "669478",
+      "Title": "BAW_Shell_Take Shell all the way (with QC)_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225988"
+    },
+    {
+      "ID": "669479",
+      "Title": "BAW_Shell_Verify access note_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225989"
+    },
+    {
+      "ID": "669480",
+      "Title": "BAW_Shell_Termination notification - add\\delete agent from notification_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225990"
+    },
+    {
+      "ID": "669481",
+      "Title": "BAW_Shell_ICT activation test - model change only_Complete and Submit_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225991"
+    },
+    {
+      "ID": "669482",
+      "Title": "BAW_Shell_ICT + Journal activation_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225992"
+    },
+    {
+      "ID": "669483",
+      "Title": "BAW_Shell_Fee Maintenance Activation_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225993"
+    },
+    {
+      "ID": "669484",
+      "Title": "BAW_Shell_Add journal from BPM_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225994"
+    },
+    {
+      "ID": "669485",
+      "Title": "BAW_Shell_Special routing_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225995"
+    },
+    {
+      "ID": "669486",
+      "Title": "BAW_Shell_Highlights in header -3rd party, HNW_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225996"
+    },
+    {
+      "ID": "669487",
+      "Title": "BAW_Shell_Highlights in header - suspend\\restriction OA (suspend highlight is done with suspend - Addition)_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225997"
+    },
+    {
+      "ID": "669488",
+      "Title": "BAW_Shell_Add Investment change OA (model change) from BPM_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225998"
+    },
+    {
+      "ID": "669489",
+      "Title": "BAW_Shell_Run old shell instance  (non migrated)_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "225999"
+    },
+    {
+      "ID": "669490",
+      "Title": "BAW_Shell_Transfer Firm Section_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "226000"
+    },
+    {
+      "ID": "669491",
+      "Title": "BAW_Shell_Visibility Flags_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226001"
+    },
+    {
+      "ID": "669492",
+      "Title": "BAW_Check the WI and documents links in the different levels_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "226002"
+    },
+    {
+      "ID": "669493",
+      "Title": "BAW_Check the view only coach of an archived item and it's trackpoints_WFI",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "226003"
+    },
+    {
+      "ID": "669494",
+      "Title": "BAW_Shell_Close D Section_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226004"
+    },
+    {
+      "ID": "669532",
+      "Title": "BAW_General_CreateDEinShell_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226042"
+    },
+    {
+      "ID": "669533",
+      "Title": "BAW_General_CheckAlerts_WFI",
+      "Assigned To": "",
+      "Case ID": "226043"
+    },
+    {
+      "ID": "669534",
+      "Title": "BAW_General_ValidateTrackingPoints_WFI",
+      "Assigned To": "",
+      "Case ID": "226044"
+    },
+    {
+      "ID": "669535",
+      "Title": "BAW_Check dashboard_WFI",
+      "Assigned To": "",
+      "Case ID": "226045"
+    },
+    {
+      "ID": "669536",
+      "Title": "BAW_Bulk Reassign_WFI",
+      "Assigned To": "",
+      "Case ID": "226046"
+    },
+    {
+      "ID": "669537",
+      "Title": "BAW_Open WI in access_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226047"
+    },
+    {
+      "ID": "669538",
+      "Title": "BAW_Open document in WI in Access_WFI",
+      "Assigned To": "",
+      "Case ID": "226048"
+    },
+    {
+      "ID": "669539",
+      "Title": "BAW_Set QC selection_WFI",
+      "Assigned To": "",
+      "Case ID": "226049"
+    },
+    {
+      "ID": "669540",
+      "Title": "BAW_Open Multiple (2-3) work items at same time in BAW_WFI",
+      "Assigned To": "",
+      "Case ID": "226050"
+    },
+    {
+      "ID": "669541",
+      "Title": "BAW_Open Multiple images (3) at the same time in BAW_WFI",
+      "Assigned To": "",
+      "Case ID": "226051"
+    },
+    {
+      "ID": "669645",
+      "Title": "NAW_Agent_NewAccount_ExistingClient_WFI",
+      "Assigned To": "",
+      "Case ID": "226155"
+    },
+    {
+      "ID": "669635",
+      "Title": "TCN_WI_Change the status of B number to In process in BPM",
+      "Assigned To": "",
+      "Case ID": "226145"
+    },
+    {
+      "ID": "669636",
+      "Title": "TCN_WI_Change the status to advisor response requested",
+      "Assigned To": "",
+      "Case ID": "226146"
+    },
+    {
+      "ID": "669637",
+      "Title": "TCN_WI_Change the status to NIGO",
+      "Assigned To": "",
+      "Case ID": "226147"
+    },
+    {
+      "ID": "669638",
+      "Title": "TCN_WI_Upload from TC",
+      "Assigned To": "",
+      "Case ID": "226148"
+    },
+    {
+      "ID": "669639",
+      "Title": "TCN_WI_Add note from TC",
+      "Assigned To": "",
+      "Case ID": "226149"
+    },
+    {
+      "ID": "669640",
+      "Title": "TCN_WI_Check visibilty flag for images and notes",
+      "Assigned To": "",
+      "Case ID": "226150"
+    },
+    {
+      "ID": "669641",
+      "Title": "TCN_WI_Change the internal status of WI to Complete in BPM",
+      "Assigned To": "",
+      "Case ID": "226151"
+    },
+    {
+      "ID": "669642",
+      "Title": "TCN_WI_Validate client level Tracking center",
+      "Assigned To": "",
+      "Case ID": "226152"
+    },
+    {
+      "ID": "669524",
+      "Title": "BAW_AssetMarkTrust_DAF_AccessActivation_Disp_WFI",
+      "Assigned To": "Mehta, Ishan (AssetMark, Contractor)",
+      "Case ID": "226034"
+    },
+    {
+      "ID": "669525",
+      "Title": "BAW_CreateNewClient_HRCSubmit_Disp_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226035"
+    },
+    {
+      "ID": "669526",
+      "Title": "BAW_ParentBundle_BDRejected/Resubmit/Approve_Disp_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226036"
+    },
+    {
+      "ID": "669527",
+      "Title": "BAW_ParentBundle_Ancora GNW_Disp_WFI",
+      "Assigned To": "",
+      "Case ID": "226037"
+    },
+    {
+      "ID": "669528",
+      "Title": "BAW_ParentBundle_Accounts Association_Disp_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226038"
+    },
+    {
+      "ID": "669529",
+      "Title": "BAW_Check access and beta activation_gnw registration_esign_manual submission_Traditional IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226039"
+    },
+    {
+      "ID": "669530",
+      "Title": "BAW_Check access activation_individual registration_PRS custodian_HRC submission",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226040"
+    },
+    {
+      "ID": "669531",
+      "Title": "BAW_ParentBundle_New account with contribution + all remaining ##building",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226041"
+    },
+    {
+      "ID": "669495",
+      "Title": "eSign_Agent_CreateNewClient_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226005"
+    },
+    {
+      "ID": "669496",
+      "Title": "eSign_Agent_CreateNewClient_BDApprovalRequired_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226006"
+    },
+    {
+      "ID": "669497",
+      "Title": "eSign_Agent_CreateNewClient_Decline_WFI",
+      "Assigned To": "",
+      "Case ID": "226007"
+    },
+    {
+      "ID": "669498",
+      "Title": "eSign_Admin_CreateNewClient_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226008"
+    },
+    {
+      "ID": "669499",
+      "Title": "Docusign_Agent_OAM_Complete&Print_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226009"
+    },
+    {
+      "ID": "669500",
+      "Title": "Docusign_Agent_OAM_Complete&Submit_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226010"
+    },
+    {
+      "ID": "669501",
+      "Title": "Docusign_Agent_OAM_Complete&eSign_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226011"
+    },
+    {
+      "ID": "669502",
+      "Title": "Docusign_Admin_OAM_Complete&Submit_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226012"
+    },
+    {
+      "ID": "669503",
+      "Title": "ICT_Agent_Complete&Submit_WFI",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226013"
+    },
+    {
+      "ID": "669504",
+      "Title": "ICT_Admin_Complete&Submit_WFI",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226014"
+    },
+    {
+      "ID": "669505",
+      "Title": "eSign_CreateNewFIDclient_End_to_End",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226015"
+    },
+    {
+      "ID": "669506",
+      "Title": "eSign_CreateNewFIDclient_End_to_End(BD approval required)",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226016"
+    },
+    {
+      "ID": "669507",
+      "Title": "eSign_CreateNewClient_logged_in_as_Agent",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226017"
+    },
+    {
+      "ID": "669508",
+      "Title": "eSign_Complete_eSign_logged_as_Shared_Access_user",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226018"
+    },
+    {
+      "ID": "669509",
+      "Title": "eSign_Complete_eSign_logged_as_Oficce_Admin_user",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226019"
+    },
+    {
+      "ID": "669510",
+      "Title": "Pershing eSignature process with Broker Dealer approval",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226020"
+    },
+    {
+      "ID": "669511",
+      "Title": "Pershing eSignature process with no Broker Dealer approval",
+      "Assigned To": "Mehta, Ishan (AssetMark, Contractor)",
+      "Case ID": "226021"
+    },
+    {
+      "ID": "669512",
+      "Title": "eWM registration invites Shared Access user / Office Admin",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226022"
+    },
+    {
+      "ID": "669593",
+      "Title": "eWM - Account Wizard - Signature Additional Documents",
+      "Assigned To": "",
+      "Case ID": "226103"
+    },
+    {
+      "ID": "669513",
+      "Title": "BAW - Withdrawal - Complete And Print - OCR Not Skipped - Reassign to Shell",
+      "Assigned To": "",
+      "Case ID": "226023"
+    },
+    {
+      "ID": "669514",
+      "Title": "BAW - Withdrawal - Complete And Submit - OCR Skipped - Cancel WI in IWR",
+      "Assigned To": "",
+      "Case ID": "226024"
+    },
+    {
+      "ID": "669515",
+      "Title": "BAW - Withdrawal - Run Old Withdrawal",
+      "Assigned To": "",
+      "Case ID": "226025"
+    },
+    {
+      "ID": "669516",
+      "Title": "BAW - Withdrawal - QC and NIGO - TrackPoints - Cancel Item in View Only screen",
+      "Assigned To": "",
+      "Case ID": "226026"
+    },
+    {
+      "ID": "669517",
+      "Title": "BAW - Withdrawal - Documents and WI Links Different Levels - Upload Document",
+      "Assigned To": "",
+      "Case ID": "226027"
+    },
+    {
+      "ID": "669518",
+      "Title": "BAW - Withdrawal - PRS - Fax And Email - Upload Document",
+      "Assigned To": "",
+      "Case ID": "226028"
+    },
+    {
+      "ID": "669519",
+      "Title": "BAW - Withdrawal Submission - ACH Bank - IRA with Tax",
+      "Assigned To": "",
+      "Case ID": "226029"
+    },
+    {
+      "ID": "669520",
+      "Title": "BAW - Withdrawal Submission - Check Bank - IRA with No Tax",
+      "Assigned To": "",
+      "Case ID": "226030"
+    },
+    {
+      "ID": "669521",
+      "Title": "BAW - Withdrawal Submission - Existing Bank - NON IRA",
+      "Assigned To": "",
+      "Case ID": "226031"
+    },
+    {
+      "ID": "669522",
+      "Title": "BAW - Withdrawal Submission - Wire Bank - NON IRA",
+      "Assigned To": "",
+      "Case ID": "226032"
+    },
+    {
+      "ID": "669523",
+      "Title": "BAW - Withdrawal - Special handling task IWR",
+      "Assigned To": "",
+      "Case ID": "226033"
+    },
+    {
+      "ID": "669648",
+      "Title": "eWM_Create new paperwork_Recall_Reject_Approved by BD",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226158"
+    },
+    {
+      "ID": "669649",
+      "Title": "eWM_Create paperwork_Approved by AD",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226159"
+    },
+    {
+      "ID": "669650",
+      "Title": "eWM_Create paperwork_Approved by OSJ",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226160"
+    },
+    {
+      "ID": "669651",
+      "Title": "eWM_Create new paperwork after recall",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226161"
+    },
+    {
+      "ID": "669652",
+      "Title": "eWM_Create paperwork_Cancel Item",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226162"
+    },
+    {
+      "ID": "669542",
+      "Title": "BAW_Transfer details section_Add new funding account_Standalone B",
+      "Assigned To": "",
+      "Case ID": "226052"
+    },
+    {
+      "ID": "669543",
+      "Title": "BAW_Transfer details section_Add new funding account_Child B",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226053"
+    },
+    {
+      "ID": "669544",
+      "Title": "BAW_Transfer details section_Update existing funding account",
+      "Assigned To": "",
+      "Case ID": "226054"
+    },
+    {
+      "ID": "669545",
+      "Title": "BAW_Transfer details section_Standalone B_Transfer type = 1 in DocType table",
+      "Assigned To": "",
+      "Case ID": "226055"
+    },
+    {
+      "ID": "669546",
+      "Title": "eWM - TLH Request - Complete and Print - HNW account - Gains",
+      "Assigned To": "Mehta, Ishan (AssetMark, Contractor)",
+      "Case ID": "226056"
+    },
+    {
+      "ID": "669547",
+      "Title": "eWM - TLH Request - Complete and Submit - HNW account - Losses",
+      "Assigned To": "Mehta, Ishan (AssetMark, Contractor)",
+      "Case ID": "226057"
+    },
+    {
+      "ID": "669548",
+      "Title": "eWM - TLH Request - Complete and eSign - non HNW - Losses - max available - in market",
+      "Assigned To": "Mehta, Ishan (AssetMark, Contractor)",
+      "Case ID": "226058"
+    },
+    {
+      "ID": "669549",
+      "Title": "eWM - TLH Request - Complete and eSign - non HNW - Losses- select trade list - all trade - out of market",
+      "Assigned To": "Mehta, Ishan (AssetMark, Contractor)",
+      "Case ID": "226059"
+    },
+    {
+      "ID": "669550",
+      "Title": "BAW - TLH Request - Approve Harvest Request",
+      "Assigned To": "Mehta, Ishan (AssetMark, Contractor)",
+      "Case ID": "226060"
+    },
+    {
+      "ID": "669551",
+      "Title": "EWM - Add registration(Individual) to an existing account and activate in beta",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226061"
+    },
+    {
+      "ID": "669552",
+      "Title": "BAW - GNW activation in BETA (joint) using non bd approval - check name convention - Add features/records",
+      "Assigned To": "",
+      "Case ID": "226062"
+    },
+    {
+      "ID": "669553",
+      "Title": "BAW - GNW activation in BETA (Traditional IRA) using BD approval - check name convention - Add features/records (MDRO,DAML)",
+      "Assigned To": "",
+      "Case ID": "226063"
+    },
+    {
+      "ID": "669554",
+      "Title": "BAW - ICT Activation for GNW account - 9 digits",
+      "Assigned To": "",
+      "Case ID": "226064"
+    },
+    {
+      "ID": "669555",
+      "Title": "TOAR- Funding account number not shared",
+      "Assigned To": "",
+      "Case ID": "226065"
+    },
+    {
+      "ID": "669556",
+      "Title": "TOAD- Managed Account number not shared",
+      "Assigned To": "",
+      "Case ID": "226066"
+    },
+    {
+      "ID": "669557",
+      "Title": "TOAD- Managed account number shared across multiple work items with",
+      "Assigned To": "",
+      "Case ID": "226067"
+    },
+    {
+      "ID": "669558",
+      "Title": "TOAR-Allocation is 1 to one by %",
+      "Assigned To": "",
+      "Case ID": "226068"
+    },
+    {
+      "ID": "669559",
+      "Title": "TOAR-Allocation is 1 to many by %",
+      "Assigned To": "",
+      "Case ID": "226069"
+    },
+    {
+      "ID": "669560",
+      "Title": "TOAR-Allocation is 1 to many by $ with A/R",
+      "Assigned To": "",
+      "Case ID": "226070"
+    },
+    {
+      "ID": "669561",
+      "Title": "TOAR-Allocation includes Special instruction (Whether 1 vs 1 or 1 to many)",
+      "Assigned To": "",
+      "Case ID": "226071"
+    },
+    {
+      "ID": "669594",
+      "Title": "BAW_Create a new client with Savos account_Activate Account_Savos form Included",
+      "Assigned To": "",
+      "Case ID": "226104"
+    },
+    {
+      "ID": "669595",
+      "Title": "NAW_Create ICT with Savos as a destination account_Savos form NOT Included",
+      "Assigned To": "",
+      "Case ID": "226105"
+    },
+    {
+      "ID": "669596",
+      "Title": "NAW_Create ICT with Savos as a destination account_Savos form Included",
+      "Assigned To": "",
+      "Case ID": "226106"
+    },
+    {
+      "ID": "669646",
+      "Title": "Econ_eWM Tracking Center_When no Check Record linked to workitem",
+      "Assigned To": "",
+      "Case ID": "226156"
+    },
+    {
+      "ID": "669647",
+      "Title": "Econ_BAW_Digital Check",
+      "Assigned To": "",
+      "Case ID": "226157"
+    },
+    {
+      "ID": "669562",
+      "Title": "FLXGSA - Custom Allocation Tool",
+      "Assigned To": "",
+      "Case ID": "226072"
+    },
+    {
+      "ID": "669604",
+      "Title": "eMW-TMS enrolled new account esignature via ancora",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "226114"
+    },
+    {
+      "ID": "669605",
+      "Title": "eMW-TMS enrolled new account esign with 1 SSA & 2 MSA account.",
+      "Assigned To": "",
+      "Case ID": "226115"
+    },
+    {
+      "ID": "669606",
+      "Title": "eMW-TMS enrolled new account esign and BD aprroval with 1 SSA & 2 MSA account.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226116"
+    },
+    {
+      "ID": "669563",
+      "Title": "eWM-TMS one to one",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226073"
+    },
+    {
+      "ID": "669564",
+      "Title": "eWM-TMS one to one with partial investment",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226074"
+    },
+    {
+      "ID": "669565",
+      "Title": "eWM-TMS one to many",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226075"
+    },
+    {
+      "ID": "669566",
+      "Title": "eWM-TMS one to many with retain+New account",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226076"
+    },
+    {
+      "ID": "669567",
+      "Title": "eWM-TMS Many to One with eligible model",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226077"
+    },
+    {
+      "ID": "669568",
+      "Title": "eWM-TMS Many to One with ineligible model",
+      "Assigned To": "",
+      "Case ID": "226078"
+    },
+    {
+      "ID": "669569",
+      "Title": "eWM-TMS Many to Many with Existing acount",
+      "Assigned To": "",
+      "Case ID": "226079"
+    },
+    {
+      "ID": "669570",
+      "Title": "eWM-TMS many to many with New + Retain account",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226080"
+    },
+    {
+      "ID": "669571",
+      "Title": "eWM-TMS Cancel form",
+      "Assigned To": "",
+      "Case ID": "226081"
+    },
+    {
+      "ID": "669601",
+      "Title": "TMS- Enroll with cash and securities Restriction - Complete and submit",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226111"
+    },
+    {
+      "ID": "669602",
+      "Title": "TMS-Create Modify Request - Change of restrictions",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226112"
+    },
+    {
+      "ID": "669603",
+      "Title": "TMS- Cancel with add cash restriction - Complete and Print",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226113"
+    },
+    {
+      "ID": "669597",
+      "Title": "eWM-TMS-Enroll",
+      "Assigned To": "",
+      "Case ID": "226107"
+    },
+    {
+      "ID": "669598",
+      "Title": "eWM-TMS-Update.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226108"
+    },
+    {
+      "ID": "669599",
+      "Title": "eWM-TMS-Unenroll.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226109"
+    },
+    {
+      "ID": "669600",
+      "Title": "BAW-Account update utility-Account Update Details section",
+      "Assigned To": "",
+      "Case ID": "226110"
+    },
+    {
+      "ID": "669607",
+      "Title": "[eWM] NAW - Schwab - Account Features",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226117"
+    },
+    {
+      "ID": "669608",
+      "Title": "[BAW] Withdrawal - TDA - Shell coach - Submit To Custodian/Bank",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226118"
+    },
+    {
+      "ID": "669609",
+      "Title": "[eWM] OAM - Schwab (Custodian Code = TDA) Transfer Activity Kits",
+      "Assigned To": "",
+      "Case ID": "226119"
+    },
+    {
+      "ID": "669610",
+      "Title": "[eWM] ICT - No Partial for New Destination Investment - Only Retain New Account",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226120"
+    },
+    {
+      "ID": "669611",
+      "Title": "[WFI Duplicate Accts] - Create/Edit OA Updates - Shell coach - Managed Account - TDA terminated",
+      "Assigned To": "",
+      "Case ID": "226121"
+    },
+    {
+      "ID": "669612",
+      "Title": "[WFI Duplicate Accts] - Create/Edit OA Updates - Shell coach - Managed Account - GNW",
+      "Assigned To": "",
+      "Case ID": "226122"
+    },
+    {
+      "ID": "669572",
+      "Title": "[BAW]-NAF-Cash movement",
+      "Assigned To": "",
+      "Case ID": "226082"
+    },
+    {
+      "ID": "669573",
+      "Title": "[BAW]-NAF-Asset movement with one securities.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226083"
+    },
+    {
+      "ID": "669574",
+      "Title": "[BAW]-NAF-Asset movement with many securities.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226084"
+    },
+    {
+      "ID": "669575",
+      "Title": "[BAW]-NAF-Asset movement_Mutual Funds.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226085"
+    },
+    {
+      "ID": "669909",
+      "Title": "[BAW]-NAF-Verify if cost basis flag set to \"N/A - All cash funding\" or \"N/A - Qual. Reg.\"",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226310"
+    },
+    {
+      "ID": "669910",
+      "Title": "[BAW]-NAF-If Cash only received no mutual funds and equity and bonds with cost basis flag \"N/A - All cash funding\".",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226311"
+    },
+    {
+      "ID": "669911",
+      "Title": "[BAW]-NAF-If cost basis on the transfer is set to “Waived”, the system will skip the cost basis validation and allocate the assets.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226312"
+    },
+    {
+      "ID": "669912",
+      "Title": "[BAW]-NAF-If cost basis not received for all positions.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226313"
+    },
+    {
+      "ID": "669576",
+      "Title": "[BAW]-Parent/Child-End to End scenario",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226086"
+    },
+    {
+      "ID": "669577",
+      "Title": "[OWB] - Contra Firm - Add New Contra Firm",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226087"
+    },
+    {
+      "ID": "669578",
+      "Title": "[OWB] - Contra firm - Update Contra Firm details",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226088"
+    },
+    {
+      "ID": "669579",
+      "Title": "[OWB] - Contra firm - Update Instructions for Contra Firm",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226089"
+    },
+    {
+      "ID": "669580",
+      "Title": "[OWB] - Contra firm - Update Instructions for Contra Firm with Liquidate",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226090"
+    },
+    {
+      "ID": "669581",
+      "Title": "[OWB] [BAW] - Transfer in-kind & Cash",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226091"
+    },
+    {
+      "ID": "669582",
+      "Title": "[OWB]-Transfer Coach - Clearing firm with name longer than 30 characters",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226092"
+    },
+    {
+      "ID": "669583",
+      "Title": "[BAW]-NAF-Asset movement - Audit table Verification",
+      "Assigned To": "",
+      "Case ID": "226093"
+    },
+    {
+      "ID": "669584",
+      "Title": "[BAW]-NAF-Asset movement - Inflight work item",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226094"
+    },
+    {
+      "ID": "669585",
+      "Title": "[BAW]-NAF-Create Checklist",
+      "Assigned To": "",
+      "Case ID": "226095"
+    },
+    {
+      "ID": "669586",
+      "Title": "[BAW]-NAF- Create Fidelity Transfer Form",
+      "Assigned To": "",
+      "Case ID": "226096"
+    },
+    {
+      "ID": "669587",
+      "Title": "[BAW]-NAF-Modify Checklist - Cash",
+      "Assigned To": "",
+      "Case ID": "226097"
+    },
+    {
+      "ID": "669588",
+      "Title": "[BAW]-NAF-Modify Checklist - Cash - Switch between \"Mail\" to \"Fax\"",
+      "Assigned To": "",
+      "Case ID": "226098"
+    },
+    {
+      "ID": "669589",
+      "Title": "[BAW]-NAF-Modify Checklist - Inkind",
+      "Assigned To": "",
+      "Case ID": "226099"
+    },
+    {
+      "ID": "669590",
+      "Title": "[BAW]-NAF-Use/Complete Checklist",
+      "Assigned To": "",
+      "Case ID": "226100"
+    },
+    {
+      "ID": "669591",
+      "Title": "[BAW]-NAF-Inflight Checklist work item",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226101"
+    },
+    {
+      "ID": "669592",
+      "Title": "[BAW] Terminate Will Not Fund",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226102"
+    },
+    {
+      "ID": "669613",
+      "Title": "Verify the Support page link for inflight work item",
+      "Assigned To": "",
+      "Case ID": "226123"
+    },
+    {
+      "ID": "669623",
+      "Title": "Delivery Method -WIRE",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226133"
+    },
+    {
+      "ID": "669624",
+      "Title": "One Time Distribution Delivery Method_Check",
+      "Assigned To": "",
+      "Case ID": "226134"
+    },
+    {
+      "ID": "669625",
+      "Title": "Delivery Method - ACH",
+      "Assigned To": "",
+      "Case ID": "226135"
+    },
+    {
+      "ID": "669626",
+      "Title": "One Time Distribution  - eWM- Tracking Center",
+      "Assigned To": "",
+      "Case ID": "226136"
+    },
+    {
+      "ID": "669627",
+      "Title": "One Time Distribution - Audit table verification",
+      "Assigned To": "",
+      "Case ID": "226137"
+    },
+    {
+      "ID": "669628",
+      "Title": "One Time Distribution - Inflight work item",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226138"
+    },
+    {
+      "ID": "669629",
+      "Title": "TOAR Record",
+      "Assigned To": "",
+      "Case ID": "226139"
+    },
+    {
+      "ID": "669630",
+      "Title": "TOAD Record",
+      "Assigned To": "",
+      "Case ID": "226140"
+    },
+    {
+      "ID": "669631",
+      "Title": "Transfer In status- Audit table verification",
+      "Assigned To": "",
+      "Case ID": "226141"
+    },
+    {
+      "ID": "669632",
+      "Title": "Transfer Out status - Audit table verification",
+      "Assigned To": "",
+      "Case ID": "226142"
+    },
+    {
+      "ID": "669633",
+      "Title": "TOAR Record - Inflight work item",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226143"
+    },
+    {
+      "ID": "669634",
+      "Title": "TOAD Record - Inflight work item",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226144"
+    },
+    {
+      "ID": "669614",
+      "Title": "Transfer In",
+      "Assigned To": "",
+      "Case ID": "226124"
+    },
+    {
+      "ID": "669615",
+      "Title": "TransferOutCash",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226125"
+    },
+    {
+      "ID": "669616",
+      "Title": "TransferOutInKind",
+      "Assigned To": "",
+      "Case ID": "226126"
+    },
+    {
+      "ID": "669617",
+      "Title": "Transfer In - Inflight work item",
+      "Assigned To": "",
+      "Case ID": "226127"
+    },
+    {
+      "ID": "669618",
+      "Title": "TransferOutCash - Inflight Work item",
+      "Assigned To": "",
+      "Case ID": "226128"
+    },
+    {
+      "ID": "669619",
+      "Title": "TransferOutInKind - Inflight work item",
+      "Assigned To": "",
+      "Case ID": "226129"
+    },
+    {
+      "ID": "669620",
+      "Title": "Investment Solution Change - Inflight work item",
+      "Assigned To": "",
+      "Case ID": "226130"
+    },
+    {
+      "ID": "669621",
+      "Title": "Residual Distribution - Audit table verification",
+      "Assigned To": "",
+      "Case ID": "226131"
+    },
+    {
+      "ID": "669622",
+      "Title": "Residual Distribution - Journal Update allocation",
+      "Assigned To": "",
+      "Case ID": "226132"
+    },
+    {
+      "ID": "669643",
+      "Title": "Verify for SSA model if model is valid on account in Access and eWM",
+      "Assigned To": "",
+      "Case ID": "226153"
+    },
+    {
+      "ID": "669644",
+      "Title": "Verify for MSA model if model is valid on account in Access and eWM",
+      "Assigned To": "",
+      "Case ID": "226154"
+    },
+    {
+      "ID": "669800",
+      "Title": "Cheetah_BAW_Account Update Utility",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226226"
+    },
+    {
+      "ID": "669801",
+      "Title": "Cheetah_eWM_Investment Solution Change",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226227"
+    },
+    {
+      "ID": "669802",
+      "Title": "Cheetah_Create New Account_Account Wizard Landing page",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226228"
+    },
+    {
+      "ID": "669803",
+      "Title": "Cheetah_BAW_Shell_External Account number and External Platform",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226229"
+    },
+    {
+      "ID": "669804",
+      "Title": "Cheetah_BAW_View only page_External Account number and External Platform",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226230"
+    },
+    {
+      "ID": "669805",
+      "Title": "Cheetah_BAW_Full Transfer Out in-kind Bank Trust",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226231"
+    },
+    {
+      "ID": "669806",
+      "Title": "Initiate Withdrawal API End to End",
+      "Assigned To": "",
+      "Case ID": "226232"
+    },
+    {
+      "ID": "669807",
+      "Title": "Cheetah_eWM_BAW_ OAM_ Create a Platform Fee Assignment Kit - Non-Taxable",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226233"
+    },
+    {
+      "ID": "669808",
+      "Title": "Cheetah_eWM_BAW_ OAM_ Create a Platform Fee Assignment Kit - Taxable",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226234"
+    },
+    {
+      "ID": "669809",
+      "Title": "Cheetah_eWM_OAM_Available Kits_Account Information Change",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226235"
+    },
+    {
+      "ID": "669810",
+      "Title": "Cheetah_eWM_OAM_Available Kits_Account Termination",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226236"
+    },
+    {
+      "ID": "669811",
+      "Title": "Cheetah_eWM_OAM_Available Kits_Client Agreement Change",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226237"
+    },
+    {
+      "ID": "669812",
+      "Title": "Cheetah_eWM_OAM_Available Kits_Move Assets Between Accounts",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226238"
+    },
+    {
+      "ID": "669813",
+      "Title": "Cheetah_eWM_OAM_Available Kits_Transfer Activity",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226239"
+    },
+    {
+      "ID": "669814",
+      "Title": "Cheetah_eWM_OAM_Available Kits_Withdrawals",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226240"
+    },
+    {
+      "ID": "669839",
+      "Title": "Cheetah_New Account_API End to End",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226296"
+    },
+    {
+      "ID": "669794",
+      "Title": "[eWM_BAW]Create new DAF client_AssetMark Charitable button",
+      "Assigned To": "Rodriguez, Maria (AssetMark, Contractor)",
+      "Case ID": "226220"
+    },
+    {
+      "ID": "669795",
+      "Title": "AMRS_Create New Account_Salesforce",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226221"
+    },
+    {
+      "ID": "669796",
+      "Title": "AMRS_BAW_Account Update Utility",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226222"
+    },
+    {
+      "ID": "669797",
+      "Title": "AMRS_Create New Account_eWM",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226223"
+    },
+    {
+      "ID": "669798",
+      "Title": "AMRS_Modify existing Account_Salesforce",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226224"
+    },
+    {
+      "ID": "669799",
+      "Title": "AMRS_OAM_Create a new Address Change kit_eWM",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226225"
+    },
+    {
+      "ID": "671011",
+      "Title": "BAW_Shell_FlipDtoBitem_WFI",
+      "Assigned To": "",
+      "Case ID": "226343"
+    },
+    {
+      "ID": "671012",
+      "Title": "BAW_Shell_UploadFromTrackingCenter_WFI",
+      "Assigned To": "",
+      "Case ID": "226344"
+    },
+    {
+      "ID": "671013",
+      "Title": "BAW_Shell_Fax and upload to PRS a document_WFI",
+      "Assigned To": "",
+      "Case ID": "226345"
+    },
+    {
+      "ID": "671014",
+      "Title": "BAW_Shell_Fax and email for TDA account_WFI",
+      "Assigned To": "",
+      "Case ID": "226346"
+    },
+    {
+      "ID": "671015",
+      "Title": "BAW_Shell_Send to bancorp_WFI",
+      "Assigned To": "",
+      "Case ID": "226347"
+    },
+    {
+      "ID": "671016",
+      "Title": "BAW_Shell_Upload a document to BPM_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226348"
+    },
+    {
+      "ID": "671017",
+      "Title": "BAW_Shell_Open document in BPM_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226349"
+    },
+    {
+      "ID": "671018",
+      "Title": "BAW_Shell_Complete a WI with notes_WFI",
+      "Assigned To": "",
+      "Case ID": "226350"
+    },
+    {
+      "ID": "671019",
+      "Title": "BAW_Shell_Add, edit, delete OA_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226351"
+    },
+    {
+      "ID": "671020",
+      "Title": "BAW_Shell_RunBitem_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226352"
+    },
+    {
+      "ID": "671021",
+      "Title": "BAW_Shell_Autoclose_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226353"
+    },
+    {
+      "ID": "671022",
+      "Title": "BAW_Shell_Create a Journal and change the status_WFI",
+      "Assigned To": "",
+      "Case ID": "226354"
+    },
+    {
+      "ID": "671023",
+      "Title": "BAW_Shell_Edit Shell Item from IPG to ADG Channel_WFI",
+      "Assigned To": "",
+      "Case ID": "226355"
+    },
+    {
+      "ID": "671024",
+      "Title": "BAW_Shell_Reassign B item with notes and changes_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226356"
+    },
+    {
+      "ID": "671025",
+      "Title": "BAW_Shell_Take Shell all the way (with QC)_WFI",
+      "Assigned To": "",
+      "Case ID": "226357"
+    },
+    {
+      "ID": "671026",
+      "Title": "BAW_Shell_Verify access note_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226358"
+    },
+    {
+      "ID": "671027",
+      "Title": "BAW_Shell_Termination notification - add\\delete agent from notification_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226359"
+    },
+    {
+      "ID": "671028",
+      "Title": "BAW_Shell_ICT activation test - model change only_Complete and Submit_WFI",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226360"
+    },
+    {
+      "ID": "671029",
+      "Title": "BAW_Shell_ICT + Journal activation_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226361"
+    },
+    {
+      "ID": "671030",
+      "Title": "BAW_Shell_Fee Maintenance Activation_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226362"
+    },
+    {
+      "ID": "671031",
+      "Title": "BAW_Shell_Add journal from BPM_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226363"
+    },
+    {
+      "ID": "671032",
+      "Title": "BAW_Shell_Special routing_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226364"
+    },
+    {
+      "ID": "671033",
+      "Title": "BAW_Shell_Highlights in header -3rd party, HNW_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226365"
+    },
+    {
+      "ID": "671034",
+      "Title": "BAW_Shell_Highlights in header - suspend\\restriction OA (suspend highlight is done with suspend - Addition)_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226366"
+    },
+    {
+      "ID": "671035",
+      "Title": "BAW_Shell_Add Investment change OA (model change) from BPM_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226367"
+    },
+    {
+      "ID": "671036",
+      "Title": "BAW_Shell_Run old shell instance  (non migrated)_WFI",
+      "Assigned To": "",
+      "Case ID": "226368"
+    },
+    {
+      "ID": "671037",
+      "Title": "BAW_Shell_Transfer Firm Section_WFI",
+      "Assigned To": "",
+      "Case ID": "226369"
+    },
+    {
+      "ID": "671038",
+      "Title": "BAW_Shell_Visibility Flags_WFI",
+      "Assigned To": "",
+      "Case ID": "226370"
+    },
+    {
+      "ID": "671039",
+      "Title": "BAW_Check the WI and documents links in the different levels_WFI",
+      "Assigned To": "",
+      "Case ID": "226371"
+    },
+    {
+      "ID": "671040",
+      "Title": "BAW_Check the view only coach of an archived item and it's trackpoints_WFI",
+      "Assigned To": "",
+      "Case ID": "226372"
+    },
+    {
+      "ID": "671041",
+      "Title": "BAW_Shell_Close D Section_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226373"
+    },
+    {
+      "ID": "671079",
+      "Title": "BAW_General_CreateDEinShell_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226411"
+    },
+    {
+      "ID": "671080",
+      "Title": "BAW_General_CheckAlerts_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226412"
+    },
+    {
+      "ID": "671081",
+      "Title": "BAW_General_ValidateTrackingPoints_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226413"
+    },
+    {
+      "ID": "671082",
+      "Title": "BAW_Check dashboard_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226414"
+    },
+    {
+      "ID": "671083",
+      "Title": "BAW_Bulk Reassign_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226415"
+    },
+    {
+      "ID": "671084",
+      "Title": "BAW_Open WI in access_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226416"
+    },
+    {
+      "ID": "671085",
+      "Title": "BAW_Open document in WI in Access_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226417"
+    },
+    {
+      "ID": "671086",
+      "Title": "BAW_Set QC selection_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226418"
+    },
+    {
+      "ID": "671087",
+      "Title": "BAW_Open Multiple (2-3) work items at same time in BAW_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226419"
+    },
+    {
+      "ID": "671088",
+      "Title": "BAW_Open Multiple images (3) at the same time in BAW_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226420"
+    },
+    {
+      "ID": "671118",
+      "Title": "NAW_Agent_NewAccount_ExistingClient_WFI",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226450"
+    },
+    {
+      "ID": "671110",
+      "Title": "TCN_WI_Change the status of B number to In process in BPM",
+      "Assigned To": "",
+      "Case ID": "226442"
+    },
+    {
+      "ID": "671111",
+      "Title": "TCN_WI_Change the status to advisor response requested",
+      "Assigned To": "",
+      "Case ID": "226443"
+    },
+    {
+      "ID": "671112",
+      "Title": "TCN_WI_Change the status to NIGO",
+      "Assigned To": "",
+      "Case ID": "226444"
+    },
+    {
+      "ID": "671113",
+      "Title": "TCN_WI_Upload from TC",
+      "Assigned To": "",
+      "Case ID": "226445"
+    },
+    {
+      "ID": "671114",
+      "Title": "TCN_WI_Add note from TC",
+      "Assigned To": "",
+      "Case ID": "226446"
+    },
+    {
+      "ID": "671115",
+      "Title": "TCN_WI_Check visibilty flag for images and notes",
+      "Assigned To": "",
+      "Case ID": "226447"
+    },
+    {
+      "ID": "671116",
+      "Title": "TCN_WI_Change the internal status of WI to Complete in BPM",
+      "Assigned To": "",
+      "Case ID": "226448"
+    },
+    {
+      "ID": "671117",
+      "Title": "TCN_WI_Validate client level Tracking center",
+      "Assigned To": "",
+      "Case ID": "226449"
+    },
+    {
+      "ID": "671071",
+      "Title": "BAW_AssetMarkTrust_DAF_AccessActivation_Disp_WFI",
+      "Assigned To": "",
+      "Case ID": "226403"
+    },
+    {
+      "ID": "671072",
+      "Title": "BAW_CreateNewClient_HRCSubmit_Disp_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226404"
+    },
+    {
+      "ID": "671073",
+      "Title": "BAW_ParentBundle_BDRejected/Resubmit/Approve_Disp_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226405"
+    },
+    {
+      "ID": "671074",
+      "Title": "BAW_ParentBundle_Ancora Non-GNW_Disp_WFI",
+      "Assigned To": "",
+      "Case ID": "226406"
+    },
+    {
+      "ID": "671075",
+      "Title": "BAW_ParentBundle_Accounts Association_Disp_WFI",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226407"
+    },
+    {
+      "ID": "671076",
+      "Title": "BAW_Check access and beta activation_gnw registration_esign_manual submission_Traditional IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226408"
+    },
+    {
+      "ID": "671077",
+      "Title": "BAW_Check access activation_individual registration_PRS custodian_HRC submission",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226409"
+    },
+    {
+      "ID": "671078",
+      "Title": "BAW_ParentBundle_New account with contribution + all remaining ##building",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226410"
+    },
+    {
+      "ID": "671042",
+      "Title": "eSign_Agent_CreateNewClient_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226374"
+    },
+    {
+      "ID": "671043",
+      "Title": "eSign_Agent_CreateNewClient_BDApprovalRequired_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226375"
+    },
+    {
+      "ID": "671044",
+      "Title": "eSign_Agent_CreateNewClient_Decline_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226376"
+    },
+    {
+      "ID": "671045",
+      "Title": "eSign_Admin_CreateNewClient_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226377"
+    },
+    {
+      "ID": "671046",
+      "Title": "Docusign_Agent_OAM_Complete&Print_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226378"
+    },
+    {
+      "ID": "671047",
+      "Title": "Docusign_Agent_OAM_Complete&Submit_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226379"
+    },
+    {
+      "ID": "671048",
+      "Title": "Docusign_Agent_OAM_Complete&eSign_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226380"
+    },
+    {
+      "ID": "671049",
+      "Title": "Docusign_Admin_OAM_Complete&Submit_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226381"
+    },
+    {
+      "ID": "671050",
+      "Title": "ICT_Agent_Complete&Submit_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226382"
+    },
+    {
+      "ID": "671051",
+      "Title": "ICT_Admin_Complete&Submit_WFI",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226383"
+    },
+    {
+      "ID": "671052",
+      "Title": "eSign_CreateNewFIDclient_End_to_End",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226384"
+    },
+    {
+      "ID": "671053",
+      "Title": "eSign_CreateNewFIDclient_End_to_End(BD approval required)",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226385"
+    },
+    {
+      "ID": "671054",
+      "Title": "eSign_CreateNewClient_logged_in_as_Agent",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226386"
+    },
+    {
+      "ID": "671055",
+      "Title": "eSign_Complete_eSign_logged_as_Shared_Access_user",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226387"
+    },
+    {
+      "ID": "671056",
+      "Title": "eSign_Complete_eSign_logged_as_Oficce_Admin_user",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226388"
+    },
+    {
+      "ID": "671057",
+      "Title": "Pershing eSignature process with Broker Dealer approval",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226389"
+    },
+    {
+      "ID": "671058",
+      "Title": "Pershing eSignature process with no Broker Dealer approval",
+      "Assigned To": "Jesudoss, Johnson (AssetMark, Contractor)",
+      "Case ID": "226390"
+    },
+    {
+      "ID": "671059",
+      "Title": "eWM registration invites Shared Access user / Office Admin",
+      "Assigned To": "Venkateshbabu, JN",
+      "Case ID": "226391"
+    },
+    {
+      "ID": "671099",
+      "Title": "eWM - Account Wizard - Signature Additional Documents",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226431"
+    },
+    {
+      "ID": "671060",
+      "Title": "BAW - Withdrawal - Complete And Print - OCR Not Skipped - Reassign to Shell",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226392"
+    },
+    {
+      "ID": "671061",
+      "Title": "BAW - Withdrawal - Complete And Submit - OCR Skipped - Cancel WI in IWR",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226393"
+    },
+    {
+      "ID": "671062",
+      "Title": "BAW - Withdrawal - Run Old Withdrawal",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226394"
+    },
+    {
+      "ID": "671063",
+      "Title": "BAW - Withdrawal - QC and NIGO - TrackPoints - Cancel Item in View Only screen",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226395"
+    },
+    {
+      "ID": "671064",
+      "Title": "BAW - Withdrawal - Documents and WI Links Different Levels - Upload Document",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226396"
+    },
+    {
+      "ID": "671065",
+      "Title": "BAW - Withdrawal - PRS - Fax And Email - Upload Document",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226397"
+    },
+    {
+      "ID": "671066",
+      "Title": "BAW - Withdrawal Submission - ACH Bank - IRA with Tax",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226398"
+    },
+    {
+      "ID": "671067",
+      "Title": "BAW - Withdrawal Submission - Check Bank - IRA with No Tax",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226399"
+    },
+    {
+      "ID": "671068",
+      "Title": "BAW - Withdrawal Submission - Existing Bank - NON IRA",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226400"
+    },
+    {
+      "ID": "671069",
+      "Title": "BAW - Withdrawal Submission - Wire Bank - NON IRA",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226401"
+    },
+    {
+      "ID": "671070",
+      "Title": "BAW - Withdrawal - Special handling task IWR",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226402"
+    },
+    {
+      "ID": "671119",
+      "Title": "eWM_Create new paperwork_Recall_Reject_Approved by BD",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226451"
+    },
+    {
+      "ID": "671120",
+      "Title": "eWM_Create paperwork_Approved by AD",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226452"
+    },
+    {
+      "ID": "671121",
+      "Title": "eWM_Create paperwork_Approved by OSJ",
+      "Assigned To": "",
+      "Case ID": "226453"
+    },
+    {
+      "ID": "671122",
+      "Title": "eWM_Create new paperwork after recall",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226454"
+    },
+    {
+      "ID": "671123",
+      "Title": "eWM_Create paperwork_Cancel Item",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226455"
+    },
+    {
+      "ID": "671089",
+      "Title": "eWM - TLH Request - Complete and Print - HNW account - Gains",
+      "Assigned To": "",
+      "Case ID": "226421"
+    },
+    {
+      "ID": "671090",
+      "Title": "eWM - TLH Request - Complete and Submit - HNW account - Losses",
+      "Assigned To": "",
+      "Case ID": "226422"
+    },
+    {
+      "ID": "671091",
+      "Title": "eWM - TLH Request - Complete and eSign - non HNW - Losses - max available - in market",
+      "Assigned To": "",
+      "Case ID": "226423"
+    },
+    {
+      "ID": "671092",
+      "Title": "eWM - TLH Request - Complete and eSign - non HNW - Losses- select trade list - all trade - out of market",
+      "Assigned To": "",
+      "Case ID": "226424"
+    },
+    {
+      "ID": "671093",
+      "Title": "BAW - TLH Request - Approve Harvest Request",
+      "Assigned To": "",
+      "Case ID": "226425"
+    },
+    {
+      "ID": "671094",
+      "Title": "EWM - Add registration(Individual) to an existing account and activate in beta",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226426"
+    },
+    {
+      "ID": "671095",
+      "Title": "BAW - GNW activation in BETA (joint) using non bd approval - check name convention - Add features/records",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226427"
+    },
+    {
+      "ID": "671096",
+      "Title": "BAW - GNW activation in BETA (Traditional IRA) using BD approval - check name convention - Add features/records (MDRO,DAML)",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226428"
+    },
+    {
+      "ID": "671097",
+      "Title": "BAW - ICT Activation for GNW account - 8 digits",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226429"
+    },
+    {
+      "ID": "671100",
+      "Title": "BAW_Create a new client with Savos account_Activate Account_Savos form Included",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226432"
+    },
+    {
+      "ID": "671101",
+      "Title": "NAW_Create ICT with Savos as a destination account_Savos form NOT Included",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226433"
+    },
+    {
+      "ID": "671102",
+      "Title": "NAW_Create ICT with Savos as a destination account_Savos form Included",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226434"
+    },
+    {
+      "ID": "671098",
+      "Title": "FLXGSA - Custom Allocation Tool",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226430"
+    },
+    {
+      "ID": "671103",
+      "Title": "[eWM] NAW - Schwab - Account Features",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226435"
+    },
+    {
+      "ID": "671104",
+      "Title": "[BAW] Withdrawal - TDA - Shell coach - Submit To Custodian/Bank",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226436"
+    },
+    {
+      "ID": "671105",
+      "Title": "[eWM] OAM - Schwab (Custodian Code = TDA) Transfer Activity Kits",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226437"
+    },
+    {
+      "ID": "671106",
+      "Title": "[eWM] ICT - No Partial for New Destination Investment - Only Retain New Account",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226438"
+    },
+    {
+      "ID": "671107",
+      "Title": "[WFI Duplicate Accts] - Create/Edit OA Updates - Shell coach - Managed Account - TDA terminated",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226439"
+    },
+    {
+      "ID": "671108",
+      "Title": "[WFI Duplicate Accts] - Create/Edit OA Updates - Shell coach - Managed Account - GNW",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226440"
+    },
+    {
+      "ID": "671109",
+      "Title": "Verify the Support page link for inflight work item",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226441"
+    },
+    {
+      "ID": "671124",
+      "Title": "Verify for SSA model if model is valid on account in Access and eWM",
+      "Assigned To": "",
+      "Case ID": "226474"
+    },
+    {
+      "ID": "671125",
+      "Title": "Verify for MSA model if model is valid on account in Access and eWM",
+      "Assigned To": "",
+      "Case ID": "226475"
+    },
+    {
+      "ID": "671126",
+      "Title": "[eWM_BAW]Create new DAF client_AssetMark Charitable button",
+      "Assigned To": "Rokkala, Anil (AssetMark)",
+      "Case ID": "226476"
+    },
+    {
+      "ID": "670897",
+      "Title": "Verify the newly added STW4 Status field in Journal coach for IRA account",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226489"
+    },
+    {
+      "ID": "670898",
+      "Title": "Verify if the state the client currently resides (based on the address on the account) in allows a STW4, and one is on file",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226490"
+    },
+    {
+      "ID": "670900",
+      "Title": "Verify the journal If all validations pass",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226492"
+    },
+    {
+      "ID": "670901",
+      "Title": "Verify the success note in shell page",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226493"
+    },
+    {
+      "ID": "671495",
+      "Title": "Verify the newly added STW4 Status field for Partner Custodian",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226777"
+    },
+    {
+      "ID": "671579",
+      "Title": "Verify the newly added STW4 Status field in Inflight work item",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "226803"
+    },
+    {
+      "ID": "670907",
+      "Title": "Verify the eSignature eligible form name for SEP IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226499"
+    },
+    {
+      "ID": "670908",
+      "Title": "Verify if user select No option in “Is the Account Owner and the Employer one and the same?”",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226500"
+    },
+    {
+      "ID": "670909",
+      "Title": "Verify the eSignature eligible form name for Simple IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226501"
+    },
+    {
+      "ID": "670906",
+      "Title": "Verify if user select No option in “Is the Account Owner and the Employer one and the same?”",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226498"
+    },
+    {
+      "ID": "670902",
+      "Title": "Verify If the Transfer request is eSignature eligible delivery method 'In Kind' and Contra firm'Mutal fund'",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226494"
+    },
+    {
+      "ID": "670903",
+      "Title": "Verify If the Transfer request is eSignature eligible delivery method 'cash liquidate' and Contra firm 'Brokerage Firm/Trust Company'",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226495"
+    },
+    {
+      "ID": "670904",
+      "Title": "Verify If the Transfer request is not eSignature eligible",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226496"
+    },
+    {
+      "ID": "671577",
+      "Title": "Verify the eSignature eligible form name for SEP IRA-Inflights",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226801"
+    },
+    {
+      "ID": "671578",
+      "Title": "Verify the eSignature eligible form name for Simple IRA- Inflights",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226802"
+    },
+    {
+      "ID": "671008",
+      "Title": "Verify expiration warning notice will be sent on the 2nd day from envelop creation date.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226508"
+    },
+    {
+      "ID": "671009",
+      "Title": "Verify  the envelop is voided on the 3rd day from client creation date for Custodian GNW BD",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226509"
+    },
+    {
+      "ID": "671010",
+      "Title": "Verify  the envelop is voided on the 3rd day from client creation date for Custodian GNW Non BD",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "226510"
+    },
+    {
+      "ID": "671316",
+      "Title": "[BAW Shell] Client information section - Client Web ID - GNW",
+      "Assigned To": "",
+      "Case ID": "226753"
+    },
+    {
+      "ID": "671317",
+      "Title": "[Access] Create client manually - Client Web ID",
+      "Assigned To": "",
+      "Case ID": "226754"
+    },
+    {
+      "ID": "671473",
+      "Title": "Verify message on click of \"Add STW4\" when client current state allows STW4",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226755"
+    },
+    {
+      "ID": "671475",
+      "Title": "[BAW SHELL] Verify a new Output field displayed between \"Available Cash\" and \"Options Eligibility\" at the account level",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226757"
+    },
+    {
+      "ID": "671476",
+      "Title": "[BAW SHELL] Verify \"STW4 on file\" output field will be displaying as N/A if Client AOR is except Michigan (MI), Connecticut (CT), Minnesota (MN), Iowa (IA)",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226758"
+    },
+    {
+      "ID": "671477",
+      "Title": "[BAW SHELL] Verify \"STW4 on file\" output field will be displaying as No if Client AOR allows STW4 but it is not on file",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226759"
+    },
+    {
+      "ID": "671478",
+      "Title": "[BAW SHELL] Verify \"STW4 on file\" output field will be displaying as Yes if Client AOR allows STW4 and is on file",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226760"
+    },
+    {
+      "ID": "671480",
+      "Title": "[BAW SHELL] Verify a new Output field displayed between \"Available Cash\" and \"Options Eligibility\" for the PC Accounts",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226762"
+    },
+    {
+      "ID": "671481",
+      "Title": "WFI-3687   [BAW WD Coach] - Add Ability to Write W4-P Inputs to DOCA in BETA-On IRA form (TBD) OCR section.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226763"
+    },
+    {
+      "ID": "671482",
+      "Title": "WFI-3687   [BAW WD Coach] - Add Ability to Write W4-P Inputs to DOCA in BETA-On IRA form (TBD) IWR section.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226764"
+    },
+    {
+      "ID": "671483",
+      "Title": "WFI-3687   [BAW WD Coach] - Add Ability to Write W4-P Inputs to DOCA in BETA-On click of “Continue” button on the Tax Withholding section or the Signature page.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226765"
+    },
+    {
+      "ID": "671484",
+      "Title": "WFI-3687   [BAW WD Coach] - Add Ability to Write W4-P Inputs to DOCA in BETA-On click of “Continue” button on the Tax Withholding section or the Signature page.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226766"
+    },
+    {
+      "ID": "671485",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify Both Add STW4 and Override STW4 options cannot be selected at the same time",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226767"
+    },
+    {
+      "ID": "671486",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify On click of “Continue” button on the Tax Withholding section or the Signature page",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226768"
+    },
+    {
+      "ID": "671487",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify Updates to Tax withholding rules help text",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226769"
+    },
+    {
+      "ID": "671488",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify If “Override STW4” is selected, the following note is added",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226770"
+    },
+    {
+      "ID": "671489",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify If the record is added successfully, the following message is displayed back to the user as an alert and also added to work item notes.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226771"
+    },
+    {
+      "ID": "671491",
+      "Title": "WFI-3686 [BAW WD Coach] - Add Ability to Display W4-P DOCA Inputs from BETA-N/A",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226773"
+    },
+    {
+      "ID": "671492",
+      "Title": "WFI-3686 [BAW WD Coach] - Add Ability to Display W4-P DOCA Inputs from BETA- No",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "226774"
+    },
+    {
+      "ID": "671493",
+      "Title": "WFI-3686 [BAW WD Coach] - Add Ability to Display W4-P DOCA Inputs from BETA- Yes",
+      "Assigned To": "Kumar, Anmol (AssetMark, Contractor)",
+      "Case ID": "226775"
+    },
+    {
+      "ID": "671566",
+      "Title": "[DAF-443] [eWM - NAW Interview] - Online Access & Document Delivery - GNW",
+      "Assigned To": "",
+      "Case ID": "226790"
+    },
+    {
+      "ID": "671569",
+      "Title": "[BAW Parent Bundle] TIFIN/GiveClear System Activation",
+      "Assigned To": "",
+      "Case ID": "226793"
+    },
+    {
+      "ID": "671570",
+      "Title": "[BAW Parent Bundle] Locking down HRC changes",
+      "Assigned To": "",
+      "Case ID": "226794"
+    },
+    {
+      "ID": "671571",
+      "Title": "[BAW Parent Bundle] Activate button hidden",
+      "Assigned To": "",
+      "Case ID": "226795"
+    },
+    {
+      "ID": "671572",
+      "Title": "[BAW Parent Bundle] Activate button hidden - Activations successful",
+      "Assigned To": "",
+      "Case ID": "226796"
+    },
+    {
+      "ID": "671584",
+      "Title": "[eWM][OAM] Add new withholding option - Account Termination - F512",
+      "Assigned To": "",
+      "Case ID": "226821"
+    },
+    {
+      "ID": "671585",
+      "Title": "[eWM][OAM] Add new W4P withholding option - Move Assets Between Accounts Establish - F678",
+      "Assigned To": "",
+      "Case ID": "226822"
+    },
+    {
+      "ID": "671586",
+      "Title": "[eWM][OAM] Add new W4P withholding option - Withdrawals Modify- F680",
+      "Assigned To": "",
+      "Case ID": "226823"
+    },
+    {
+      "ID": "671587",
+      "Title": "[eWM][OAM] Add new withholding option - Partial Withdrawals - F565",
+      "Assigned To": "",
+      "Case ID": "226824"
+    },
+    {
+      "ID": "671588",
+      "Title": "[eWM][OAM] Add new Beneficiary Elections - Move Assets Between Accounts - Establish/Modify - F753",
+      "Assigned To": "",
+      "Case ID": "226825"
+    },
+    {
+      "ID": "671589",
+      "Title": "[eWM][OAM] Add new Federal and State Tax Withholdings - Account Termination - F754",
+      "Assigned To": "",
+      "Case ID": "226826"
+    },
+    {
+      "ID": "665588",
+      "Title": "WFI-3686 [BAW WD Coach] - Add Ability to Display W4-P DOCA Inputs from BETA-N/A",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224494"
+    },
+    {
+      "ID": "665589",
+      "Title": "WFI-3686 [BAW WD Coach] - Add Ability to Display W4-P DOCA Inputs from BETA- No",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224495"
+    },
+    {
+      "ID": "665590",
+      "Title": "WFI-3686 [BAW WD Coach] - Add Ability to Display W4-P DOCA Inputs from BETA- Yes",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224496"
+    },
+    {
+      "ID": "665591",
+      "Title": "WFI-3686 [BAW WD Coach] - Add Ability to Display W4-P DOCA Inputs from BETA- See BETA",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224497"
+    },
+    {
+      "ID": "669111",
+      "Title": "WFI-3687   [BAW WD Coach] - Add Ability to Write W4-P Inputs to DOCA in BETA-On IRA form (TBD) OCR section.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224866"
+    },
+    {
+      "ID": "669112",
+      "Title": "WFI-3687   [BAW WD Coach] - Add Ability to Write W4-P Inputs to DOCA in BETA-On IRA form (TBD) IWR section.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224867"
+    },
+    {
+      "ID": "669113",
+      "Title": "WFI-3687   [BAW WD Coach] - Add Ability to Write W4-P Inputs to DOCA in BETA-On click of “Continue” button on the Tax Withholding section or the Signature page.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224868"
+    },
+    {
+      "ID": "669114",
+      "Title": "WFI-3687   [BAW WD Coach] - Add Ability to Write W4-P Inputs to DOCA in BETA-On click of “Continue” button on the Tax Withholding section or the Signature page.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224869"
+    },
+    {
+      "ID": "669115",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify Both Add STW4 and Override STW4 options cannot be selected at the same time",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "225887"
+    },
+    {
+      "ID": "669116",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify On click of “Continue” button on the Tax Withholding section or the Signature page",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "225888"
+    },
+    {
+      "ID": "669117",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify Updates to Tax withholding rules help text",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "225889"
+    },
+    {
+      "ID": "669118",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify If “Override STW4” is selected, the following note is added",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "225890"
+    },
+    {
+      "ID": "669119",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify If the record is added successfully, the following message is displayed back to the user as an alert and also added to work item notes.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "225891"
+    },
+    {
+      "ID": "669120",
+      "Title": "WFI-3687   [BAW WD Coach] - Verify If there is a system error when adding STW4, the following message is appended to the initiate distribution note.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "225892"
+    },
+    {
+      "ID": "665657",
+      "Title": "WFI-3689   [BAW Shell] - Add Ability to Write W4-P Inputs to DOCA in BETA",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224504"
+    },
+    {
+      "ID": "665658",
+      "Title": "WFI-3689   [BAW Shell] - Add Ability to Write W4-P Inputs to DOCA in BETA - On click of the “Add STW4” button.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224506"
+    },
+    {
+      "ID": "665659",
+      "Title": "WFI-3689   [BAW Shell] - Add Ability to Write W4-P Inputs to DOCA in BETA - If all the validation are passed.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224508"
+    },
+    {
+      "ID": "665660",
+      "Title": "WFI-3689   [BAW Shell] - Add Ability to Write W4-P Inputs to DOCA in BETA - If all the validation are passed.",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224509"
+    },
+    {
+      "ID": "669398",
+      "Title": "Verify the newly added STW4 Status field in Journal coach for IRA account",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223792"
+    },
+    {
+      "ID": "669399",
+      "Title": "Verify the possible state for STW4 Status field in Journal coach",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223793"
+    },
+    {
+      "ID": "669400",
+      "Title": "Verify if the state the client currently resides (based on the address on the account) in allows a STW4, and one is on file",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223794"
+    },
+    {
+      "ID": "669401",
+      "Title": "Verify if the state the client currently resides (based on the address on the account) in allows a STW4, but one is not on file",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223795"
+    },
+    {
+      "ID": "669402",
+      "Title": "Verify If the API calls to display this information fails",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223796"
+    },
+    {
+      "ID": "669403",
+      "Title": "Verify the newly added Override STW4 field in Journal coach for IRA account",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223797"
+    },
+    {
+      "ID": "669404",
+      "Title": "Verify the additional validation for Override STW4 field, when user click on \"Add Journal\" button",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223798"
+    },
+    {
+      "ID": "669405",
+      "Title": "Verify If a state allows STW4 Opt-out and “STW4 on file” option is “Yes”",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223799"
+    },
+    {
+      "ID": "669406",
+      "Title": "Verify the journal If all validations pass",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223800"
+    },
+    {
+      "ID": "669407",
+      "Title": "Verify the success note in shell page",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223801"
+    },
+    {
+      "ID": "669408",
+      "Title": "Verify if there are multiple journals where the STW4-Override is selected",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223802"
+    },
+    {
+      "ID": "669409",
+      "Title": "Verify the newly added STW4 Status field in 1x DIST coach for IRA account",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223806"
+    },
+    {
+      "ID": "669410",
+      "Title": "Verify the possible state for STW4 Status field in 1x DIST coach",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223807"
+    },
+    {
+      "ID": "669411",
+      "Title": "Verify if the state the client currently resides (based on the address on the account) in allows a STW4, and one is on file",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223808"
+    },
+    {
+      "ID": "669412",
+      "Title": "Verify if the state the client currently resides (based on the address on the account) in allows a STW4, but one is not on file",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223809"
+    },
+    {
+      "ID": "669413",
+      "Title": "Verify If the API calls to display this information fails",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223810"
+    },
+    {
+      "ID": "669414",
+      "Title": "Verify the newly added Override STW4 field in 1x DIST coach for IRA account",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223811"
+    },
+    {
+      "ID": "669415",
+      "Title": "Verify the additional validation for Override STW4 field, when user click on \"IWR Complete\" button",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223812"
+    },
+    {
+      "ID": "669416",
+      "Title": "Verify If a state allows STW4 Opt-out and “STW4 on file” option is “Yes”",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223813"
+    },
+    {
+      "ID": "669417",
+      "Title": "Verify the journal If all validations pass",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223814"
+    },
+    {
+      "ID": "669418",
+      "Title": "Verify the success note in shell page",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "223815"
+    },
+    {
+      "ID": "666184",
+      "Title": "Verify N item expire after 3 days from envelop creation",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224693"
+    },
+    {
+      "ID": "666185",
+      "Title": "Verify expiration warning notice will be sent on the 2nd day from envelop creation date.",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224694"
+    },
+    {
+      "ID": "666190",
+      "Title": "Verify  the envelop is voided on the 3rd day from client creation date for Custodian GNW",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224723"
+    },
+    {
+      "ID": "668816",
+      "Title": "Verify  the envelop is voided on the 3rd day from client creation date for Custodian PRS",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225696"
+    },
+    {
+      "ID": "668817",
+      "Title": "Verify  the envelop is voided on the 3rd day from client creation date for Custodian FID",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225697"
+    },
+    {
+      "ID": "668818",
+      "Title": "Verify  the envelop is voided on the 3rd day from client creation date for Custodian GNW",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225698"
+    },
+    {
+      "ID": "668819",
+      "Title": "Verify  the envelop is voided on the 3rd day from client creation date for Custodian PRS",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225699"
+    },
+    {
+      "ID": "668820",
+      "Title": "Verify  the envelop is voided on the 3rd day from client creation date for Custodian FID",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225700"
+    },
+    {
+      "ID": "666088",
+      "Title": "Verify Federal withholding Election section for form F706",
+      "Assigned To": "",
+      "Case ID": "224148"
+    },
+    {
+      "ID": "666089",
+      "Title": "Verify State withholding Election section for form F706",
+      "Assigned To": "",
+      "Case ID": "224150"
+    },
+    {
+      "ID": "666090",
+      "Title": "Verify the Form header title F706",
+      "Assigned To": "",
+      "Case ID": "224298"
+    },
+    {
+      "ID": "666091",
+      "Title": "Verify the Form Footer section F706",
+      "Assigned To": "",
+      "Case ID": "224300"
+    },
+    {
+      "ID": "668134",
+      "Title": "[eWM][OAM] Add new withholding option - Partial Withdrawals - F565",
+      "Assigned To": "",
+      "Case ID": "224303"
+    },
+    {
+      "ID": "666074",
+      "Title": "Verify [OWB] Tracking Center Search for Active Accounts",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "224392"
+    },
+    {
+      "ID": "666075",
+      "Title": "Verify [OWB] Tracking Center Search for inActive Accounts",
+      "Assigned To": "Babu, Dinesh (AssetMark, Contractor)",
+      "Case ID": "224393"
+    },
+    {
+      "ID": "668353",
+      "Title": "Verify the newly added State - W4 Exemption check box in OCR screen for IRA account",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "224301"
+    },
+    {
+      "ID": "668306",
+      "Title": "WFI-5740   [BAW - Transfer Out] - Transfer Status Validation on Reassignment Not Enforced",
+      "Assigned To": "Kumar, Madhan (AssetMark, Contractor)",
+      "Case ID": "225211"
+    },
+    {
+      "ID": "666794",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model for custodian GNW",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224910"
+    },
+    {
+      "ID": "666795",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model for custodian PRS",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224941"
+    },
+    {
+      "ID": "666796",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model for custodian Fidelity",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224942"
+    },
+    {
+      "ID": "666797",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model for custodian SWB",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224943"
+    },
+    {
+      "ID": "666799",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model Single strategy one to one retain account number",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224948"
+    },
+    {
+      "ID": "666800",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model Single strategy one to one not retain account number",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224949"
+    },
+    {
+      "ID": "666805",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model Single strategy one to many retain source account number",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224954"
+    },
+    {
+      "ID": "666806",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model Multiple strategy one to many",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224959"
+    },
+    {
+      "ID": "666807",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model Multiple strategy to MSA with atleast one morning star in sleeve",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224972"
+    },
+    {
+      "ID": "668043",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model With 2 SSA to One SSA morning star in sleeve",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225013"
+    },
+    {
+      "ID": "668046",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model Multiple strategy to SSA with  one morning star in sleeve",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225020"
+    },
+    {
+      "ID": "666802",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure in ICT Bundle for MSTARL Strategist Model and ICT activation",
+      "Assigned To": "",
+      "Case ID": "224951"
+    },
+    {
+      "ID": "666808",
+      "Title": "Verify Inclusion of Morningstar Fee Disclosure not added in ICT Bundle for MSTAR Strategist Model Single strategy one to one retain account number",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224973"
+    },
+    {
+      "ID": "666299",
+      "Title": "Verify the Form ID and date for the custodian Assetmark Trust",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224837"
+    },
+    {
+      "ID": "666300",
+      "Title": "Verify the Form ID and date for the custodian schwab",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224838"
+    },
+    {
+      "ID": "666301",
+      "Title": "Verify the Form ID and date for the custodian Pershing",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224839"
+    },
+    {
+      "ID": "666302",
+      "Title": "Verify the Form ID and date for the custodian Fidelity",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224840"
+    },
+    {
+      "ID": "668033",
+      "Title": "Verify the Form ID and date for the custodian Assetmark Trust",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224837"
+    },
+    {
+      "ID": "668034",
+      "Title": "Verify the Form ID and date for the custodian schwab",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224838"
+    },
+    {
+      "ID": "668035",
+      "Title": "Verify the Form ID and date for the custodian Pershing",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224839"
+    },
+    {
+      "ID": "668036",
+      "Title": "Verify the Form ID and date for the custodian Fidelity",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224840"
+    },
+    {
+      "ID": "668135",
+      "Title": "Verify if user select Yes option in “Is the Account Owner and the Employer one and the same?”",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224482"
+    },
+    {
+      "ID": "668144",
+      "Title": "Verify the eSignature eligible form name for SEP IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224491"
+    },
+    {
+      "ID": "668136",
+      "Title": "Verify if user select No option in “Is the Account Owner and the Employer one and the same?”",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224483"
+    },
+    {
+      "ID": "668145",
+      "Title": "Verify the eSignature ineligible form name for SEP IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224492"
+    },
+    {
+      "ID": "668137",
+      "Title": "Verify if user select Yes option in “Is the Account Owner and the Employer one and the same?”",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224484"
+    },
+    {
+      "ID": "668142",
+      "Title": "Verify the eSignature eligible form name for Simple IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224489"
+    },
+    {
+      "ID": "668138",
+      "Title": "Verify if user select No option in “Is the Account Owner and the Employer one and the same?”",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224485"
+    },
+    {
+      "ID": "668143",
+      "Title": "Verify the eSignature ineligible form name for Simple IRA",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224490"
+    },
+    {
+      "ID": "668139",
+      "Title": "Verify If the Transfer request is eSignature eligible delivery method 'In Kind' and Contra firm'Mutal fund'",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224486"
+    },
+    {
+      "ID": "668359",
+      "Title": "Verify If the Transfer request is eSignature eligible delivery method 'cash liquidate' and Contra firm 'Brokerage Firm/Trust Company'",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225270"
+    },
+    {
+      "ID": "668140",
+      "Title": "Verify If the Transfer request is not eSignature eligible",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "224487"
+    },
+    {
+      "ID": "668314",
+      "Title": "Verify If the Transfer request is eSignature eligible delivery method 'cash liquidate' and Contra Brokerage Firm",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225219"
+    },
+    {
+      "ID": "668315",
+      "Title": "Verify If the Transfer request is eSignature eligible delivery method 'In Kind' and Contra firm 'Brokarage'",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225220"
+    },
+    {
+      "ID": "668360",
+      "Title": "Verify If the Transfer request is not eSignature eligible  delivery method In kind and “isAcat” = 0 and \"IsCashLiquidationeSigEligible” = 1",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225271"
+    },
+    {
+      "ID": "668361",
+      "Title": "Verify If the Transfer request is not eSignature eligible delivery firm Bank, Annuity Company or Credit Union",
+      "Assigned To": "Nagarajan, Arumugan (AssetMark, Contractor)",
+      "Case ID": "225272"
+    }
+]
