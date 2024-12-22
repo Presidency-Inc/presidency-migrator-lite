@@ -352,6 +352,7 @@ class XrayClient:
                 if suite_name:
                     suite_path = f"{root_folder}/{suite_name}"
                     if suite_path not in created_folders:
+                        logger.debug(f"Creating suite folder, check for suite path: {suite_path}")
                         if self.create_test_repository_folder(suite_path, project_key):
                             created_folders.add(suite_path)
             
@@ -359,15 +360,17 @@ class XrayClient:
             sorted_sections = sorted(sections_data, 
                                 key=lambda x: x.get('depth', 0))
             
+            logger.debug(f"Created folders, logging to test folder creation: {created_folders}")
             # Create section folders
             for section in sorted_sections:
-                folder_path = self.build_folder_path(section['id'], sections_data)
+                folder_path = self.build_folder_path(section['id'], sections_data, root_folder)
                 if folder_path and folder_path not in created_folders:
                     # Create each level of the folder hierarchy
                     path_parts = folder_path.split('/')
                     for i in range(2, len(path_parts) + 1):  # Start from 2 to skip root folder
                         partial_path = '/'.join(path_parts[:i])
                         if partial_path not in created_folders:
+                            logger.debug(f"Creating folder, check for partial path: {partial_path}")
                             if self.create_test_repository_folder(partial_path, project_key):
                                 created_folders.add(partial_path)
                             else:

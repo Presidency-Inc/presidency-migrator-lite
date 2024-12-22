@@ -11,6 +11,7 @@ from gql.transport.requests import RequestsHTTPTransport
 from jira_client import JiraClient
 from scope_client import ScopeClient
 import re
+import glob
 
 class XrayAPIError(Exception):
     """Custom exception for Xray API errors"""
@@ -118,7 +119,7 @@ class XrayClient:
             return False
 
     def import_tests(self, tests):
-        """Import tests in bulk to Xray"""
+        """Import tests with better error handling"""
         try:
             # Ensure we have a valid token
             if not self._token:
@@ -144,6 +145,13 @@ class XrayClient:
             error_msg = f"Failed to import tests. Status code: {response.status_code}"
             logger.error(error_msg)
             logger.debug("Response content: %s", response.text)
+            
+            if "already in progress" in response.text:
+                raise XrayAPIError(
+                    "Import job already in progress",
+                    status_code=response.status_code,
+                    response=response.text
+                )
             
             raise XrayAPIError(
                 error_msg,
@@ -179,6 +187,17 @@ class XrayClient:
                         for progress_msg in status_data['progress']:
                             logger.debug("Progress: %s", progress_msg)
                     
+                    if status in ['unsuccessful']:
+                        logger.error("Import job %s failed with status: %s", job_id, status)
+                        if attempt < max_retries - 1:
+                            logger.warning("Import job failed, retrying job...")
+                            self.retry_import_job(job_id)
+                            time.sleep(polling_interval)
+                            continue
+                        else:
+                            raise XrayAPIError("Import job failed after retries", 
+                                status_code=400, response=status_data)
+
                     if status in ['successful', 'failed', 'partially_successful']:
                         if status != 'successful':
                             logger.warning("Import completed with status: %s", status)
@@ -211,20 +230,231 @@ class XrayClient:
         
         raise XrayAPIError(f"Timeout waiting for import job {job_id} to complete")
 
+    def check_for_in_progress_jobs(self):
+        """Check if there are any jobs currently in progress"""
+        url = f"{self.api_url}/import/test/bulk/status"
+        headers = {'Authorization': f'Bearer {self._token}'}
+        
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                jobs = response.json()
+                in_progress = [job for job in jobs if job.get('status') == 'in_progress']
+                return in_progress
+            return []
+        except Exception as e:
+            logger.error(f"Error checking in-progress jobs: {str(e)}")
+            return []
+
+
+    def get_files_to_process(self, import_folder):
+        """
+        Determine which files need to be processed based on import_status.json
+        Returns a list of files that need to be imported
+        """
+        status_file = os.path.join(os.path.dirname(__file__), 'import_status.json')
+        import_files = glob.glob(os.path.join(import_folder, '*.json'))
+        
+        try:
+            with open(status_file, encoding='utf-8') as f:
+                import_jobs = json.load(f)
+                
+            # Get files that need processing (failed, unsuccessful, or not in status file)
+            files_to_process = []
+            for file_path in import_files:
+                filename = os.path.basename(file_path)
+                job_status = import_jobs.get(filename, {})
+                
+                if (
+                    filename not in import_jobs or  # New file
+                    'error' in job_status or  # Failed with error
+                    job_status.get('status') in ['failed', 'unsuccessful']  # Failed status
+                ):
+                    files_to_process.append(file_path)
+                    logger.info(f"File {filename} needs processing: " + (
+                        "New file" if filename not in import_jobs
+                        else f"Previous status: {job_status.get('status', 'error')}"
+                    ))
+                else:
+                    logger.info(f"Skipping {filename} - already processed successfully")
+                    
+            return files_to_process
+            
+        except FileNotFoundError:
+            logger.info("No previous import status found - processing all files")
+            return import_files
+
+    def process_import_files(self, import_folder):
+        """
+        Process JSON files in the import folder that need importing
+        Returns a dictionary mapping filenames to their job IDs and status
+        """
+        # Get files that need processing
+        files_to_process = self.get_files_to_process(import_folder)
+        
+        if not files_to_process:
+            logger.info("No files need processing")
+            return {}
+        
+        # Load existing import status if available
+        status_file = os.path.join(os.path.dirname(__file__), 'import_status.json')
+        try:
+            with open(status_file, encoding='utf-8') as f:
+                import_jobs = json.load(f)
+        except FileNotFoundError:
+            import_jobs = {}
+        
+        for file_path in files_to_process:
+            filename = os.path.basename(file_path)
+            logger.info(f"Processing file: {filename}")
+            
+            try:
+                # Wait for any in-progress jobs to complete
+                if not self.wait_for_in_progress_jobs():
+                    raise XrayAPIError("Timeout waiting for in-progress jobs to complete")
+
+                # Read and import the test cases
+                with open(file_path, encoding='utf-8') as f:
+                    mapped_tests = json.load(f)
+                
+                # Create import job with retries
+                max_retries = 3
+                for attempt in range(max_retries):
+                    try:
+                        job_id = self.import_tests(mapped_tests)
+                        break
+                    except XrayAPIError as e:
+                        if "already in progress" in str(e) and attempt < max_retries - 1:
+                            logger.warning(f"Import job in progress, retrying in 30 seconds...")
+                            time.sleep(30)
+                            continue
+                        raise
+                
+                if job_id:
+                    # Monitor the import status
+                    status = self.check_import_status(job_id)
+                    
+                    # Store results
+                    import_jobs[filename] = {
+                        'job_id': job_id,
+                        'status': status.get('status'),
+                        'timestamp': datetime.now().isoformat()
+                    }
+                    
+                    # Save progress after each file
+                    self._save_import_status(import_jobs)
+                    
+                    logger.info(f"Import job for {filename}: ID={job_id}, Status={status.get('status')}")
+                
+            except Exception as e:
+                logger.error(f"Error processing {filename}: {str(e)}")
+                import_jobs[filename] = {
+                    'error': str(e),
+                    'timestamp': datetime.now().isoformat()
+                }
+                self._save_import_status(import_jobs)
+        
+        return import_jobs
+
+    def _save_import_status(self, import_jobs):
+        """Save import job status to a JSON file"""
+        status_file = os.path.join(os.path.dirname(__file__), 'import_status.json')
+        try:
+            with open(status_file, 'w', encoding='utf-8') as f:
+                json.dump(import_jobs, f, indent=2)
+            logger.debug(f"Import status saved to {status_file}")
+        except Exception as e:
+            logger.error(f"Error saving import status: {str(e)}")
+
+    def retry_failed_imports(self):
+        """Retry any failed import jobs"""
+        status_file = os.path.join(os.path.dirname(__file__), 'import_status.json')
+        
+        try:
+            with open(status_file, encoding='utf-8') as f:
+                import_jobs = json.load(f)
+        except FileNotFoundError:
+            logger.warning("No previous import status found")
+            return {}
+        
+        failed_jobs = {
+            filename: data for filename, data in import_jobs.items()
+            if data.get('status') in ['failed', 'partially_successful'] or 'error' in data
+        }
+        
+        if not failed_jobs:
+            logger.info("No failed jobs to retry")
+            return import_jobs
+        
+        logger.info(f"Retrying {len(failed_jobs)} failed imports")
+        
+        import_folder = os.path.join(os.path.dirname(__file__), 'importFiles')
+        for filename in failed_jobs:
+            file_path = os.path.join(import_folder, filename)
+            
+            if not os.path.exists(file_path):
+                logger.error(f"File not found for retry: {filename}")
+                continue
+                
+            try:
+                with open(file_path, encoding='utf-8') as f:
+                    mapped_tests = json.load(f)
+                
+                job_id = self.import_tests(mapped_tests)
+                status = self.check_import_status(job_id)
+                
+                import_jobs[filename] = {
+                    'job_id': job_id,
+                    'status': status.get('status'),
+                    'timestamp': datetime.now().isoformat(),
+                    'retry': True
+                }
+                
+                self._save_import_status(import_jobs)
+                
+            except Exception as e:
+                logger.error(f"Error retrying {filename}: {str(e)}")
+                import_jobs[filename]['error'] = str(e)
+                import_jobs[filename]['timestamp'] = datetime.now().isoformat()
+                self._save_import_status(import_jobs)
+        
+        return import_jobs
+
 def main():
     client = XrayClient()
-    try: 
-        # load files from importFiles folder using
-        importFiles_folder = os.path.join(os.path.dirname(__file__), 'importFiles', 'test_cases_3.json')
-        with open(importFiles_folder, encoding='utf-8') as f:
-            mapped_tests = json.load(f)
-
-        job_id = client.import_tests(mapped_tests)
-
-        # Monitor import status
-        final_status = client.check_import_status(job_id)
-        logger.info(f"Import completed with status: {final_status.get('status')}")
+    try:
+        import_folder = os.path.join(os.path.dirname(__file__), 'importFiles')
+                
+        import_jobs = client.process_import_files(import_folder)
         
+        if not import_jobs:
+            logger.info("No files were processed - all files are up to date")
+            return
+        
+        # Log summary of results
+        logger.info("Import Summary:")
+        for filename, job_data in import_jobs.items():
+            status = job_data.get('status', 'ERROR')
+            job_id = job_data.get('job_id', 'N/A')
+            logger.info(f"{filename}: JobID={job_id}, Status={status}")
+        
+        # Handle retries
+        failed_jobs = {k: v for k, v in import_jobs.items() 
+                      if v.get('status') in ['failed'] 
+                      or 'error' in v}
+        
+        if failed_jobs:
+            logger.info(f"Failed imports: {len(failed_jobs)}")
+            retry = input("Would you like to retry failed imports? (y/n): ").lower()
+            if retry == 'y':
+                retry_results = client.retry_failed_imports()
+                logger.info("Retry Summary:")
+                for filename, job_data in retry_results.items():
+                    if job_data.get('retry'):
+                        status = job_data.get('status', 'ERROR')
+                        job_id = job_data.get('job_id', 'N/A')
+                        logger.info(f"Retry {filename}: JobID={job_id}, Status={status}")
+    
     except Exception as e:
         logger.error(f"Import process failed: {str(e)}", exc_info=True)
         raise

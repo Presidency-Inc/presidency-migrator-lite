@@ -9,7 +9,7 @@
                 "suite_id": "10",
                 "suite_url": "https://fpkp01trapp1a.corp.local/index.php?/suites/view/11438&group_by=cases:section_id&group_order=asc",
                 "project_target_name": "Investor Portal -Regression",
-                "project_target_key": "AIE",
+                "project_target_key": "XSP",
                 "project_target_id": "10001",
                 "assignee": "Naman Sudan",
                 "folder_path": "Test Repository/Regression"
@@ -19,7 +19,7 @@
                 "suite_id": "11",
                 "suite_url": "https://fpkp01trapp1a.corp.local/index.php?/suites/view/1376&group_by=cases:section_id&group_order=asc",
                 "project_target_name": "Investor Portal - Smoke",
-                "project_target_key": "BBC",
+                "project_target_key": "XSP",
                 "project_target_id": "10001",
                 "assignee": "Francisco Trejo",
                 "folder_path": "Test Repository/Regression"

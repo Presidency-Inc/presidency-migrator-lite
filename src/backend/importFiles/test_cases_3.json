@@ -2,7 +2,7 @@
   {
     "fields": {
       "project": {
-        "key": "AIE"
+        "key": "XSP"
       },
       "issuetype": {
         "name": "Test"
@@ -22,7 +22,7 @@
   {
     "fields": {
       "project": {
-        "key": "AIE"
+        "key": "XSP"
       },
       "issuetype": {
         "name": "Test"
@@ -42,7 +42,7 @@
   {
     "fields": {
       "project": {
-        "key": "AIE"
+        "key": "XSP"
       },
       "issuetype": {
         "name": "Test"
@@ -62,7 +62,7 @@
   {
     "fields": {
       "project": {
-        "key": "AIE"
+        "key": "XSP"
       },
       "issuetype": {
         "name": "Test"
@@ -82,7 +82,7 @@
   {
     "fields": {
       "project": {
-        "key": "BBC"
+        "key": "XSP"
       },
       "issuetype": {
         "name": "Test"
@@ -102,7 +102,7 @@
   {
     "fields": {
       "project": {
-        "key": "BBC"
+        "key": "XSP"
       },
       "issuetype": {
         "name": "Test"

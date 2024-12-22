@@ -2,14 +2,14 @@
   {
     "fields": {
       "project": {
-        "key": "SFSTARS"
+        "key": "XSP"
       },
       "issuetype": {
         "name": "Test"
       },
       "summary": "Testcase inside suite",
       "assignee": {
-        "name": "Alonso Martinez"
+        "name": "Francisco Trejo"
       },
       "components": [
         {

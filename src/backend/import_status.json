@@ -1,0 +1,25 @@
+{
+  "test_cases_4.json": {
+    "job_id": "fe4464bc1ef94a1fb01c6f5c64708f5a",
+    "status": "successful",
+    "timestamp": "2024-12-21T19:15:28.756058"
+  },
+  "test_cases_SFSTARS.json": {
+    "job_id": "0beee0e6071345a3b2a624ab40a216e4",
+    "status": "successful",
+    "timestamp": "2024-12-21T19:15:35.473671"
+  },
+  "test_cases_3.json": {
+    "job_id": "ae498c76f79b44c89908544090fb2142",
+    "status": "successful",
+    "timestamp": "2024-12-21T19:15:42.244247"
+  },
+  "test_cases_1.json": {
+    "error": "Timeout waiting for import job 3c313f5671ef48be823ec4e8dc5f9b87 to complete",
+    "timestamp": "2024-12-21T19:52:08.482730"
+  },
+  "test_cases_SFDC.json": {
+    "error": "Import job already in progress",
+    "timestamp": "2024-12-21T19:53:10.876849"
+  }
+}
