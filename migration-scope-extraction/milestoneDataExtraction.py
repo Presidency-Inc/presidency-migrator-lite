@@ -50,7 +50,7 @@ def extract_case_info(test_case_id):
         return None
 
     # Step 3: Find "ViewCase" button
-    view_case_button = soup.find('a', class_='toolbar-button', string='View Case')
+    view_case_button = soup.select_one('a.toolbar-button')
     if not view_case_button:
         print(f"View Case button not found for test case {test_case_id}")
         return None
@@ -66,8 +66,8 @@ def extract_case_info(test_case_id):
 
     # Step 5: Extract suite and project information
     # Find suite information
-    breadcrumb = case_soup.find('div', class_='content-breadcrumb')
-    suite_link = breadcrumb.find('a') if breadcrumb else None
+    breadcrumb = case_soup.select_one('div.content-breadcrumb')
+    suite_link = breadcrumb.select_one('a') if breadcrumb else None
     
     if not suite_link:
         print(f"Suite information not found for test case {test_case_id}")
@@ -78,7 +78,7 @@ def extract_case_info(test_case_id):
     suite_name = suite_link.text.strip()
 
     # Find project information
-    project_link = case_soup.find('a', id='navigation-project')
+    project_link = case_soup.select_one('a#navigation-project')
     if not project_link:
         print(f"Project information not found for test case {test_case_id}")
         return None
