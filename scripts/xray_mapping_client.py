@@ -355,6 +355,8 @@ class XrayClient:
             if suite_ids is None:
                 suite_ids = {section.get('suite_id') for section in sections_data if section.get('suite_id')}
             else:
+
+                logger.debug(f"Number of suite IDs to be process: {len(suite_ids)}")
                 # Convert suite_ids to set for faster lookup
                 suite_ids = set(str(suite_id) for suite_id in suite_ids)
                 
