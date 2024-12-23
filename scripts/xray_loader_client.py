@@ -206,7 +206,7 @@ def process_import_job(client, file_path, imported_jobs):
         file_name = os.path.basename(file_path)
         logger.info(f"Processing file: {file_name}")
         
-        with open(file_path) as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             mapped_tests = json.load(f)
         
         # Start import job
@@ -287,7 +287,7 @@ def main():
             os.makedirs(results_dir)
 
         results_file = os.path.join(results_dir, f'import_results_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json')
-        with open(results_file, 'w') as f:
+        with open(results_file, 'w', encoding='utf-8') as f:
             json.dump(imported_jobs, f, indent=2)
         
         logger.info(f"Import process completed. Results saved to {results_file}")
