@@ -231,7 +231,7 @@ class XrayClient:
         
         raise XrayAPIError(f"Timeout waiting for import job {job_id} to complete")
 
-    def create_test_repository_folder(self, folder_path, project_key=None):
+    def create_test_repository_folder(self, folder_path, project_id=None):
         """Create a test repository folder in Xray using GraphQL"""
         try:
             client = self._get_gql_client()
@@ -249,7 +249,7 @@ class XrayClient:
             """)
             
             variables = {
-                "projectId": self.project_id,
+                "projectId": project_id,
                 "path": folder_path
             }
             
@@ -332,13 +332,13 @@ class XrayClient:
             logger.error(f"Error verifying folder structure: {str(e)}")
             return False
 
-    def create_folder_structure(self, sections_data, project_key, folder_path, suite_ids=None):
+    def create_folder_structure(self, sections_data, project_id, folder_path, suite_ids=None):
         """
         Create the folder structure from sections data for specific suites
         
         Args:
             sections_data (list): List of section objects
-            project_key (str): Project identifier
+            project_id (str): Project identifier
             folder_path (str): Base folder path
             suite_ids (list, optional): List of specific suite IDs to process. If None, process all suites.
         """
@@ -347,7 +347,7 @@ class XrayClient:
         
         # Use the root folder defined in the class
         root_folder = folder_path
-        self.create_test_repository_folder(root_folder, project_key)
+        self.create_test_repository_folder(root_folder, project_id)
         created_folders.add(root_folder)
         
         try:
@@ -373,7 +373,7 @@ class XrayClient:
                     suite_path = f"{root_folder}/{suite_name}"
                     if suite_path not in created_folders:
                         logger.debug(f"Creating suite folder, check for suite path: {suite_path}")
-                        if self.create_test_repository_folder(suite_path, project_key):
+                        if self.create_test_repository_folder(suite_path, project_id):
                             created_folders.add(suite_path)
             
             # Sort sections by depth to create parent folders first
@@ -392,13 +392,13 @@ class XrayClient:
                         partial_path = '/'.join(path_parts[:i])
                         if partial_path not in created_folders:
                             logger.debug(f"Creating folder, check for partial path: {partial_path}")
-                            if self.create_test_repository_folder(partial_path, project_key):
+                            if self.create_test_repository_folder(partial_path, project_id):
                                 created_folders.add(partial_path)
                             else:
                                 logger.warning(f"Failed to create folder: {partial_path}")
             
             # Verify the folder structure
-            return self.verify_folder_structure(project_key)
+            return self.verify_folder_structure(project_id)
             
         except Exception as e:
             logger.error(f"Error creating folder structure: {str(e)}")
