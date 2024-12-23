@@ -332,8 +332,16 @@ class XrayClient:
             logger.error(f"Error verifying folder structure: {str(e)}")
             return False
 
-    def create_folder_structure(self, sections_data, project_key, folder_path):
-        """Create the complete folder structure from sections data"""
+    def create_folder_structure(self, sections_data, project_key, folder_path, suite_ids=None):
+        """
+        Create the folder structure from sections data for specific suites
+        
+        Args:
+            sections_data (list): List of section objects
+            project_key (str): Project identifier
+            folder_path (str): Base folder path
+            suite_ids (list, optional): List of specific suite IDs to process. If None, process all suites.
+        """
         logger.info("Creating folder structure in Xray")
         created_folders = set()
         
@@ -343,8 +351,18 @@ class XrayClient:
         created_folders.add(root_folder)
         
         try:
-            # Get unique suite IDs directly from sections array
-            suite_ids = {section.get('suite_id') for section in sections_data if section.get('suite_id')}
+            # If suite_ids is None, get all unique suite IDs from sections array
+            if suite_ids is None:
+                suite_ids = {section.get('suite_id') for section in sections_data if section.get('suite_id')}
+            else:
+                # Convert suite_ids to set for faster lookup
+                suite_ids = set(str(suite_id) for suite_id in suite_ids)
+                
+            # Filter sections_data to only include sections from specified suites
+            filtered_sections = [
+                section for section in sections_data 
+                if str(section.get('suite_id', '')) in suite_ids
+            ]
             
             # Create suite folders first
             for suite_id in suite_ids:
@@ -357,13 +375,14 @@ class XrayClient:
                             created_folders.add(suite_path)
             
             # Sort sections by depth to create parent folders first
-            sorted_sections = sorted(sections_data, 
+            sorted_sections = sorted(filtered_sections, 
                                 key=lambda x: x.get('depth', 0))
             
             logger.debug(f"Created folders, logging to test folder creation: {created_folders}")
+            
             # Create section folders
             for section in sorted_sections:
-                folder_path = self.build_folder_path(section['id'], sections_data, root_folder)
+                folder_path = self.build_folder_path(section['id'], filtered_sections, root_folder)
                 if folder_path and folder_path not in created_folders:
                     # Create each level of the folder hierarchy
                     path_parts = folder_path.split('/')
@@ -942,8 +961,9 @@ def main():
                                         exc_info=True)
                                     continue
 
-                            logger.info(f"Successfully mapped {len(mapped_tests)} test cases for suite {suite_id}")
-                            client.create_folder_structure(sections_data, target_info['project_target_id'], target_info['folder_path'])
+                            # Extract suite IDs from the current project's suites
+                            suite_ids = [suite['suite_id'] for suite in project['suites']]
+                            client.create_folder_structure(sections_data, target_info['project_target_id'], target_info['folder_path'], suite_ids)
 
                         except Exception as e:
                             logger.error(f"Error processing suite {suite.get('suite_id')}: {str(e)}", exc_info=True)
