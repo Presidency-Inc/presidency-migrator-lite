@@ -59,6 +59,11 @@ class JiraClient:
         self.api_token = os.getenv('JIRA_API_TOKEN')
         self.base_url = os.getenv('CONFLUENCE_BASE_URL')
         self.base_reference_url = os.getenv('REFERENCE_BASE_URL')
+
+        config_path = os.path.join(os.path.dirname(__file__), 'config', 'space_pages.json')
+        with open(config_path, 'r', encoding='utf-8') as f:
+            self.field_mapping = json.load(f)
+            logger.debug(f"Confluence existing pages loaded: {len(self.field_mapping)}")
         
         # Validate environment variables
         missing_vars = []
@@ -234,7 +239,7 @@ class JiraClient:
     def index_data(self, data):
         indexed_data = {}
         for item in data:
-            test_id = item["title"].split("-")[0]  # Extract the first part of the title
+            test_id = item["title"].split("-")[0].strip()  # Extract the first part of the title
             indexed_data[test_id] = item 
 
         with open('space_pages.json', 'w', encoding='utf-8') as f:

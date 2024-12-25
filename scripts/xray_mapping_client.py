@@ -637,45 +637,60 @@ def map_test_case(test_case, field_mapping, sections_data, project_key, target_i
         # -------- TestRail URL Reference --------  
 
 
-        # # ------- Attachments -------
-        # test_cases_attachment_files_data = []
-        # with open('data/output/test_cases_attachment_files.json', 'r') as f:
-        #     test_cases_attachment_files = json.load(f)
-        #     test_cases_attachment_files_data = test_cases_attachment_files.copy()
-        # for item in test_cases_attachment_files:
-        #     if test_case.get('id') == item['case_id']:
-        #         stored_data = item["stored_data"]
+        # ------- Attachments -------
+        test_cases_attachment_files_data = []
+        with open('data/output/test_cases_attachment_files.json', 'r') as f:
+            test_cases_attachment_files = json.load(f)
+            test_cases_attachment_files_data = test_cases_attachment_files.copy()
+        for item in test_cases_attachment_files:
+            if test_case.get('id') == item['case_id']:
+                stored_data = item["stored_data"]
 
-        #         self_link = None
+                self_link = None
+                confluencte_space_pages = jiraClient.field_mapping
+                if confluencte_space_pages:
+                    if test_case.get('id') in confluencte_space_pages:
+                        logger.debug(f"Conluence page found = {confluencte_space_pages[test_case.get('id')]['title']}")
+                        page_id = confluencte_space_pages[test_case.get('id')]["id"]
+
+                        self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_id}"
+
+                        logger.debug(f"self link added = {self_link}")
+                
+                        description = mapped_test['fields'].get('description', '')
+                        mapped_test['fields']['description'] = description + f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
+                        test_cases_attachment_files_data.remove(item)
+                        break
+
             
-        #         # creating confluence page to attach file and get the link
-        #         page_data = jiraClient.create_page(
-        #             space_key=os.getenv('JIRA_SPACE_KEY'),
-        #             title=f"{test_case.get('id')} - {test_case.get('title')}",
-        #             content="<p>This is a test page created via API</p>"
-        #         )
+                # creating confluence page to attach file and get the link
+                page_data = jiraClient.create_page(
+                    space_key=os.getenv('JIRA_SPACE_KEY'),
+                    title=f"{test_case.get('id')} - {test_case.get('title')}",
+                    content="<p>This is a test page created via API</p>"
+                )
 
-        #         download_dir = os.path.join(os.path.dirname(__file__), 'attachmentFiles')            
+                download_dir = os.path.join(os.path.dirname(__file__), 'attachmentFiles')            
 
-        #         if page_data:
-        #             for data_item in stored_data:
-        #                 full_file_path = os.path.join(download_dir, data_item['stored_file_name'])
-        #                 if not os.path.exists(full_file_path):
-        #                     logger.warning(f"File not found: {full_file_path}")
-        #                     continue
+                if page_data:
+                    for data_item in stored_data:
+                        full_file_path = os.path.join(download_dir, data_item['stored_file_name'])
+                        if not os.path.exists(full_file_path):
+                            logger.warning(f"File not found: {full_file_path}")
+                            continue
 
-        #                 attachment_data = jiraClient.attach_file(
-        #                     content_id=page_data['id'],
-        #                     file_path=full_file_path,
-        #                     comment=f"Attachment in {data_item.get('field')}"
-        #                 )
-        #             # self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
-        #             self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_data['id']}"
+                        attachment_data = jiraClient.attach_file(
+                            content_id=page_data['id'],
+                            file_path=full_file_path,
+                            comment=f"Attachment in {data_item.get('field')}"
+                        )
+                    # self_link = f"{os.getenv('JIRA_URL')}/wiki{attachment_data['results'][0]['_links']['webui']}"
+                    self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_data['id']}"
 
-        #         description = mapped_test['fields'].get('description', '')
-        #         mapped_test['fields']['description'] = description + f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
-        #         test_cases_attachment_files_data.remove(item)
-        #         break
+                description = mapped_test['fields'].get('description', '')
+                mapped_test['fields']['description'] = description + f"*Attachment Files Link:* {self_link}\n" + '\n-----------------\n'
+                test_cases_attachment_files_data.remove(item)
+                break
         
 
         # Add time tracking directly in fields object according to Xray support's structure
