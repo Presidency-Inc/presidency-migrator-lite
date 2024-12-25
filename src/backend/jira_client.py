@@ -233,21 +233,41 @@ class JiraClient:
 
     def get_space_pages(self, space_id):
         try:
+            space_pages_final_array = []
             response = self._make_request(
                 method='GET',
                 endpoint=f'/api/v2/spaces/{space_id}/pages',
             )
             
-            logger.debug(f"API Response: {response}")
-            with open('space_pages.json', 'w', encoding='utf-8') as f:
-                json.dump(response, f, ensure_ascii=False, indent=4)
+            # This function will accumulate the pages until there are no more "next" links
+            def fetch_pages(response):
+                nonlocal space_pages_final_array
+                space_pages_final_array.extend(response.get('pages', []))  # Assuming 'pages' is the key where the page data resides
 
+                # Check if there is a 'next' link in the response
+                next_link = response.get('_links', {}).get('next')
+                if next_link:
+                    next_link = next_link[next_link.find('/', next_link.find('/') + 1):]
+                    response = self._make_request(
+                        method='GET',
+                        endpoint=next_link,
+                    )
+                    return fetch_pages(response)  # Recursive call to fetch the next page
+                return space_pages_final_array  # No more "next", return the accumulated data
             
-            return response
+            # Start the recursive fetch
+            all_pages = fetch_pages(response)
             
+            # Log and save the final response
+            logger.debug(f"API Response: {all_pages}")
+            with open('space_pages.json', 'w', encoding='utf-8') as f:
+                json.dump(all_pages, f, ensure_ascii=False, indent=4)
+
+            return all_pages
+
         except Exception as e:
-            logger.error(f"Failed to create page: {str(e)}")
-            raise
+            logger.error(f"Error fetching space pages: {e}")
+            return []
 
 def main():
     try:
