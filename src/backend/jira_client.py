@@ -216,14 +216,48 @@ class JiraClient:
             logger.error(f"Failed to attach file: {str(e)}")
             raise
 
+    def get_space_property(self, space_key):
+        try:
+            response = self._make_request(
+                method='GET',
+                endpoint=f'/rest/api/space/{space_key}',
+            )
+            
+            logger.debug(f"API Response: {response}")
+            
+            return response
+            
+        except Exception as e:
+            logger.error(f"Failed to create page: {str(e)}")
+            raise
+
+    def get_space_pages(self, space_id):
+        try:
+            response = self._make_request(
+                method='GET',
+                endpoint=f'/api/v2/spaces/{space_id}/pages',
+            )
+            
+            logger.debug(f"API Response: {response}")
+            with open('space_pages.json', 'w', encoding='utf-8') as f:
+                json.dump(response, f, ensure_ascii=False, indent=4)
+
+            
+            return response
+            
+        except Exception as e:
+            logger.error(f"Failed to create page: {str(e)}")
+            raise
+
 def main():
     try:
         # Example usage
         client = JiraClient()
+        jira_space_key = os.getenv('JIRA_SPACE_KEY')
         
         # Example: Create a page
         page_data = client.create_page(
-            space_key=os.getenv('JIRA_SPACE_KEY'),
+            space_key=jira_space_key,
             title="Test Page 4 - with attachment",
             content="<p>This is a test page created via API</p>"
         )
@@ -231,6 +265,15 @@ def main():
         logger.info(f"Created page: {page_data}")
         logger.info("-" * 80)
 
+        # Example: Get a space property
+        # space_property = client.get_space_property(
+        #     space_key=jira_space_key,
+        # )
+        # logger.info(f"Space property: {space_property}")
+        # logger.info("-" * 80)
+
+        # space_id = "163842"
+        # space_pages = client.get_space_pages(space_id)
         
         # Example: Attach a file to the created page
         if page_data:
