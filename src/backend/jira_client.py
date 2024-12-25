@@ -231,6 +231,15 @@ class JiraClient:
             logger.error(f"Failed to create page: {str(e)}")
             raise
 
+    def index_data(self, data):
+        indexed_data = {}
+        for item in data:
+            test_id = item["title"].split("-")[0]  # Extract the first part of the title
+            indexed_data[test_id] = item 
+
+        with open('space_pages.json', 'w', encoding='utf-8') as f:
+            json.dump(indexed_data, f, ensure_ascii=False, indent=4)
+
     def get_space_pages(self, space_id):
         try:
             space_pages_final_array = []
@@ -242,7 +251,7 @@ class JiraClient:
             # This function will accumulate the pages until there are no more "next" links
             def fetch_pages(response):
                 nonlocal space_pages_final_array
-                space_pages_final_array.extend(response.get('pages', []))  # Assuming 'pages' is the key where the page data resides
+                space_pages_final_array.extend(response.get('results', []))
 
                 # Check if there is a 'next' link in the response
                 next_link = response.get('_links', {}).get('next')
@@ -257,11 +266,9 @@ class JiraClient:
             
             # Start the recursive fetch
             all_pages = fetch_pages(response)
-            
+            self.index_data(all_pages)
             # Log and save the final response
             logger.debug(f"API Response: {all_pages}")
-            with open('space_pages.json', 'w', encoding='utf-8') as f:
-                json.dump(all_pages, f, ensure_ascii=False, indent=4)
 
             return all_pages
 
