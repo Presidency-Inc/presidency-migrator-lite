@@ -1,5 +1,5 @@
 from hmac import new
-from math import log
+from math import e, log
 import os
 import requests
 from flask import Flask, jsonify
@@ -11,7 +11,7 @@ import json
 
 app = Flask(__name__)
 
-with open('results.json') as f:
+with open(os.path.join(os.path.dirname(__file__), 'results.json'), encoding='utf-8') as f:
     content = json.load(f)
 
 def group_results(input_data):
