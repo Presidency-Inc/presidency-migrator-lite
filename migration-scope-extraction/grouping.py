@@ -46,6 +46,9 @@ def group_results(input_data):
                     suite_url = item["url"]
                     # Otherwise, append suite to the list
                     if isinstance(processed_projects[project_id]["suite_id"], list):
+                        # Check if the suite_id already exists in the list
+                        if any(s["id"] == suite_id for s in processed_projects[project_id]["suite_id"]):
+                            continue
                         processed_projects[project_id]["suite_id"].append({"id": suite_id, "name": suite_name, "url": suite_url})
                     else:
                         processed_projects[project_id]["suite_id"] = [{"id": processed_projects[project_id]["suite_id"], "name": suite_name, "url": suite_url}, {"id": suite_id, "name": suite_name, "url": suite_url}]
