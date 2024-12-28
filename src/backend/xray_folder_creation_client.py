@@ -23,7 +23,7 @@ class XrayAPIError(Exception):
 def setup_logging():
     """Configure logging with both file and console handlers"""
     # Create logs directory if it doesn't exist
-    log_dir = 'logs/xray_folder_creation'
+    log_dir = 'logs/folder_creation'
     os.makedirs(log_dir, exist_ok=True)
     
     # Generate log filename with timestamp
@@ -37,7 +37,9 @@ def setup_logging():
     
     # File handler with rotation
     file_handler = RotatingFileHandler(
-        log_file, maxBytes=10*1024*1024, backupCount=5
+        log_file, 
+        maxBytes=100*1024*1024,    # 100MB per file
+        backupCount=1000           # Keep 1000 backup files
     )
     file_handler.setFormatter(formatter)
     
