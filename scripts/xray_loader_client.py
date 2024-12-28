@@ -280,6 +280,17 @@ def main():
             logger.warning(f"No JSON files found in {import_dir}")
             return
         
+        # Create results directory and file at the start
+        results_dir = os.path.join(os.path.dirname(__file__), 'importFilesResults')
+        if not os.path.exists(results_dir):
+            os.makedirs(results_dir)
+            
+        results_file = os.path.join(results_dir, f'import_results_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json')
+        
+        # Initialize results file with empty array
+        with open(results_file, 'w', encoding='utf-8') as f:
+            json.dump([], f, indent=2)
+        
         # Process each file
         for file_name in json_files:
             file_path = os.path.join(import_dir, file_name)
@@ -287,29 +298,31 @@ def main():
             # Ask for user confirmation
             while True:
                 print(f"\nReady to process: {file_name}")
-                response = input("Would you like to proceed with this file? (y/n): ").lower().strip()
+                response = input("Would you like to proceed with this file? (y/n) or quit (q): ").lower().strip()
                 
-                if response in ['y', 'n']:
+                if response in ['y', 'n', 'q']:
                     break
-                print("Invalid input. Please enter 'y' for yes or 'n' for no.")
+                print("Invalid input. Please enter 'y' for yes, 'n' for no, or 'q' to quit.")
             
-            if response == 'y':
+            if response == 'q':
+                print("Script execution terminated by user.")
+                logger.info("Script execution terminated by user")
+                break
+                
+            elif response == 'y':
                 process_import_job(client, file_path, imported_jobs)
                 print(f"Processed: {file_name}")
+                
+                # Update results file immediately after processing
+                with open(results_file, 'w', encoding='utf-8') as f:
+                    json.dump(imported_jobs, f, indent=2)
+                logger.info(f"Results file updated with {file_name}")
+                
             else:
                 print(f"Skipping: {file_name}")
                 logger.info(f"Skipped processing of {file_name} based on user input")
         
-        # Save results to file
-        results_dir = os.path.join(os.path.dirname(__file__), 'importFilesResults') 
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_file = os.path.join(results_dir, f'import_results_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json')
-        with open(results_file, 'w', encoding='utf-8') as f:
-            json.dump(imported_jobs, f, indent=2)
-        
-        logger.info(f"Import process completed. Results saved to {results_file}")
+        logger.info(f"Import process completed. Final results saved in {results_file}")
         
     except Exception as e:
         logger.error(f"Import process failed: {str(e)}", exc_info=True)
