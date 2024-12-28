@@ -28,7 +28,7 @@ def setup_logging():
     
     # Generate log filename with timestamp
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    log_file = os.path.join(log_dir, f'xray_import_{timestamp}.log')
+    log_file = os.path.join(log_dir, f'xray_mapping_{timestamp}.log')
     
     # Create formatter
     formatter = logging.Formatter(
@@ -483,7 +483,7 @@ class XrayClient:
                 suites_data = json.load(f)
             
             # Find the suite in the data
-            suite = next((suite for suite in suites_data if suite.get('id') == suite_id), None)
+            suite = next((suite for suite in suites_data if str(suite.get('id')) == str(suite_id)), None)
             
             if suite:
                 logger.debug(f"Found suite: {suite}")
@@ -604,7 +604,7 @@ def format_bdd_scenarios(scenarios_data):
         logger.error(f"Error formatting BDD scenarios: {str(e)}")
         return None
 
-def map_test_case(test_case, field_mapping, sections_data, project_key, target_info, jiraClient, xrayClient):
+def map_test_case(test_case, field_mapping, sections_data, project_key, target_info, jiraClient, xrayClient, source_project_id):
     """Map a TestRail test case to Xray format"""
     try:
         logger.debug(f"Starting mapping for test case {test_case.get('id')}")
@@ -637,11 +637,15 @@ def map_test_case(test_case, field_mapping, sections_data, project_key, target_i
         # -------- TestRail URL Reference --------  
 
 
-        # ------- Attachments -------
+        # # ------- Attachments -------
         test_cases_attachment_files_data = []
-        with open('data/output/test_cases_attachment_files.json', 'r') as f:
+        # Load sections data
+        attachment_files = os.path.join(os.path.dirname(__file__), 
+            f'../../data/output/project_{source_project_id}/test_cases_attachment_files.json')
+        with open(attachment_files, 'r', encoding='utf-8') as f:
             test_cases_attachment_files = json.load(f)
             test_cases_attachment_files_data = test_cases_attachment_files.copy()
+            logger.debug(f"Loaded {len(test_cases_attachment_files)} attachments")
         for item in test_cases_attachment_files:
             if test_case.get('id') == item['case_id']:
                 stored_data = item["stored_data"]
@@ -649,9 +653,10 @@ def map_test_case(test_case, field_mapping, sections_data, project_key, target_i
                 self_link = None
                 confluencte_space_pages = jiraClient.field_mapping
                 if confluencte_space_pages:
-                    if test_case.get('id') in confluencte_space_pages:
-                        logger.debug(f"Conluence page found = {confluencte_space_pages[test_case.get('id')]['title']}")
-                        page_id = confluencte_space_pages[test_case.get('id')]["id"]
+                    string_test_case_id = str(test_case.get('id')) 
+                    if string_test_case_id in confluencte_space_pages:
+                        logger.debug(f"Conluence page found = {confluencte_space_pages[string_test_case_id]['title']}")
+                        page_id = confluencte_space_pages[string_test_case_id]["id"]
 
                         self_link = f"{os.getenv('JIRA_URL')}/wiki/pages/viewpageattachments.action?pageId={page_id}"
 
@@ -916,11 +921,11 @@ def main():
                         try:
                             logger.debug(f"Mapping test case {test_case.get('id')}")
                             mapped_test = map_test_case(test_case, field_mapping, sections_data, 
-                                target_info['project_target_key'], target_info, jiraClient, client)
+                                target_info['project_target_key'], target_info, jiraClient, client, source_project_id)
                             logger.debug(f"Successfully mapped test case {test_case.get('id')}")
                             
                             if test_case.get('section_id'):
-                                folder_path = client.build_folder_path(test_case['section_id'], sections_data)
+                                folder_path = client.build_folder_path(test_case['section_id'], sections_data, target_info['folder_path'])
                                 if folder_path:
                                     mapped_test['xray_test_repository_folder'] = folder_path
                                     logger.debug(f"Added folder path: {folder_path}")
@@ -960,7 +965,7 @@ def main():
                                 try:
                                     logger.debug(f"Mapping test case {test_case.get('id')} for suite {suite_id}")
                                     mapped_test = map_test_case(test_case, field_mapping, sections_data,
-                                        target_info['project_target_key'], target_info, jiraClient, client)
+                                        target_info['project_target_key'], target_info, jiraClient, client, source_project_id)
                                     
                                     if test_case.get('section_id'):
                                         folder_path = client.build_folder_path(test_case['section_id'], sections_data, target_info['folder_path'])
