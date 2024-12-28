@@ -216,6 +216,7 @@ def process_import_job(client, file_path, imported_jobs):
         
         # Monitor status until completion
         final_status = None
+        final_results = None
         while True:
             status_data = client.check_import_status(job_id)
             if not status_data:
@@ -235,6 +236,7 @@ def process_import_job(client, file_path, imported_jobs):
 
             if status in ['failed', 'successful', 'partially_successful', 'unsuccessful']:
                 final_status = status
+                final_results = status_data.get('result', {}) 
                 break
                 
             time.sleep(8)  # Wait before checking again
@@ -243,7 +245,8 @@ def process_import_job(client, file_path, imported_jobs):
         job_result = {
             "imported_file": file_name,
             "job_id": job_id,
-            "status": final_status
+            "status": final_status,
+            "result": final_results
         }
         imported_jobs.append(job_result)
         
