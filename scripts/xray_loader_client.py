@@ -23,12 +23,12 @@ class XrayAPIError(Exception):
 def setup_logging():
     """Configure logging with both file and console handlers"""
     # Create logs directory if it doesn't exist
-    log_dir = 'logs'
+    log_dir = 'logs/loading_process'
     os.makedirs(log_dir, exist_ok=True)
     
     # Generate log filename with timestamp
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    log_file = os.path.join(log_dir, f'xray_import_{timestamp}.log')
+    log_file = os.path.join(log_dir, f'xray_loader_{timestamp}.log')
     
     # Create formatter
     formatter = logging.Formatter(
@@ -37,7 +37,9 @@ def setup_logging():
     
     # File handler with rotation
     file_handler = RotatingFileHandler(
-        log_file, maxBytes=10*1024*1024, backupCount=5
+        log_file, 
+        maxBytes=100*1024*1024,    # 100MB per file
+        backupCount=1000           # Keep 1000 backup files
     )
     file_handler.setFormatter(formatter)
     
@@ -278,10 +280,24 @@ def main():
         # Process each file
         for file_name in json_files:
             file_path = os.path.join(import_dir, file_name)
-            process_import_job(client, file_path, imported_jobs)
+            
+            # Ask for user confirmation
+            while True:
+                print(f"\nReady to process: {file_name}")
+                response = input("Would you like to proceed with this file? (y/n): ").lower().strip()
+                
+                if response in ['y', 'n']:
+                    break
+                print("Invalid input. Please enter 'y' for yes or 'n' for no.")
+            
+            if response == 'y':
+                process_import_job(client, file_path, imported_jobs)
+                print(f"Processed: {file_name}")
+            else:
+                print(f"Skipping: {file_name}")
+                logger.info(f"Skipped processing of {file_name} based on user input")
         
         # Save results to file
-
         results_dir = os.path.join(os.path.dirname(__file__), 'importFilesResults') 
         if not os.path.exists(results_dir):
             os.makedirs(results_dir)
