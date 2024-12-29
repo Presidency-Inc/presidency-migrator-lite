@@ -266,6 +266,7 @@ def main():
     client = XrayClient()
     imported_jobs = []
     import_dir = os.path.join(os.path.dirname(__file__), 'importFiles', 'finalImportFiles')
+    process_all = False  # New flag to track if we should process all files
     
     try:
         # Ensure import directory exists
@@ -295,21 +296,33 @@ def main():
         for file_name in json_files:
             file_path = os.path.join(import_dir, file_name)
             
-            # Ask for user confirmation
-            while True:
-                print(f"\nReady to process: {file_name}")
-                response = input("Would you like to proceed with this file? (y/n) or quit (q): ").lower().strip()
+            # Skip user confirmation if process_all is True
+            if not process_all:
+                while True:
+                    print(f"\nReady to process: {file_name}")
+                    response = input("Would you like to proceed with this file? (y/n/q/all): ").lower().strip()
+                    
+                    if response in ['y', 'n', 'q', 'all']:
+                        break
+                    print("Invalid input. Please enter 'y' for yes, 'n' for no, 'q' to quit, or 'all' to process all remaining files.")
                 
-                if response in ['y', 'n', 'q']:
+                if response == 'q':
+                    print("Script execution terminated by user.")
+                    logger.info("Script execution terminated by user")
                     break
-                print("Invalid input. Please enter 'y' for yes, 'n' for no, or 'q' to quit.")
+                    
+                elif response == 'all':
+                    process_all = True
+                    print("Processing all remaining files automatically.")
+                    logger.info("User selected to process all remaining files")
+                    
+                elif response == 'n':
+                    print(f"Skipping: {file_name}")
+                    logger.info(f"Skipped processing of {file_name} based on user input")
+                    continue
             
-            if response == 'q':
-                print("Script execution terminated by user.")
-                logger.info("Script execution terminated by user")
-                break
-                
-            elif response == 'y':
+            # Process file if we're in process_all mode or user said 'y'
+            if process_all or response == 'y':
                 process_import_job(client, file_path, imported_jobs)
                 print(f"Processed: {file_name}")
                 
@@ -317,10 +330,6 @@ def main():
                 with open(results_file, 'w', encoding='utf-8') as f:
                     json.dump(imported_jobs, f, indent=2)
                 logger.info(f"Results file updated with {file_name}")
-                
-            else:
-                print(f"Skipping: {file_name}")
-                logger.info(f"Skipped processing of {file_name} based on user input")
         
         logger.info(f"Import process completed. Final results saved in {results_file}")
         
