@@ -1,6 +1,8 @@
+import json
+
 def filter_status(data):
     # Define the statuses to filter
-    target_statuses = ["unsuccessful", "partially_successful"]
+    target_statuses = ["unsuccessful", "partially_successful", "failed"]
 
     # Filter and transform the data
     result = [
@@ -9,7 +11,9 @@ def filter_status(data):
         if item["status"] in target_statuses
     ]
 
-    return result
+    # Write the result to a json file
+    with open("extraction_filtered.json", "w") as f:
+        json.dump(result, f, indent=4)
 
 # Input data
 input_data = [
