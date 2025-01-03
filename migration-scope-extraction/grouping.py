@@ -16,12 +16,10 @@ with open(os.path.join(os.path.dirname(__file__), 'results.json'), encoding='utf
 
 def group_results(input_data):
     try:
-        # Process the content
         grouped_content = []
         processed_projects = {}
 
         for item in input_data.get("content"):
-            # Handle unsupported URL items directly
             if item is None:
                 print("Item is None, ignoring...")
                 continue
@@ -32,31 +30,58 @@ def group_results(input_data):
 
             project_id = item["project_id"]
             suite_id = item["suite_id"]
+            target_project_key = item["target_project_key"]
 
-            # Check if the project already exists in the processed projects
-            if project_id in processed_projects:
-                # If "all_suites" is found, ignore other suites
-                if processed_projects[project_id]["suite_id"] == "all_suites":
-                    continue
-                # If current suite is "all_suites", override previous suites
-                if suite_id == "all_suites":
-                    processed_projects[project_id] = item
-                else:
+            # Create a unique key for each project+target combination
+            project_key = f"{project_id}_{target_project_key}"
+
+            # Check if the project+target combination already exists
+            if project_key in processed_projects:
+                current_project = processed_projects[project_key]
+                
+                # If current project has "all_suites" and new item has different target_project_key
+                if current_project["suite_id"] == "all_suites" and suite_id != "all_suites":
+                    # Create a new entry for different target_project_key
+                    if suite_id != "all_suites":
+                        suite_name = item["suite_name"]
+                        suite_url = item["url"]
+                        new_item = item.copy()
+                        del new_item["suite_name"]
+                        del new_item["url"]
+                        new_item["suite_id"] = [{
+                            "id": suite_id,
+                            "name": suite_name,
+                            "target_project_key": target_project_key,
+                            "url": suite_url
+                        }]
+                        processed_projects[project_key] = new_item
+                
+                # If current item is not "all_suites", append to suite list
+                elif suite_id != "all_suites":
                     suite_name = item["suite_name"]
                     suite_url = item["url"]
-                    # Otherwise, append suite to the list
-                    if isinstance(processed_projects[project_id]["suite_id"], list):
-                        # Check if the suite_id already exists in the list
-                        if any(s["id"] == suite_id for s in processed_projects[project_id]["suite_id"]):
-                            continue
-                        processed_projects[project_id]["suite_id"].append({"id": suite_id, "name": suite_name, "url": suite_url})
+                    
+                    if isinstance(current_project["suite_id"], list):
+                        # Check if suite_id already exists
+                        if not any(s["id"] == suite_id for s in current_project["suite_id"]):
+                            current_project["suite_id"].append({
+                                "id": suite_id,
+                                "name": suite_name,
+                                "target_project_key": target_project_key,
+                                "url": suite_url
+                            })
                     else:
-                        processed_projects[project_id]["suite_id"] = [{"id": processed_projects[project_id]["suite_id"], "name": suite_name, "url": suite_url}, {"id": suite_id, "name": suite_name, "url": suite_url}]
+                        current_project["suite_id"] = [{
+                            "id": suite_id,
+                            "name": suite_name,
+                            "target_project_key": target_project_key,
+                            "url": suite_url
+                        }]
 
             else:
                 # Add new project
                 if suite_id == "all_suites":
-                    processed_projects[project_id] = item
+                    processed_projects[project_key] = item
                 else:
                     suite_name = item["suite_name"]
                     suite_url = item["url"]
@@ -64,17 +89,18 @@ def group_results(input_data):
                     del new_item["suite_name"]
                     del new_item["url"]
                     
-                    new_item["suite_id"] = [{"id": suite_id, "name": suite_name, "url": suite_url}]
-                    processed_projects[project_id] = new_item
-
+                    new_item["suite_id"] = [{
+                        "id": suite_id,
+                        "name": suite_name,
+                        "target_project_key": target_project_key,
+                        "url": suite_url
+                    }]
+                    processed_projects[project_key] = new_item
 
         # Add processed projects to grouped content
         grouped_content.extend(processed_projects.values())
-
-        # Output result
         return grouped_content
 
-        # Write result to output file
     except requests.RequestException as e:
         print(f"Error grouping content: {e}")
         return None
