@@ -33,9 +33,11 @@ def extract_number(string):
     else:
         return None 
 
-def get_web_content(url):
+def get_web_content(extraction_item):
     suite_url_regex = r"https:\/\/[^\/]+\/index\.php\?\/suites\/view\/\d+"
     project_url_regex = r"https:\/\/[^\/]+\/index\.php\?\/suites\/overview\/\d+"
+
+    url = extraction_item['url']
 
     try:
         extraction_mode = None
@@ -92,6 +94,7 @@ def get_web_content(url):
                     "suite_id": extract_suite_number(url),
                     "suite_name": content,
                     "extraction_mode": extraction_mode,
+                    "target_project_key": extraction_item.get("JIRA Project", None),
                     "url": url
                 }
             else:
@@ -111,13 +114,13 @@ def get_web_content(url):
                 "project_name": text_value,
                 "suite_id": "all_suites",
                 "extraction_mode": extraction_mode,
+                "target_project_key": extraction_item.get("JIRA Project", None),
                 "url": url
             }
     except requests.RequestException as e:
         print(f"Error downloading content: {e}")
         return None
 
-# @app.route('/get_web_content', methods=['GET'])
 def main():
     extraction_list = []
     with open('linksList.json') as f:
@@ -127,10 +130,10 @@ def main():
     print(f"Length of extraction_list: {len(extraction_list)}")
 
     extracted_data = []
-    for url in extraction_list:
+    for extraction_item in extraction_list:
         print("-" * 50)
-        print("URL:", url)
-        htmlContent = get_web_content(url)
+        print("URL:", extraction_item['url'])
+        htmlContent = get_web_content(extraction_item)
         extracted_data.append(htmlContent)
 
     if extracted_data:
