@@ -27,7 +27,7 @@ class MigrationScopeClient:
         self.excel_migrated_data = excel_migrated_data
         self.xray_project_data = xray_project_data
         self.grouped_content_data = grouped_content_data
-        self.MATCH_THRESHOLD = 90
+        self.MATCH_THRESHOLD = 100
 
         self.final_migration_scope = []
 
@@ -58,8 +58,9 @@ class MigrationScopeClient:
         if partial_ratio >= self.MATCH_THRESHOLD:
             print("Best ratio: ", partial_ratio)
             return True
-
-        return False
+        else:
+            print(f"Best ratio: {partial_ratio} - failed with XRayValue: {XRayValue}, ExtractedDataValue: {ExtractedDataValue}")
+            return False
 
     def get_xray_data(self, ExtractedDataItem):        
         # Early return if ExtractedDataItem is empty or missing required fields
@@ -84,7 +85,7 @@ class MigrationScopeClient:
             project_key = xray_entry.get("projectKey", "").strip()
             
             # Check for project name match (case-insensitive)
-            if self.match_validation(project_name, jira_project) or self.match_validation(project_key, jira_project):
+            if self.match_validation(project_key, jira_project):
 
                 print("-" * 50)
                 print("Match found for project name or key")
@@ -146,7 +147,7 @@ def map_migration_scoupe():
                             "project_target_name": xray_project_target_name,
                             "project_target_key": xray_project_target_key,
                             "project_target_id": xray_project_target_id, # Placeholder
-                            "assignee": excel_item.get("QA Lead First").get("Last Name"),
+                            "assignee": excel_item.get("QA Lead"),
                             "suites": "fetch_all_suites",
                             "folder_path": excel_item.get("JIRA Folder structure"),
                         }
@@ -191,7 +192,7 @@ def map_migration_scoupe():
                                 "project_target_name": xray_project_target_name,
                                 "project_target_key": xray_project_target_key,
                                 "project_target_id": xray_project_target_id,
-                                "assignee": excel_item.get("QA Lead First").get("Last Name"),
+                                "assignee": excel_item.get("QA Lead"),
                                 "folder_path": excel_item.get("JIRA Folder structure"),
                             })
 
