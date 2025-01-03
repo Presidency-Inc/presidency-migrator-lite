@@ -37,7 +37,7 @@ def get_web_content(extraction_item):
     suite_url_regex = r"https:\/\/[^\/]+\/index\.php\?\/suites\/view\/\d+"
     project_url_regex = r"https:\/\/[^\/]+\/index\.php\?\/suites\/overview\/\d+"
 
-    url = extraction_item['url']
+    url = extraction_item['URL']
 
     try:
         extraction_mode = None
@@ -132,7 +132,7 @@ def main():
     extracted_data = []
     for extraction_item in extraction_list:
         print("-" * 50)
-        print("URL:", extraction_item['url'])
+        print("URL:", extraction_item['URL'])
         htmlContent = get_web_content(extraction_item)
         extracted_data.append(htmlContent)
 
