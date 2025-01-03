@@ -41,7 +41,7 @@ class MigrationScopeClient:
         print("finding from (", len(self.excel_migrated_data), ") left items")
         
         for index, item in enumerate(self.excel_migrated_data):
-            if item.get("Suite ID").get("url") == url:
+            if item.get("URL") == url:
                 print("@@ Excel extraced item with project KEY: ", item.get("JIRA Project"))
                 
                 del self.excel_migrated_data[index]
