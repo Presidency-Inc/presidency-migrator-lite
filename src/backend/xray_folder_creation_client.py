@@ -468,7 +468,7 @@ def map_test_case(test_case, field_mapping, sections_data, project_key, target_i
         logger.debug(f"Mapped test type: {test_type}")
 
         # Map basic fields
-        mapped_test['fields']['summary'] = test_case.get('title', '')
+        mapped_test['fields']['summary'] = test_case.get('title', '').replace('\n', '').strip()
 
         # Get assignee from target_info instead of env
         mapped_test['fields']['assignee'] = { "name": target_info['assignee'] }
